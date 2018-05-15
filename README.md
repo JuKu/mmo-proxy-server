@@ -32,6 +32,7 @@ There are several Services, e.q. for logging and login.
   - login
   - chat (should be also run as standalone version)
   - FTP Server (**to get maps from FTP server**)
+  - data storage (mysql)
 
 ## Frontends
 
