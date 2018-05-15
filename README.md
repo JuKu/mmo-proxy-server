@@ -31,7 +31,16 @@ There are several Services, e.q. for logging and login.
   - logging
   - login
   - chat (should be also run as standalone version)
+  - FTP Server (**to get maps from FTP server**)
 
 ## Frontends
 
 Proxy Server can have several frontends with different types.
+
+  - TCP game frontend
+  - UDP game frontend
+  - HTTP/2 management frontend
+
+## Backends
+
+  - several Game Server Backend (redirects messages to game servers, one backend per game server or vert.x backend for event queue)
