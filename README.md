@@ -1,6 +1,8 @@
 # mmo-proxy-server
 A proxy server (tooling) for a mmo game. This is only a tool, not a complete game!
 
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/JuKu/mmo-proxy-server.svg?columns=all)](https://waffle.io/JuKu/mmo-proxy-server) 
+
 Maps are stored on **FTP Server**.
 
 Proxy Server has to be **transparent**.
