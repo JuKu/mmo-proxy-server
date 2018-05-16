@@ -3,6 +3,8 @@
 
 .idea
 *.idea*
+.iml
+*.iml
 
 ### Eclipse ###
 
