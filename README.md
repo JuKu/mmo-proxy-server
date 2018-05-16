@@ -43,6 +43,12 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
       * list frontends with status
       * list available backends with status
 
+## Server Architecture
+
+![Server Architecture](./images/server_architecture.png)
+
+Thanks to [noctarius](https://github.com/noctarius) for his many advices (not every advice is shown in this image)!
+
 ## Services / Components
 
 There are several Services, e.q. for logging and login.
