@@ -12,6 +12,20 @@
 	<artifactId>proxy-main</artifactId>
 
 	<dependencies>
+		<!-- proxy core -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>proxy-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- proxy management -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>proxy-management</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
 		<dependency>
 			<groupId>io.vertx</groupId>

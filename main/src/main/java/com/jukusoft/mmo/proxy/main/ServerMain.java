@@ -4,21 +4,55 @@ import com.hazelcast.config.CacheSimpleConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.jukusoft.mmo.proxy.core.ProxyServer;
+import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
+import com.jukusoft.mmo.proxy.management.ManagementFrontend;
+import io.vertx.core.Vertx;
+
+import java.util.logging.Logger;
 
 public class ServerMain {
+    
+    protected static final Logger LOGGER = Logger.getLogger("Main");
 
     public static void main (String[] args) {
-        System.out.println("========= Proxy Server ========");
+        log("========= Proxy Server ========");
 
         //create new hazelcast instance
-        System.out.println("Create hazelcast instance...");
+        log("Create hazelcast instance...");
         HazelcastInstance hazelcastInstance = createHazelcastInstance();
 
         //create new vert.x instance
-        System.out.println("Create vertx.io instance...");
+        log("Create vertx.io instance...");
         VertxManager vertxManager = new VertxManager();
         vertxManager.init(hazelcastInstance);
+
+        //get vertx instance
+        Vertx vertx = vertxManager.getVertx();
+
+        //create proxy server
+        log("Create proxy server instance...");
+        ProxyServer server = new ProxyServer();
+
+        //add new management module
+        log("Create management module on port 8089...");
+        server.addFrontend(createManagementModule(vertx, 8089), ManagementFrontend.class);
+
+        log("Initialization finished!");
+        log("");
+        log("Available frontends:");
+        
+        for (IFrontend frontend : server.listFrontends()) {
+            log("  - " + frontend.getName() + " (port: " + frontend.getPort() + ")");
+        }
+
+        log("");
+        log("All frontends are up!");
+    }
+    
+    protected static void log (String msg) {
+        System.out.println(msg);
     }
 
     public static HazelcastInstance createHazelcastInstance () {
@@ -31,9 +65,11 @@ public class ServerMain {
         CacheSimpleConfig cacheConfig = new CacheSimpleConfig();
         config.getCacheConfigs().put("session-cache", cacheConfig);
 
-        HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+        return Hazelcast.newHazelcastInstance(config);
+    }
 
-        return hazelcastInstance;
+    public static ManagementFrontend createManagementModule (Vertx vertx, int port) {
+        return new ManagementFrontend(vertx, port);
     }
 
 }

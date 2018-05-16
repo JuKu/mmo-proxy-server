@@ -66,4 +66,14 @@ public class ProxyServer {
         this.frontendMap.remove(cls);
     }
 
+    public List<IFrontend> listFrontends () {
+        List<IFrontend> frontends = new ArrayList<>();
+
+        for (Map.Entry<Class<?>,IFrontend> entry : this.frontendMap.entrySet()) {
+            frontends.add(entry.getValue());
+        }
+
+        return frontends;
+    }
+
 }

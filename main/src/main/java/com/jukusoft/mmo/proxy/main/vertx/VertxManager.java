@@ -43,10 +43,6 @@ public class VertxManager {
         //set high availability flag
         this.vertxOptions.setHAEnabled(true);
 
-        //set number of threads to use in thread pools
-        //this.vertxOptions.setEventLoopPoolSize(this.eventLoopPoolSize);
-        //this.vertxOptions.setWorkerPoolSize(this.workerPoolSize);
-
         //create clustered vertx. instance
         Vertx.clusteredVertx(this.vertxOptions, res -> {
             if (res.succeeded()) {
@@ -59,7 +55,7 @@ public class VertxManager {
         });
 
         //wait while clustered vertx is initialized
-        while (this.initialized == false) {
+        while (!this.initialized) {
             Thread.yield();
         }
     }
