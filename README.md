@@ -1,9 +1,16 @@
 # mmo-proxy-server
 A proxy server (tooling) for a mmo game. This is only a tool, not a complete game!
 
-## Configuration
+## Configuration Management
 
 Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL](https://www.mysql.com/de/)
+
+## Requirements
+
+  - LDAP Server (with kerberos)
+  - [MySQL Server](https://www.mysql.com/de/)
+  - [Hazelcast Server](http://hazelcast.org)
+  - FTP Server (stores maps and map data)
 
 ## Network Protocol
 
