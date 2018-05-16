@@ -1,15 +1,18 @@
 package com.jukusoft.mmo.proxy.core;
 
+import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.service.IService;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyServer {
 
     //map which stores services
     protected Map<Class<?>,IService> serviceMap = new ConcurrentHashMap<>();
+
+    //list with all frontend modules
+    protected Map<Class<?>,IFrontend> frontendMap = new HashMap<>();
 
     public ProxyServer () {
         //
@@ -39,6 +42,28 @@ public class ProxyServer {
 
     public Set<Class<?>> listServiceClasses () {
         return this.serviceMap.keySet();
+    }
+
+    public <T extends IFrontend> void addFrontend (T obj, Class<T> cls) {
+        //initialize frontend
+        obj.init(this);
+
+        //start frontend
+        obj.start();
+
+        this.frontendMap.putIfAbsent(cls, obj);
+    }
+
+    public <T extends IFrontend> void removeFrontend (Class<T> cls) {
+        IFrontend frontend = this.frontendMap.get(cls);
+
+        if (frontend != null) {
+            //stop frontend
+            frontend.stop();
+        }
+
+        //remove frontend from map
+        this.frontendMap.remove(cls);
     }
 
 }
