@@ -2,7 +2,9 @@ package com.jukusoft.mmo.proxy.core;
 
 import com.jukusoft.mmo.proxy.core.service.IService;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyServer {
@@ -15,6 +17,10 @@ public class ProxyServer {
     }
 
     public <T extends IService> void addService (T obj, Class<T> cls) {
+        if (obj == null) {
+            throw new NullPointerException("service cannot be null.");
+        }
+
         this.serviceMap.put(cls, obj);
     }
 
@@ -30,6 +36,10 @@ public class ProxyServer {
         }
 
         return cls.cast(service);
+    }
+
+    public Set<Class<?>> listServiceClasses () {
+        return this.serviceMap.keySet();
     }
 
 }
