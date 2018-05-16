@@ -3,13 +3,13 @@ A proxy server (tooling) for a mmo game. This is only a tool, not a complete gam
 
 [![Build Status](https://travis-ci.org/JuKu/mmo-proxy-server.svg?branch=master)](https://travis-ci.org/JuKu/mmo-proxy-server)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/JuKu/mmo-proxy-server.svg?columns=all)](https://waffle.io/JuKu/mmo-proxy-server) 
-[![Lines of Code](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=lines)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![Lines of Code](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=ncloc)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.jukusoft%3Ammo-proxy-server)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![Coverage](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=coverage)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![Technical Debt Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![JUnit Tests Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=test_success_density)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-[![Security Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=new_security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=ncloc)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=coverage)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Technical Debt Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=sqale_index)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=bugs)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 
 [![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Ammo-proxy-server)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server)
 
