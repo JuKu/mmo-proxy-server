@@ -10,7 +10,9 @@ A proxy server (tooling) for a mmo game. This is only a tool, not a complete gam
 [![Technical Debt Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![JUnit Tests Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=test_success_density)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Security Rating](https://sonarcloud.io/api/badges/measure?key=com.jukusoft%3Ammo-proxy-server&metric=new_security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
-\
+
+[![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Ammo-proxy-server)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server)
+
 Maps are stored on **FTP Server**.
 
 Proxy Server has to be **transparent**.
