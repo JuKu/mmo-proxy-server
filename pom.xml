@@ -24,6 +24,17 @@
 		<!-- JUnit version -->
 		<junit.version>5.1.0</junit.version>
 
+		<!-- vert.x version -->
+		<vertx.version>3.5.1</vertx.version>
+
+		<mockito.version>2.2.7</mockito.version>
+
+		<!-- hazelcast version -->
+		<hazelcast.version>3.10</hazelcast.version>
+
+		<!-- mysql connector version -->
+		<mysql.connector.version>6.0.6</mysql.connector.version>
+
 		<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
 
 		<!-- Sonar properties-->
@@ -31,6 +42,10 @@
 		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
 		<sonar.language>java</sonar.language>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+
+		<!-- file encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<dependencies>
