@@ -16,6 +16,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 1 short version (protocol version)
   - payload data (redirected to game servers)
 
+**Type 0x01 is reserved for proxy - sector Server communication**.
+
 ## Modules
 
   - Core (Config, Login, RSA Encryption, Firewall, ...)
