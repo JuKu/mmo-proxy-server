@@ -25,6 +25,11 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 
 **Type 0x01 is reserved for proxy - sector Server communication**.
 
+### Reserved types
+
+  - 0x01 reserved for proxy - game server communication (client is not allowed to send such messages)
+  - 0x02 authorization (registration, login, create character, character selection and so on)
+
 ## Modules
 
   - Core (Config, Login, RSA Encryption, Firewall, ...)
