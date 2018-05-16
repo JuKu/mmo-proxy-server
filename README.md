@@ -7,6 +7,7 @@ A proxy server (tooling) for a mmo game. This is only a tool, not a complete gam
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=alert_status)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=coverage)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Technical Debt Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=sqale_index)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=code_smells)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=bugs)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
