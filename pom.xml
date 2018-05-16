@@ -6,7 +6,11 @@
 
 	<groupId>com.jukusoft</groupId>
 	<artifactId>mmo-proxy-server</artifactId>
+	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
+	<modules>
+		<module>core</module>
+	</modules>
 
 	<properties>
 		<!-- Java version -->
