@@ -1,6 +1,9 @@
 
 # Created by https://www.gitignore.io/api/java,linux,macos,maven,gradle,windows,eclipse,netbeans,intellij
 
+.idea
+*.idea*
+
 ### Eclipse ###
 
 .metadata
