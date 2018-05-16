@@ -1,6 +1,10 @@
 # mmo-proxy-server
 A proxy server (tooling) for a mmo game. This is only a tool, not a complete game!
 
+Maps are stored on **FTP Server**.
+
+Proxy Server has to be **transparent**.
+
 ## Configuration Management
 
 Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL](https://www.mysql.com/de/)
@@ -18,6 +22,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 1 byte extendedType (will not be parsed by proxy server
   - 1 short version (protocol version)
   - payload data (redirected to game servers)
+
+**Type 0x01 is reserved for proxy - sector Server communication**.
 
 ## Modules
 
