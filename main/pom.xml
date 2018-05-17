@@ -19,6 +19,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- proxy frontend -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>proxy-frontend</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- proxy management -->
 		<dependency>
 			<groupId>com.jukusoft</groupId>

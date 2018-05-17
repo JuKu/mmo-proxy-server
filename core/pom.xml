@@ -11,6 +11,15 @@
 
 	<artifactId>proxy-core</artifactId>
 
+	<dependencies>
+		<!-- vertx-core for buffers -->
+		<dependency>
+			<groupId>io.vertx</groupId>
+			<artifactId>vertx-core</artifactId>
+			<version>${vertx.version}</version>
+		</dependency>
+	</dependencies>
+
 	<build>
 		<plugins>
 			<plugin>
