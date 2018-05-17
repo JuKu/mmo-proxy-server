@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -116,6 +117,12 @@ public class ProxyServerTest {
 
         server.removeFrontend(DummyFrontend.class);
         server.removeFrontend(IFrontend.class);
+    }
+
+    @Test
+    public void testLog () {
+        ProxyServer server = new ProxyServer();
+        server.log(Level.INFO, "test message.");
     }
 
 }
