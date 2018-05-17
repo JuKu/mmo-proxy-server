@@ -6,6 +6,15 @@ addons:
     - ldap-utils
     - slapd
 
+# https://github.com/pear/Net_LDAP2/blob/master/.travis.yml
+#before_script:
+#  - cat tests/ldapconfig.ini.dist | sed s/389/3389/ > tests/ldapconfig.ini
+#  - mkdir /tmp/slapd
+#  - slapd -f tests/ldif_data/slapd.conf -h ldap://localhost:3389 &
+#  - sleep 3
+#  - ldapadd -h localhost:3389 -D cn=admin,dc=example,dc=com -w test -f tests/ldif_data/base.ldif
+#- ldapadd -h localhost:3389 -D cn=admin,dc=example,dc=com -w test -f tests/ldif_data/INITIAL_TESTDATA.ldif
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
