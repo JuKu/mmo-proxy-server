@@ -11,6 +11,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +25,7 @@ public class TCPFrontend implements IFrontend {
     protected int nOfThreads = 0;
 
     //instance of vert.x tcp server
-    protected List<NetServer> servers = null;
+    protected List<NetServer> servers = new ArrayList<>();
 
     protected ProxyServer proxyServer = null;
 

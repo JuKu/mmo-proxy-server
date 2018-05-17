@@ -88,6 +88,11 @@ Proxy Server can have several frontends with different types.
 ## Backends
 
   - several Game Server Backend (redirects messages to game servers, one backend per game server or vert.x backend for event queue)
+  
+## Dependencie check
 
-## License
+[![Dependency Status](https://www.versioneye.com/user/projects/5afcde550fb24f0e3a424921/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5afcde550fb24f0e3a424921)
+
+## License Check
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server?ref=badge_large)
