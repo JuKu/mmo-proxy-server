@@ -89,6 +89,8 @@ public class ProxyServerTest {
         assertEquals(2, server.listServiceClasses().size());
         assertEquals(true, server.listServiceClasses().contains(DummyService.class));
         assertEquals(true, server.listServiceClasses().contains(IService.class));
+
+        assertNotNull(server.getUptimeInSeconds());
     }
 
 }

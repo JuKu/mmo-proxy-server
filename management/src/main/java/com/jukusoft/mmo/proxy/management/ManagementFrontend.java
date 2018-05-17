@@ -2,11 +2,22 @@ package com.jukusoft.mmo.proxy.management;
 
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import io.vertx.core.AsyncResult;
+import io.vertx.core.Future;
+import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.core.net.JksOptions;
+import io.vertx.ext.auth.AuthProvider;
+import io.vertx.ext.auth.User;
+import io.vertx.ext.web.Route;
+import io.vertx.ext.web.Router;
+import io.vertx.ext.web.handler.*;
+import io.vertx.ext.web.sstore.LocalSessionStore;
 
 public class ManagementFrontend implements IFrontend {
 
@@ -56,17 +67,68 @@ public class ManagementFrontend implements IFrontend {
 
         this.httpServer = this.vertx.createHttpServer(options);
 
-        this.httpServer.requestHandler(request -> {
+        //create router
+        Router router = Router.router(vertx);
 
-            // This handler gets called for each request that arrives on the server
-            HttpServerResponse response = request.response();
-            response.putHeader("content-type", "application/json");
+        //http basic auth
+        router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
-            // Write to the response and end it
-            response.end("{}");
+        AuthProvider authProvider = new AuthProvider() {
+            @Override
+            public void authenticate(JsonObject authInfo, Handler<AsyncResult<User>> resultHandler) {
+                String username = authInfo.getString("username");
+                String password = authInfo.getString("password");
+
+                if (username.equals("admin") && password.equals("admin")) {
+                    resultHandler.handle(Future.succeededFuture(null));
+                } else {
+                    resultHandler.handle(Future.failedFuture("wrong credentials!"));
+                }
+            }
+        };
+
+        //AuthHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
+
+        router.route().handler(UserSessionHandler.create(authProvider));
+
+        //add cookie handler
+        router.route().handler(CookieHandler.create());
+
+        //add routes
+        this.addRoutes(router);
+
+        this.httpServer.requestHandler(router::accept).listen(this.getPort());
+    }
+
+    protected void addRoutes (Router router) {
+        Route route1 = router.route("/").handler(routingContext -> {
+
+            HttpServerResponse response = routingContext.response();
+            response.putHeader("Content-Type", "application/json");
+
+            JsonObject json = new JsonObject();
+            json.put("uptime_in_seconds", this.proxyServer.getUptimeInSeconds());
+
+            //list frontends
+            JsonArray array = new JsonArray();
+
+            for (IFrontend frontend : proxyServer.listFrontends()) {
+                JsonObject json1 = new JsonObject();
+                json1.put("class", frontend.getClass().getCanonicalName());
+                json1.put("name", frontend.getName());
+                json1.put("description", frontend.getDescription());
+                json1.put("port", frontend.getPort());
+
+                array.add(json1);
+            }
+
+            json.put("frontends", array);
+
+            response.end(json.toString());
+
+            // Call the next matching route after a 5 second delay
+            //routingContext.vertx().setTimer(5000, tid -> routingContext.next());
         });
-
-        this.httpServer.listen(this.getPort());
     }
 
     @Override

@@ -14,8 +14,11 @@ public class ProxyServer {
     //list with all frontend modules
     protected Map<Class<?>,IFrontend> frontendMap = new HashMap<>();
 
+    //unix timestamp when server was started
+    protected long started = 0;
+
     public ProxyServer () {
-        //
+        this.started = System.currentTimeMillis();
     }
 
     public <T extends IService> void addService (T obj, Class<T> cls) {
@@ -74,6 +77,10 @@ public class ProxyServer {
         }
 
         return frontends;
+    }
+
+    public long getUptimeInSeconds () {
+        return (System.currentTimeMillis() - this.started) / 1000l;
     }
 
 }
