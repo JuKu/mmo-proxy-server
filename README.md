@@ -44,6 +44,9 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x01 reserved for proxy - game server communication (client is not allowed to send such messages)
   - 0x02 authorization (registration, login, create character, character selection and so on)
   - 0x03 movement (if connection failes between proxy - game server, this messages will be dropped)
+  - 0x04 update / version (version information, check client compatibility and so on)
+  - 0x05 chat
+  - 0x06 general client state information (e.q. show loading screen)
 
 ## Modules
 
