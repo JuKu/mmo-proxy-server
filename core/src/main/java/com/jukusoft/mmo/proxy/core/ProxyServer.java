@@ -5,6 +5,8 @@ import com.jukusoft.mmo.proxy.core.service.IService;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ProxyServer {
 
@@ -85,6 +87,10 @@ public class ProxyServer {
 
     public long getUptimeInSeconds () {
         return (System.currentTimeMillis() - this.started) / 1000l;
+    }
+
+    public void log (Level level, String msg) {
+        Logger.getAnonymousLogger().log(level, msg);
     }
 
 }
