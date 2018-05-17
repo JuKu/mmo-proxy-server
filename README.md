@@ -63,6 +63,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 ## Server Architecture
 
 ![Server Architecture](./images/server_architecture.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server?ref=badge_shield)
 
 Thanks to [noctarius](https://github.com/noctarius) for his many advices (not every advice is shown in this image)!
 
@@ -87,3 +88,6 @@ Proxy Server can have several frontends with different types.
 ## Backends
 
   - several Game Server Backend (redirects messages to game servers, one backend per game server or vert.x backend for event queue)
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server?ref=badge_large)
