@@ -4,8 +4,10 @@ import com.hazelcast.config.CacheSimpleConfig;
 import com.hazelcast.config.Config;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
+import com.jukusoft.mmo.proxy.backend.ConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
 import com.jukusoft.mmo.proxy.management.ManagementFrontend;
@@ -35,6 +37,9 @@ public class ServerMain {
         //create proxy server
         log("Create proxy server instance...");
         ProxyServer server = new ProxyServer();
+
+        //add services
+        server.addService(new ConnectionManagerImpl(vertx), IConnectionManager.class);
 
         //create tcp frontend
         log("Create tcp frontend on port 2222...");

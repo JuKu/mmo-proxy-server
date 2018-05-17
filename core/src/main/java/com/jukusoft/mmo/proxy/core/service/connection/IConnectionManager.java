@@ -5,6 +5,10 @@ import com.jukusoft.mmo.proxy.core.service.session.Session;
 
 public interface IConnectionManager extends IService {
 
-    public Connection addConnection (String ip, Session session);
+    public Connection addConnection (String ip, int port, Session session);
+
+    public int countOpenFrontendConnections ();
+
+    public int countOpenBackendConnections ();
 
 }

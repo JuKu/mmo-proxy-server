@@ -76,7 +76,8 @@ public class TCPFrontend implements IFrontend {
                 //get session manager
                 ISessionManager sessionManager = proxyServer.getService(ISessionManager.class);
 
-                String ip = socket.remoteAddress().host();
+                final String ip = socket.remoteAddress().host();
+                final int port = socket.remoteAddress().port();
 
                 //check, if ip is blacklisted
                 if (firewall.isBlacklisted(ip)) {
@@ -89,12 +90,12 @@ public class TCPFrontend implements IFrontend {
                 }
 
                 //create new session
-                final Session session = sessionManager.createSession(ip, socket.remoteAddress().port());
+                final Session session = sessionManager.createSession(ip, port);
 
                 proxyServer.log(Level.INFO, "new connection, ip: " + ip + " (sessionID: " + session.getSessionID() + ").");
 
                 //add connection to connection manager
-                Connection conn = connectionManager.addConnection(ip, session);
+                Connection conn = connectionManager.addConnection(ip, port, session);
 
                 conn.setReceiver(buffer -> {
                     //send message to client

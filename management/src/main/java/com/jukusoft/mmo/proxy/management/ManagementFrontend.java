@@ -2,6 +2,7 @@ package com.jukusoft.mmo.proxy.management;
 
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerOptions;
@@ -101,6 +102,9 @@ public class ManagementFrontend implements IFrontend {
             }
 
             json.put("frontends", array);
+
+            json.put("opened_frontend_connections", proxyServer.getService(IConnectionManager.class).countOpenFrontendConnections());
+            json.put("opened_backend_connections", proxyServer.getService(IConnectionManager.class).countOpenBackendConnections());
 
             response.end(json.toString());
         });
