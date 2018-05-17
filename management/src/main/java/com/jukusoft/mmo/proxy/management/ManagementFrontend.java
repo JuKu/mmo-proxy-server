@@ -31,6 +31,8 @@ public class ManagementFrontend implements IFrontend {
 
     protected ProxyServer proxyServer = null;
 
+    protected Route route1 = null;
+
     public ManagementFrontend (Vertx vertx, final int port) {
         this.vertx = vertx;
         this.port = port;
@@ -83,7 +85,7 @@ public class ManagementFrontend implements IFrontend {
     }
 
     protected void addRoutes (Router router) {
-        Route route1 = router.route("/").handler(routingContext -> {
+        this.route1 = router.route("/").handler(routingContext -> {
 
             HttpServerResponse response = routingContext.response();
             response.putHeader("Content-Type", "application/json");
@@ -107,9 +109,6 @@ public class ManagementFrontend implements IFrontend {
             json.put("frontends", array);
 
             response.end(json.toString());
-
-            // Call the next matching route after a 5 second delay
-            //routingContext.vertx().setTimer(5000, tid -> routingContext.next());
         });
     }
 
