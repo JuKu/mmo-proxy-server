@@ -133,7 +133,7 @@ public class ManagementFrontend implements IFrontend {
 
     @Override
     public void stop() {
-
+        this.httpServer.close();
     }
 
 }
