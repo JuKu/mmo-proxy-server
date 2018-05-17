@@ -96,10 +96,13 @@ public class TCPFrontend implements IFrontend {
                 Connection conn = connectionManager.addConnection(ip, session);
 
                 conn.setReceiver(buffer -> {
+                    //send message to client
                     socket.write(buffer);
                 });
 
                 socket.handler(buffer -> {
+                    //message was received from client
+
                     System.out.println("[" + ip + "] received some bytes: " + buffer.length());
 
                     conn.send(buffer);
