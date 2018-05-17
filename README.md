@@ -49,7 +49,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x06 general client state information (e.q. show loading screen)
   - 0x07 admin stuff (manage worlds, users, npc's and so on)
   - 0x08 admin stuff (reserve)
-  - 0x09 game world information (weather, lighing and so on)
+  - 0x09 game world information (weather, lighing, download tiled map and so on)
 
 ## Modules
 
