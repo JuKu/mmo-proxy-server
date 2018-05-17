@@ -1,5 +1,7 @@
 package com.jukusoft.mmo.proxy.core;
 
+import com.jukusoft.mmo.proxy.core.frontend.DummyFrontend;
+import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.service.DummyService;
 import com.jukusoft.mmo.proxy.core.service.IService;
 import org.junit.Test;
@@ -91,6 +93,29 @@ public class ProxyServerTest {
         assertEquals(true, server.listServiceClasses().contains(IService.class));
 
         assertNotNull(server.getUptimeInSeconds());
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testAddNullFrontend () {
+        ProxyServer server = new ProxyServer();
+        server.addFrontend(null, IFrontend.class);
+    }
+
+    @Test
+    public void testAddFrontend () {
+        ProxyServer server = new ProxyServer();
+        server.addFrontend(new DummyFrontend(), DummyFrontend.class);
+
+        assertEquals(1, server.listFrontends().size());
+    }
+
+    @Test
+    public void testAddRemoveFrontend () {
+        ProxyServer server = new ProxyServer();
+        server.addFrontend(new DummyFrontend(), DummyFrontend.class);
+
+        server.removeFrontend(DummyFrontend.class);
+        server.removeFrontend(IFrontend.class);
     }
 
 }

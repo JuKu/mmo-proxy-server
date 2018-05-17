@@ -48,6 +48,10 @@ public class ProxyServer {
     }
 
     public <T extends IFrontend> void addFrontend (T obj, Class<T> cls) {
+        if (obj == null) {
+            throw new NullPointerException("frontend instance cannot be null.");
+        }
+
         //initialize frontend
         obj.init(this);
 
