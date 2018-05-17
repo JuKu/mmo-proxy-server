@@ -47,6 +47,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x04 update / version (version information, check client compatibility and so on)
   - 0x05 chat
   - 0x06 general client state information (e.q. show loading screen)
+  - 0x07 admin stuff (manage worlds, users, npc's and so on)
 
 ## Modules
 
