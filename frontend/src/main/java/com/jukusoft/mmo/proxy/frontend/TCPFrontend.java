@@ -53,7 +53,7 @@ public class TCPFrontend implements IFrontend {
 
     @Override
     public void init(ProxyServer server) {
-        this.proxyServer = proxyServer;
+        this.proxyServer = server;
     }
 
     @Override
@@ -103,7 +103,7 @@ public class TCPFrontend implements IFrontend {
                 socket.handler(buffer -> {
                     //message was received from client
 
-                    System.out.println("[" + ip + "] received some bytes: " + buffer.length());
+                    proxyServer.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
 
                     conn.send(buffer);
                 });
