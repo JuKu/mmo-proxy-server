@@ -34,7 +34,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 1 byte type
   - 1 byte extendedType (will not be parsed by proxy server
   - 1 short version (protocol version)
-  - 1 integer (4 byte) cid (character id)
+  - 1 integer (4 byte) cid (character id) - will be replaced by proxy server automatically
   - payload data (redirected to game servers)
 
 **Type 0x01 is reserved for proxy - sector Server communication**.
