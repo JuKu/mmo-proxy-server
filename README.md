@@ -87,3 +87,8 @@ Proxy Server can have several frontends with different types.
 ## Backends
 
   - several Game Server Backend (redirects messages to game servers, one backend per game server or vert.x backend for event queue)
+  
+## Dependencie check
+
+[![Dependency Status](https://www.versioneye.com/user/projects/5afcde550fb24f0e3a424921/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/5afcde550fb24f0e3a424921)
+
