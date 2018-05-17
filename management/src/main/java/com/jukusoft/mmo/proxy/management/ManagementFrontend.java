@@ -73,24 +73,6 @@ public class ManagementFrontend implements IFrontend {
         //http basic auth
         router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx)));
 
-        AuthProvider authProvider = new AuthProvider() {
-            @Override
-            public void authenticate(JsonObject authInfo, Handler<AsyncResult<User>> resultHandler) {
-                String username = authInfo.getString("username");
-                String password = authInfo.getString("password");
-
-                if (username.equals("admin") && password.equals("admin")) {
-                    resultHandler.handle(Future.succeededFuture(null));
-                } else {
-                    resultHandler.handle(Future.failedFuture("wrong credentials!"));
-                }
-            }
-        };
-
-        //AuthHandler basicAuthHandler = BasicAuthHandler.create(authProvider);
-
-        router.route().handler(UserSessionHandler.create(authProvider));
-
         //add cookie handler
         router.route().handler(CookieHandler.create());
 
