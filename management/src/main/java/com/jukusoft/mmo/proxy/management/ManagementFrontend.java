@@ -2,6 +2,7 @@ package com.jukusoft.mmo.proxy.management;
 
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServer;
@@ -87,6 +88,7 @@ public class ManagementFrontend implements IFrontend {
 
             JsonObject json = new JsonObject();
             json.put("uptime_in_seconds", this.proxyServer.getUptimeInSeconds());
+            json.put("server-id", MMOLogger.getServerID());
 
             //list frontends
             JsonArray array = new JsonArray();

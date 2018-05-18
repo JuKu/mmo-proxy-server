@@ -93,4 +93,8 @@ public class MMOLogger {
         timerID = vertx.setPeriodic(Config.LOG_INTERVAL, id -> sendLogs());
     }
 
+    public static int getServerID () {
+        return serverID;
+    }
+
 }
