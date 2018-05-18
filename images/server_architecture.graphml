@@ -15,7 +15,6 @@
   <graph edgedefault="directed" id="G">
     <data key="d0"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="58.30099868774414" width="35.78980255126953" x="430.10509872436523" y="329.84950065612793"/>
@@ -36,7 +35,6 @@
       </data>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="58.30099868774414" width="35.78980255126953" x="430.10509872436523" y="473.84950065612793"/>
@@ -57,7 +55,6 @@
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="45.56999588012695" width="67.49800109863281" x="268.41349945068373" y="263.0650020599365"/>
@@ -78,7 +75,6 @@
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="45.56999588012695" width="67.49800109863281" x="268.41349945068373" y="389.8150020599365"/>
@@ -99,7 +95,6 @@
       </data>
     </node>
     <node id="n4">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="45.56999588012695" width="67.49800109863281" x="268.41349945068373" y="516.5650020599364"/>
@@ -120,7 +115,6 @@
       </data>
     </node>
     <node id="n5">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="58.30099868774414" width="35.78980255126953" x="673.8675987243655" y="329.84950065612793"/>
@@ -141,7 +135,6 @@
       </data>
     </node>
     <node id="n6">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="58.30099868774414" width="35.78980255126953" x="673.8675987243655" y="473.84950065612793"/>
@@ -163,7 +156,6 @@
     </node>
     <node id="n7" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -192,7 +184,6 @@
       </data>
       <graph edgedefault="directed" id="n7:">
         <node id="n7::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="496.79899978637695" y="140.006001663208"/>
@@ -213,7 +204,6 @@
           </data>
         </node>
         <node id="n7::n1">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="622.398999786377" y="140.006001663208"/>
@@ -234,7 +224,6 @@
           </data>
         </node>
         <node id="n7::n2">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="496.79899978637695" y="43.70650100708008"/>
@@ -255,7 +244,6 @@
           </data>
         </node>
         <node id="n7::n3">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="622.3989997863769" y="43.70650100708008"/>
@@ -279,7 +267,6 @@
     </node>
     <node id="n8" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -308,7 +295,6 @@
       </data>
       <graph edgedefault="directed" id="n8:">
         <node id="n8::n0">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="949.3989997863772" y="335.556001663208"/>
@@ -329,7 +315,6 @@
           </data>
         </node>
         <node id="n8::n1">
-          <data key="d5"/>
           <data key="d6">
             <y:SVGNode>
               <y:Geometry height="46.887996673583984" width="39.527000427246094" x="1117.798999786377" y="335.556001663208"/>
@@ -352,7 +337,6 @@
       </graph>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="56.231998443603516" width="35.095298767089844" x="951.6148506164554" y="474.8840007781983"/>
@@ -373,7 +357,6 @@
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:SVGNode>
           <y:Geometry height="58.30099868774414" width="35.78980255126953" x="430.10509872436523" y="604.0495006561277"/>
@@ -394,8 +377,29 @@
         </y:SVGNode>
       </data>
     </node>
+    <node id="n11">
+      <data key="d5"/>
+      <data key="d6">
+        <y:SVGNode>
+          <y:Geometry height="56.231998443603516" width="35.095298767089844" x="951.6148506164554" y="606.1185009002684"/>
+          <y:Fill color="#CCCCFF" transparent="false"/>
+          <y:BorderStyle color="#000000" type="line" width="1.0"/>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="33.40234375" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="155.40625" x="-60.15547561645508" y="60.231998443603516">LogStash Server
+(centralized logging server)#<y:LabelModel>
+              <y:SmartNodeLabelModel distance="4.0"/>
+            </y:LabelModel>
+            <y:ModelParameter>
+              <y:SmartNodeLabelModelParameter labelRatioX="0.0" labelRatioY="-0.5" nodeRatioX="0.0" nodeRatioY="0.5" offsetX="0.0" offsetY="4.0" upX="0.0" upY="-1.0"/>
+            </y:ModelParameter>
+          </y:NodeLabel>
+          <y:SVGNodeProperties usingVisualBounds="true"/>
+          <y:SVGModel svgBoundsPolicy="0">
+            <y:SVGContent refid="4"/>
+          </y:SVGModel>
+        </y:SVGNode>
+      </data>
+    </node>
     <edge id="e0" source="n2" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -406,7 +410,6 @@
       </data>
     </edge>
     <edge id="e1" source="n3" target="n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -417,7 +420,6 @@
       </data>
     </edge>
     <edge id="e2" source="n4" target="n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -428,7 +430,6 @@
       </data>
     </edge>
     <edge id="e3" source="n0" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="3.7625000000001023" sy="-13.949999999999989" tx="-2.2737367544323206E-13" ty="-13.949999999999989"/>
@@ -447,7 +448,6 @@
       </data>
     </edge>
     <edge id="e4" source="n0" target="n5">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="1.362500000000125" sy="11.649999999999977" tx="0.7999999999998408" ty="11.649999999999977"/>
@@ -458,7 +458,6 @@
       </data>
     </edge>
     <edge id="e5" source="n1" target="n6">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -469,7 +468,6 @@
       </data>
     </edge>
     <edge id="n7::e0" source="n7::n2" target="n7::n3">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -480,7 +478,6 @@
       </data>
     </edge>
     <edge id="n7::e1" source="n7::n2" target="n7::n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -491,7 +488,6 @@
       </data>
     </edge>
     <edge id="n7::e2" source="n7::n0" target="n7::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -502,7 +498,6 @@
       </data>
     </edge>
     <edge id="n7::e3" source="n7::n3" target="n7::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -513,7 +508,6 @@
       </data>
     </edge>
     <edge id="n7::e4" source="n7::n2" target="n7::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -524,7 +518,6 @@
       </data>
     </edge>
     <edge id="n7::e5" source="n7::n0" target="n7::n3">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -535,7 +528,6 @@
       </data>
     </edge>
     <edge id="n8::e0" source="n8::n0" target="n8::n1">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -546,7 +538,6 @@
       </data>
     </edge>
     <edge id="e6" source="n5" target="n8::n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -557,7 +548,6 @@
       </data>
     </edge>
     <edge id="e7" source="n1" target="n9">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -571,7 +561,6 @@
       </data>
     </edge>
     <edge id="e8" source="n0" target="n9">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -587,7 +576,6 @@
       </data>
     </edge>
     <edge id="e9" source="n6" target="n8::n0">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0">
@@ -601,7 +589,6 @@
       </data>
     </edge>
     <edge id="e10" source="n4" target="n10">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>

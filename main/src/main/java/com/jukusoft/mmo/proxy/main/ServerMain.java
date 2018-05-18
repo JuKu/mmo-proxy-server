@@ -7,6 +7,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.jukusoft.mmo.proxy.backend.ConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
@@ -33,6 +34,9 @@ public class ServerMain {
 
         //get vertx instance
         Vertx vertx = vertxManager.getVertx();
+
+        //initialize logger
+        MMOLogger.init(vertx);
 
         //create proxy server
         log("Create proxy server instance...");

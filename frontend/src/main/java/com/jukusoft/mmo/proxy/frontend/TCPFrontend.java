@@ -2,6 +2,7 @@ package com.jukusoft.mmo.proxy.frontend;
 
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.Connection;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
@@ -81,7 +82,7 @@ public class TCPFrontend implements IFrontend {
 
                 //check, if ip is blacklisted
                 if (firewall.isBlacklisted(ip)) {
-                    proxyServer.log(Level.WARNING, "ip '" + ip + "' has tried to connect to server, but is blacklisted by firewall, so connection was refused.");
+                    MMOLogger.log(Level.WARNING, "ip '" + ip + "' has tried to connect to server, but is blacklisted by firewall, so connection was refused.");
 
                     //close socket
                     socket.close();
@@ -92,10 +93,11 @@ public class TCPFrontend implements IFrontend {
                 //create new session
                 final Session session = sessionManager.createSession(ip, port);
 
-                proxyServer.log(Level.INFO, "new connection, ip: " + ip + " (sessionID: " + session.getSessionID() + ").");
+                //create new connection
+                Connection conn = new Connection();
 
                 //add connection to connection manager
-                Connection conn = connectionManager.addConnection(ip, port, session);
+                connectionManager.addConnection(ip, port, conn);
 
                 conn.setReceiver(buffer -> {
                     //send message to client
@@ -104,20 +106,24 @@ public class TCPFrontend implements IFrontend {
 
                 socket.handler(buffer -> {
                     //message was received from client
+                    if ()
 
-                    proxyServer.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
+                    MMOLogger.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
 
                     conn.send(buffer);
                 });
 
                 socket.closeHandler(v -> {
-                    proxyServer.log(Level.WARNING, "[" + ip + "] The socket has been closed");
+                    MMOLogger.log(Level.WARNING, "[" + ip + "] The socket has been closed");
 
                     //close connections to game servers
                     conn.close();
 
                     //close session
                     sessionManager.closeSession(session.getSessionID());
+
+                    //remove connection
+                    connectionManager.removeConnection(conn);
                 });
             });
 
