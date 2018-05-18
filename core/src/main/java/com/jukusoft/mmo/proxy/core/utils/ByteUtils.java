@@ -35,4 +35,8 @@ public class ByteUtils {
         return bytesToHex(bytes);
     }
 
+    public static int byteToUnsignedInt (byte type) {
+        return type & 0xFF;
+    }
+
 }

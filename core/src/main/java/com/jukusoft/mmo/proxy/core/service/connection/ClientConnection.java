@@ -51,7 +51,7 @@ public class ClientConnection {
         byte type = content.getByte(0);
 
         //check, if type should be sended into cluster
-        if (Config.MSG_SPECIAL_PROXY_TYPES[type]) {
+        if (Config.MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
             handleProxyMsg(content);
             return;
         }
@@ -59,7 +59,7 @@ public class ClientConnection {
         //set character id
         this.setCID(content);
 
-        if (Config.MSG_REDIRECT_TYPES[type]) {
+        if (Config.MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
             //first check, if user is logged in
 
             if (!this.loggedIn) {

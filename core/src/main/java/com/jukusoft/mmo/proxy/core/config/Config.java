@@ -1,5 +1,7 @@
 package com.jukusoft.mmo.proxy.core.config;
 
+import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
+
 public class Config {
 
     protected Config () {
@@ -22,24 +24,24 @@ public class Config {
     */
     public static final byte MSG_CLOSE_CONN = 0x0A;
 
-    public static final boolean[] MSG_REDIRECT_TYPES = new boolean[255];
-    public static final boolean[] MSG_SPECIAL_PROXY_TYPES = new boolean[255];//types which should be handled from proxy directly
+    public static final boolean[] MSG_REDIRECT_TYPES = new boolean[256];
+    public static final boolean[] MSG_SPECIAL_PROXY_TYPES = new boolean[256];//types which should be handled from proxy directly
 
     static {
         //initialize arrays
-        for (int i = 0; i < 255; i++) {
+        for (int i = 0; i < 256; i++) {
             MSG_REDIRECT_TYPES[i] = false;
             MSG_SPECIAL_PROXY_TYPES[i] = false;
         }
 
         //message types which should be redirected directly to game server (if logged in)
-        MSG_REDIRECT_TYPES[0x03] = true;//movement
-        MSG_REDIRECT_TYPES[0x07] = true;//admin stuff (manage worlds, users, npc's and so on)
-        MSG_REDIRECT_TYPES[0x08] = true;//admin stuff (reserve)
-        MSG_REDIRECT_TYPES[0x09] = true;//game world information (weather, lighing, download tiled map and so on)
+        MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x03)] = true;//movement
+        MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x07)] = true;//admin stuff (manage worlds, users, npc's and so on)
+        MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x08)] = true;//admin stuff (reserve)
+        MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x09)] = true;//game world information (weather, lighing, download tiled map and so on)
 
-        MSG_SPECIAL_PROXY_TYPES[0x01] = true;
-        MSG_SPECIAL_PROXY_TYPES[0x02] = true;
+        MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;
+        MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;
     }
 
     /**
