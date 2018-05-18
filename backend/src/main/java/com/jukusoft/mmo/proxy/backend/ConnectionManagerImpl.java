@@ -45,11 +45,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
         final long connID = this.lastID.incrementAndGet();
 
         //inform cluster that new connection was opened
-        this.eventBus.send("new-connection", ip + ":" + port + ":" + connID, this.deliveryOptions, reply -> {
-            if (reply.succeeded()) {
-                //reply.result().body()
-            }
-        });
+        this.eventBus.send("new-connection", ip + ":" + port + ":" + connID, this.deliveryOptions);
 
         //log connection
         MMOLogger.log(Level.INFO, "new-connection", "new connection: " + ip + ":" + port);
