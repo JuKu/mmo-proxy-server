@@ -44,6 +44,15 @@ public class ClientConnectionTest {
     }
 
     @Test
+    public void testReceive () {
+        ClientConnection conn = createConn();
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0x01).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
     public void testSetCID () {
         ClientConnection conn = createConn();
 
