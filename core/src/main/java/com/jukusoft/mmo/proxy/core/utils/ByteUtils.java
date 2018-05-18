@@ -2,7 +2,7 @@ package com.jukusoft.mmo.proxy.core.utils;
 
 public class ByteUtils {
 
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     /**
     * converts byte array to hex string
