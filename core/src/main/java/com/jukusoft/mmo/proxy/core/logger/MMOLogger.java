@@ -31,6 +31,10 @@ public class MMOLogger {
         log(level, "Main", null);
     }
 
+    public static void warn (String tag, String msg) {
+        log(Level.WARNING, tag, msg);
+    }
+
     public static void sendLogs () {
         if (eventBus == null) {
             //eventbus is not initialized, so we cannot send logs yet
@@ -42,6 +46,10 @@ public class MMOLogger {
 
             for (int k = 0; k < Config.MAX_LOGS_PER_PACKET; k++) {
                 String logEvent = logQueue.poll();
+
+                if (logEvent == null) {
+                    break;
+                }
 
                 array.add(logEvent);
             }

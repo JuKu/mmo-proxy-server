@@ -1,9 +1,8 @@
 package com.jukusoft.mmo.proxy.backend;
 
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
-import com.jukusoft.mmo.proxy.core.service.connection.Connection;
+import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
-import com.jukusoft.mmo.proxy.core.service.session.Session;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
@@ -23,7 +22,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
     protected volatile int connectionCount = 0;
     protected AtomicLong lastID = new AtomicLong(0);
 
-    protected List<Connection> allConnections = new ArrayList<>();
+    protected List<ClientConnection> allClientConnections = new ArrayList<>();
 
     /**
     * default constructor
@@ -47,7 +46,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
     }
 
     @Override
-    public void addConnection(String ip, int port, Connection conn) {
+    public void addConnection(String ip, int port, ClientConnection conn) {
         //create new local unique connection id
         final long connID = this.lastID.incrementAndGet();
 
@@ -67,15 +66,15 @@ public class ConnectionManagerImpl implements IConnectionManager {
         //add connectionID
         conn.setConnID(connID);
 
-        this.allConnections.add(conn);
+        this.allClientConnections.add(conn);
 
         //increment count of connections
         this.connectionCount++;
     }
 
     @Override
-    public void removeConnection(Connection conn) {
-        this.allConnections.remove(conn);
+    public void removeConnection(ClientConnection conn) {
+        this.allClientConnections.remove(conn);
         this.connectionCount--;
 
         //inform cluster that new connection was opened
@@ -91,7 +90,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
     public int countOpenBackendConnections() {
         int count = 0;
 
-        for (Connection conn : this.allConnections) {
+        for (ClientConnection conn : this.allClientConnections) {
             count += conn.countBackendConnections();
         }
 

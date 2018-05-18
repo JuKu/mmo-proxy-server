@@ -33,7 +33,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 
   - 1 byte type
   - 1 byte extendedType (will not be parsed by proxy server
-  - 1 short version (protocol version)
+  - 1 short (2 byte) version (protocol version)
   - 1 integer (4 byte) cid (character id) - will be replaced by proxy server automatically
   - payload data (redirected to game servers)
 
@@ -51,6 +51,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x08 admin stuff (reserve)
   - 0x09 game world information (weather, lighing, download tiled map and so on)
   - 0x0A close client connection (region --> proxy)
+  - 0x0B error messages & hints
 
 ## Modules
 

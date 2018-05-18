@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ConnectionStateTest {
+public class ClientConnectionStateTest {
 
     @Test
     public void testConstructor () {

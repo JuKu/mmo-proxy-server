@@ -4,7 +4,7 @@ import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
-import com.jukusoft.mmo.proxy.core.service.connection.Connection;
+import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
@@ -96,7 +96,7 @@ public class TCPFrontend implements IFrontend {
                 final Session session = sessionManager.createSession(ip, port);
 
                 //create new connection
-                Connection conn = new Connection();
+                ClientConnection conn = new ClientConnection();
 
                 //add connection to connection manager
                 connectionManager.addConnection(ip, port, conn);
@@ -117,7 +117,7 @@ public class TCPFrontend implements IFrontend {
                     //message was received from client
                     MMOLogger.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
 
-                    conn.send(buffer);
+                    conn.receive(buffer);
                 });
 
                 socket.closeHandler(v -> {
@@ -132,7 +132,7 @@ public class TCPFrontend implements IFrontend {
         }
     }
 
-    protected void closeConnection (NetSocket socket, Connection conn, ISessionManager sessionManager, Session session, IConnectionManager connectionManager) {
+    protected void closeConnection (NetSocket socket, ClientConnection conn, ISessionManager sessionManager, Session session, IConnectionManager connectionManager) {
         MMOLogger.log(Level.WARNING, "[" + socket.remoteAddress().host() + "] The socket has been closed");
 
         //close connections to game servers
