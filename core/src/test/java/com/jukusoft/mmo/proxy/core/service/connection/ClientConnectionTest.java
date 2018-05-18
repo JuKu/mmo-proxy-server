@@ -53,6 +53,24 @@ public class ClientConnectionTest {
     }
 
     @Test
+    public void testReceiveSpecialType () {
+        ClientConnection conn = createConn();
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0x02).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
+    public void testReceiveForwardType () {
+        ClientConnection conn = createConn();
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0x03).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
     public void testSetCID () {
         ClientConnection conn = createConn();
 

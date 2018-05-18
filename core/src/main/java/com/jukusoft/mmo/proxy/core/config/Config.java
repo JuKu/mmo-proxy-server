@@ -37,6 +37,9 @@ public class Config {
         MSG_REDIRECT_TYPES[0x07] = true;//admin stuff (manage worlds, users, npc's and so on)
         MSG_REDIRECT_TYPES[0x08] = true;//admin stuff (reserve)
         MSG_REDIRECT_TYPES[0x09] = true;//game world information (weather, lighing, download tiled map and so on)
+
+        MSG_SPECIAL_PROXY_TYPES[0x01] = true;
+        MSG_SPECIAL_PROXY_TYPES[0x02] = true;
     }
 
     /**
