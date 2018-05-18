@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.proxy.frontend;
 
 import com.jukusoft.mmo.proxy.core.ProxyServer;
+import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.Connection;
@@ -11,6 +12,7 @@ import com.jukusoft.mmo.proxy.core.service.session.Session;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
+import io.vertx.core.net.NetSocket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,30 +102,26 @@ public class TCPFrontend implements IFrontend {
                 connectionManager.addConnection(ip, port, conn);
 
                 conn.setReceiver(buffer -> {
+                    if (buffer.getByte(0) == Config.MSG_CLOSE_CONN) {
+                        //close socket
+                        closeConnection(socket, conn, sessionManager, session, connectionManager);
+
+                        return;
+                    }
+
                     //send message to client
                     socket.write(buffer);
                 });
 
                 socket.handler(buffer -> {
                     //message was received from client
-                    if ()
-
                     MMOLogger.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
 
                     conn.send(buffer);
                 });
 
                 socket.closeHandler(v -> {
-                    MMOLogger.log(Level.WARNING, "[" + ip + "] The socket has been closed");
-
-                    //close connections to game servers
-                    conn.close();
-
-                    //close session
-                    sessionManager.closeSession(session.getSessionID());
-
-                    //remove connection
-                    connectionManager.removeConnection(conn);
+                    closeConnection(socket, conn, sessionManager, session, connectionManager);
                 });
             });
 
@@ -132,6 +130,21 @@ public class TCPFrontend implements IFrontend {
 
             servers.add(server);
         }
+    }
+
+    protected void closeConnection (NetSocket socket, Connection conn, ISessionManager sessionManager, Session session, IConnectionManager connectionManager) {
+        MMOLogger.log(Level.WARNING, "[" + socket.remoteAddress().host() + "] The socket has been closed");
+
+        //close connections to game servers
+        conn.close();
+
+        //close session
+        sessionManager.closeSession(session.getSessionID());
+
+        //remove connection
+        connectionManager.removeConnection(conn);
+
+        socket.close();
     }
 
     @Override
