@@ -4,6 +4,10 @@ public class ByteUtils {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
+    protected ByteUtils () {
+        //
+    }
+
     /**
     * converts byte array to hex string
      *

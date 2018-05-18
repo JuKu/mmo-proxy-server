@@ -7,6 +7,11 @@ import static org.junit.Assert.assertEquals;
 public class ByteUtilsTest {
 
     @Test
+    public void testConstructor () {
+        new ByteUtils();
+    }
+
+    @Test
     public void testBytesToHex () {
         assertEquals("0102", ByteUtils.bytesToHex(new byte[]{ 0x01, 0x02 }));
         assertEquals("CDEF", ByteUtils.bytesToHex(new byte[]{ (byte) 0xcd, (byte) 0xef }));
