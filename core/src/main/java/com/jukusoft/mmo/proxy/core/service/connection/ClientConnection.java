@@ -56,7 +56,7 @@ public class ClientConnection {
 
             if (!this.loggedIn) {
                 //drop message
-                MMOLogger.warn("client-connection", "Dropped message " + ByteUtils.byteToHex(type) + " because client (" + this.connID + ") isnt logged in!");
+                MMOLogger.warn("client-connection", "Dropped message 0x" + ByteUtils.byteToHex(type) + " because client (" + this.connID + ") isnt logged in!");
 
                 return;
             }
@@ -64,7 +64,7 @@ public class ClientConnection {
             //redirect message to current game server
             if (this.gsConn == null || !this.gsConn.isOpened()) {
                 //drop message
-                MMOLogger.warn("client-connection", "Dropped message " + ByteUtils.byteToHex(type) + " because no game server connection exists!");
+                MMOLogger.warn("client-connection", "Dropped message 0x" + ByteUtils.byteToHex(type) + " because no game server connection exists!");
 
                 return;
             }
@@ -75,7 +75,7 @@ public class ClientConnection {
             return;
         }
 
-        MMOLogger.warn("client-connection", "no handler for message type " + ByteUtils.byteToHex(type) + " found.");
+        MMOLogger.warn("client-connection", "no handler for message type 0x" + ByteUtils.byteToHex(type) + " found.");
     }
 
     protected final Buffer setCID (Buffer content) {
