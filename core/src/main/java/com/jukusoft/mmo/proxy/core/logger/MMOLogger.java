@@ -17,6 +17,8 @@ public class MMOLogger {
     protected static EventBus eventBus = null;
     protected static long timerID = 0;
 
+    protected static int serverID = 0;
+
     public static void log (Level level, String tag, String msg, JsonObject params) {
         if (logQueue.size() > Config.MAX_LOG_QUEUE_ENTRIES) {
             System.err.println("logger queue is full, drop log message");
@@ -25,15 +27,25 @@ public class MMOLogger {
 
         System.out.println("[" + level.getName() + "] " + msg);
 
-        //TODO: send logs to centralized log server
+        //add log to queue
+        JsonObject json = new JsonObject();
+        json.put("serverID", serverID);
+        json.put("unixtime", System.currentTimeMillis());
+        json.put("level", level.getName());
+        json.put("tag", tag);
+        json.put("message", msg);
+        json.put("params", params);
+
+        String jsonStr = json.encode();
+        logQueue.add(jsonStr);
     }
 
     public static void log (Level level, String tag, String msg) {
-        log(level, msg, null);
+        log(level, tag, msg, null);
     }
 
     public static void log (Level level, String msg) {
-        log(level, "Main", null);
+        log(level, "Main", msg);
     }
 
     public static void warn (String tag, String msg) {
@@ -78,10 +90,7 @@ public class MMOLogger {
         MMOLogger.eventBus = vertx.eventBus();
 
         //add timer
-        timerID = vertx.setPeriodic(Config.LOG_INTERVAL, id -> {
-            //send logs to log server
-            sendLogs();
-        });
+        timerID = vertx.setPeriodic(Config.LOG_INTERVAL, id -> sendLogs());
     }
 
 }
