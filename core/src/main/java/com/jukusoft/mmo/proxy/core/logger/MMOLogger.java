@@ -13,7 +13,7 @@ import java.util.logging.Level;
 public class MMOLogger {
 
     //queue with logs to send
-    protected static final Queue<String> logQueue = new ArrayBlockingQueue<String>(Config.MAX_LOG_QUEUE_ENTRIES);
+    protected static final Queue<String> logQueue = new ArrayBlockingQueue<>(Config.MAX_LOG_QUEUE_ENTRIES);
     protected static EventBus eventBus = null;
     protected static long timerID = 0;
 
