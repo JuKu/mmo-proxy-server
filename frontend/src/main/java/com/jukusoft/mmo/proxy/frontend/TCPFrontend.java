@@ -5,6 +5,7 @@ import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
+import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
@@ -99,7 +100,7 @@ public class TCPFrontend implements IFrontend {
                 ClientConnection conn = new ClientConnection();
 
                 //add connection to connection manager
-                connectionManager.addConnection(ip, clientPort, conn);
+                connectionManager.addConnection(ip, clientPort, conn, proxyServer.getService(GSConnectionManager.class));
 
                 conn.setReceiver(buffer -> {
                     if (buffer.getByte(0) == Config.MSG_CLOSE_CONN) {

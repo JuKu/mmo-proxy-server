@@ -2,6 +2,7 @@ package com.jukusoft.mmo.proxy.backend;
 
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
+import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
@@ -40,7 +41,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
     }
 
     @Override
-    public void addConnection(String ip, int port, ClientConnection conn) {
+    public void addConnection(String ip, int port, ClientConnection conn, GSConnectionManager gsConnectionManager) {
         //create new local unique connection id
         final long connID = this.lastID.incrementAndGet();
 
@@ -51,7 +52,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
         MMOLogger.log(Level.INFO, "new-connection", "new connection: " + ip + ":" + port);
 
         //initialize connection
-        conn.init(this);
+        conn.init(this, gsConnectionManager);
 
         //add connectionID
         conn.setConnID(connID);

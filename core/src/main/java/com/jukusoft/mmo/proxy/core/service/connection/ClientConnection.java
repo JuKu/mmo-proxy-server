@@ -11,6 +11,7 @@ public class ClientConnection {
     protected final ConnectionState state = new ConnectionState();
     protected long connID = 0;
     protected IConnectionManager manager = null;
+    protected GSConnectionManager gsManager = null;
 
     protected int abusedMsgCount = 0;
 
@@ -19,6 +20,9 @@ public class ClientConnection {
 
     //selected character id
     protected volatile int cid = -1;
+
+    //current sector id
+    protected volatile int sectorID = 0;
 
     //listener for TCPFrontend to send messages back to client
     protected MessageReceiver<Buffer> receiver = null;
@@ -30,8 +34,9 @@ public class ClientConnection {
         //
     }
 
-    public void init (IConnectionManager manager) {
+    public void init (IConnectionManager manager, GSConnectionManager gsManager) {
         this.manager = manager;
+        this.gsManager = gsManager;
     }
 
     /**

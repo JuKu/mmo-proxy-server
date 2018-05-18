@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.proxy.backend;
 
 import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
+import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import io.vertx.core.Vertx;
 import org.junit.AfterClass;
@@ -39,7 +40,7 @@ public class ConnectionManagerImplTest {
 
         //add connection
         ClientConnection conn = Mockito.mock(ClientConnection.class);
-        manager.addConnection("127.0.0.1", 1234, conn);
+        manager.addConnection("127.0.0.1", 1234, conn, Mockito.mock(GSConnectionManager.class));
 
         assertEquals(1, manager.countOpenFrontendConnections());
         assertEquals(0, manager.countOpenBackendConnections());
