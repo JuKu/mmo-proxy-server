@@ -83,6 +83,76 @@ public class ClientConnectionTest {
     }
 
     @Test
+    public void testReceiveForwardType2 () {
+        ClientConnection conn = createConn();
+
+        //set logged in
+        conn.loggedIn = true;
+
+        conn.gsConn = new GSConnection() {
+            @Override
+            public void send(Buffer content) {
+
+            }
+
+            @Override
+            public void setReceiver(MessageReceiver<Buffer> receiver) {
+
+            }
+
+            @Override
+            public boolean isOpened() {
+                return false;
+            }
+        };
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0x03).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
+    public void testReceiveForwardType3 () {
+        ClientConnection conn = createConn();
+
+        //set logged in
+        conn.loggedIn = true;
+
+        conn.gsConn = new GSConnection() {
+            @Override
+            public void send(Buffer content) {
+
+            }
+
+            @Override
+            public void setReceiver(MessageReceiver<Buffer> receiver) {
+
+            }
+
+            @Override
+            public boolean isOpened() {
+                return true;
+            }
+        };
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0x03).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
+    public void testReceiveUnknownType () {
+        ClientConnection conn = createConn();
+
+        //set logged in
+        conn.loggedIn = true;
+
+        //create a message with content
+        Buffer content = Buffer.buffer().setByte(0, (byte) 0xFF).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
+        conn.receive(content);
+    }
+
+    @Test
     public void testSetCID () {
         ClientConnection conn = createConn();
 
