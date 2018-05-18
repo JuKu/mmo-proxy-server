@@ -32,6 +32,12 @@
 		<!-- hppc, high performance lists & maps, https://github.com/carrotsearch/hppc -->
 		<hppc.version>0.7.3</hppc.version>
 
+		<!-- ini4j parser -->
+		<ini4j.version>0.5.4</ini4j.version>
+
+		<!-- flyway for database upgrade / migration -->
+		<flyway.version>5.0.7</flyway.version>
+
 		<!-- hazelcast version -->
 		<hazelcast.version>3.10</hazelcast.version>
 
