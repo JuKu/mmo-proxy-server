@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.proxy.core.config;
 
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
+import io.vertx.core.eventbus.DeliveryOptions;
 
 public class Config {
 
@@ -18,6 +19,9 @@ public class Config {
 
     //tags
     public static final String LOG_TAG_CLIENT_CONNECTION = "client-connection";
+
+    //vertx eventbus delivery options
+    public static final DeliveryOptions EVENTBUS_DELIVERY_OPTIONS = new DeliveryOptions();
 
     /**
     * network message type
@@ -42,6 +46,9 @@ public class Config {
 
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;
+
+        //set timeout of 500ms
+        EVENTBUS_DELIVERY_OPTIONS.setSendTimeout(500);
     }
 
     /**
