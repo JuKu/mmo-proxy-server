@@ -2,6 +2,10 @@ package com.jukusoft.mmo.proxy.core.config;
 
 public class Config {
 
+    protected Config () {
+        //
+    }
+
     /**
     * logging configuration
     */

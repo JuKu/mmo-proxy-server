@@ -37,12 +37,6 @@ public class ConnectionManagerImpl implements IConnectionManager {
 
         //set timeout of one second
         this.deliveryOptions.setSendTimeout(1000);
-
-        //register codec for api request & response message
-        //eventBus.registerDefaultCodec(ApiRequest.class, new ApiRequestCodec());
-        //eventBus.registerDefaultCodec(ApiResponse.class, new ApiResponseCodec());
-
-        //interface for codecs: MessageCodec<ApiRequest, ApiRequest>
     }
 
     @Override
