@@ -18,6 +18,11 @@ public class MMOLogger {
     protected static long timerID = 0;
 
     public static void log (Level level, String tag, String msg, JsonObject params) {
+        if (logQueue.size() > Config.MAX_LOG_QUEUE_ENTRIES) {
+            System.err.println("logger queue is full, drop log message");
+            return;
+        }
+
         System.out.println("[" + level.getName() + "] " + msg);
 
         //TODO: send logs to centralized log server
@@ -35,6 +40,9 @@ public class MMOLogger {
         log(Level.WARNING, tag, msg);
     }
 
+    /**
+    * send logs from queue to server
+    */
     public static void sendLogs () {
         if (eventBus == null) {
             //eventbus is not initialized, so we cannot send logs yet

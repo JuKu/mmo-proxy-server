@@ -10,6 +10,9 @@ public class Config {
     public static final int MAX_ITERATIONS_PER_LOGS_SENDING = 5;
     public static final int LOG_INTERVAL = 5000;//send logs to log server every 5 seconds
 
+    //tags
+    public static final String LOG_TAG_CLIENT_CONNECTION = "client-connection";
+
     /**
     * network message type
     */
