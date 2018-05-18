@@ -39,6 +39,14 @@ public class ClientConnection {
      * proxy has to redirect this package to current sector server
     */
     public void receive (Buffer content) {
+        if (content == null) {
+            throw new NullPointerException("content cannot be null.");
+        }
+
+        if (content.length() < 1) {
+            throw new IllegalArgumentException("content cannot be empty.");
+        }
+
         //check, if message type is allowed from client
         byte type = content.getByte(0);
 
@@ -86,6 +94,10 @@ public class ClientConnection {
     }
 
     public void setReceiver (MessageReceiver<Buffer> receiver) {
+        if (receiver == null) {
+            throw new NullPointerException("receiver cannot be null.");
+        }
+
         this.receiver = receiver;
     }
 
@@ -97,7 +109,13 @@ public class ClientConnection {
     * handle special messages which arent redirected to game server, e.q. login messages
     */
     protected void handleProxyMsg (Buffer content) {
-        //
+        if (content == null) {
+            throw new NullPointerException("buffer cannot be null.");
+        }
+
+        if (content.length() < Config.MSG_HEADER_LENGTH) {
+            throw new IllegalArgumentException("buffer doesnt contains full header.");
+        }
     }
 
     public ConnectionState getState () {

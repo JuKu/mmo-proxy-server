@@ -43,6 +43,6 @@ public class Config {
     * protocol information
     */
     public static final int MSG_HEADER_LENGTH = 8;//header length in bytes
-    public static final int MSG_HEADER_CID_POS = 3;
+    public static final int MSG_HEADER_CID_POS = 4;
 
 }
