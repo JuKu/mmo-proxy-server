@@ -19,6 +19,10 @@ public class MMOLogger {
 
     protected static int serverID = 0;
 
+    private MMOLogger () {
+        //
+    }
+
     public static void log (Level level, String tag, String msg, JsonObject params) {
         if (logQueue.size() > Config.MAX_LOG_QUEUE_ENTRIES) {
             System.err.println("logger queue is full, drop log message");
