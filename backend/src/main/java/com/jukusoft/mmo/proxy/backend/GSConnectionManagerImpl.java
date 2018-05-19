@@ -18,6 +18,8 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
     protected Vertx vertx = null;
     protected EventBus eventBus = null;
 
+    protected static final String LOG_TAG = "GSConnectionManagerImpl";
+
     public GSConnectionManagerImpl(Vertx vertx) {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
@@ -33,7 +35,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
         this.eventBus.send("get-server-by-sector", sectorID, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
             if (!res.succeeded()) {
                 //couldnt find zonekeeper instance
-                MMOLogger.warn("GSConnectionManagerImpl", "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + sectorID + "");
+                MMOLogger.warn(LOG_TAG, "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + sectorID + "");
 
                 handler.handle(null);
 
@@ -46,7 +48,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
             String ip = array[0];
             int port = Integer.parseInt(array[1]);
 
-            MMOLogger.info("GSConnectionManagerImpl", "try to open game server connection, ip: " + ip + ", port: " + port);
+            MMOLogger.info(LOG_TAG, "try to open game server connection, ip: " + ip + ", port: " + port);
 
             //open connection
             createConnection(ip, port, handler);
@@ -66,7 +68,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
         //connect to game server
         client.connect(port, ip, res -> {
             if (res.succeeded()) {
-                MMOLogger.info("GSConnectionManagerImpl", "gs connection established, ip: " + ip + ", port: " + port + ".");
+                MMOLogger.info(LOG_TAG, "gs connection established, ip: " + ip + ", port: " + port + ".");
 
                 NetSocket socket = res.result();
 
@@ -78,7 +80,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
 
                 handler.handle(conn);
             } else {
-                MMOLogger.info("GSConnectionManagerImpl", "Couldnt connect to game server, ip: " + ip + ", port: " + port + ", error: " + res.cause().getMessage() + ".");
+                MMOLogger.info(LOG_TAG, "Couldnt connect to game server, ip: " + ip + ", port: " + port + ", error: " + res.cause().getMessage() + ".");
                 handler.handle(null);
             }
         });
