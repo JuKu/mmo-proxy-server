@@ -39,3 +39,28 @@ ALTER TABLE `${prefix}characters`
 --
 ALTER TABLE `${prefix}characters`
 MODIFY `cid` int(10) NOT NULL AUTO_INCREMENT;
+
+CREATE TABLE IF NOT EXISTS `${prefix}races` (
+`id` int(10) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indizes der exportierten Tabellen
+--
+
+--
+-- Indizes für die Tabelle `mmo_races`
+--
+ALTER TABLE `${prefix}races`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT für exportierte Tabellen
+--
+
+--
+-- AUTO_INCREMENT für Tabelle `mmo_races`
+--
+ALTER TABLE `${prefix}races`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
