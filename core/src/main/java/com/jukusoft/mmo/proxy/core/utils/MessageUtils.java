@@ -5,6 +5,10 @@ import io.vertx.core.buffer.Buffer;
 
 public class MessageUtils {
 
+    protected MessageUtils () {
+        //
+    }
+
     public static Buffer createMsg (byte type, byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 

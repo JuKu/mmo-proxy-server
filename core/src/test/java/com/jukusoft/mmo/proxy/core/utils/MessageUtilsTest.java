@@ -9,6 +9,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MessageUtilsTest {
 
     @Test
+    public void testConstructor () {
+        new MessageUtils();
+    }
+
+    @Test
     public void testCreateMessage () {
         Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_JOIN, 10);
 
