@@ -275,10 +275,22 @@ public class ClientConnectionTest {
         conn.handleInternalMessage(Buffer.buffer());
     }
 
-    @Test
+    @Test (expected = IllegalArgumentException.class)
     public void testHandleInternalMessage () {
         ClientConnection conn = createConn();
 
+        //use unsupported type
+        Buffer content = MessageUtils.createMsg((byte) 0xFF, (byte) 0x01, 1);
+        content.setInt(Config.MSG_BODY_OFFSET, 10);
+
+        conn.handleInternalMessage(content);
+    }
+
+    @Test
+    public void testHandleInternalMessage1 () {
+        ClientConnection conn = createConn();
+
+        //use unsupported type
         Buffer content = MessageUtils.createMsg((byte) 0x01, (byte) 0x01, 1);
         content.setInt(Config.MSG_BODY_OFFSET, 10);
 

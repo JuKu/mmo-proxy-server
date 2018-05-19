@@ -182,10 +182,14 @@ public class ClientConnection {
         byte type = content.getByte(0);
 
         switch (type) {
-            //
-        }
+            case 0x01:
+                //TODO: add code here
 
-        //TODO: handle message here
+                break;
+
+            default:
+                throw new IllegalArgumentException("internal message type 0x" + ByteUtils.byteToHex(type) + " is not supported yet.");
+        }
     }
 
     public void setReceiver (MessageReceiver<Buffer> receiver) {
