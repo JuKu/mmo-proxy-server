@@ -169,16 +169,23 @@ public class ClientConnection {
     /**
     * handle internal message from game server
     */
-    protected void handleInternalMessage (Buffer buffer) {
-        if (buffer == null) {
+    protected void handleInternalMessage (Buffer content) {
+        if (content == null) {
             throw new NullPointerException("buffer cannot be null.");
         }
 
-        if (buffer.length() < Config.MSG_HEADER_LENGTH) {
+        if (content.length() < Config.MSG_HEADER_LENGTH) {
             throw new IllegalArgumentException("buffer doesnt contains full header");
         }
 
-        throw new UnsupportedOperationException("method to handle internal messages from gs server is not implemented yet.");
+        //get type
+        byte type = content.getByte(0);
+
+        switch (type) {
+            //
+        }
+
+        //TODO: handle message here
     }
 
     public void setReceiver (MessageReceiver<Buffer> receiver) {

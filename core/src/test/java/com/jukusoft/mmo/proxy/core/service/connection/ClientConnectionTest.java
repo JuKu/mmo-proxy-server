@@ -1,6 +1,8 @@
 package com.jukusoft.mmo.proxy.core.service.connection;
 
+import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
+import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
@@ -271,6 +273,16 @@ public class ClientConnectionTest {
     public void testHandleInternalEmptyMessage () {
         ClientConnection conn = createConn();
         conn.handleInternalMessage(Buffer.buffer());
+    }
+
+    @Test
+    public void testHandleInternalMessage () {
+        ClientConnection conn = createConn();
+
+        Buffer content = MessageUtils.createMsg((byte) 0x01, (byte) 0x01, 1);
+        content.setInt(Config.MSG_BODY_OFFSET, 10);
+
+        conn.handleInternalMessage(content);
     }
 
     @Test (expected = IllegalArgumentException.class)
