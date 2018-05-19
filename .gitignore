@@ -7,6 +7,7 @@
 *.iml
 *.cfg
 !*.example.cfg
+!*travis.mysql.cfg
 
 ### Eclipse ###
 
