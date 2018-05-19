@@ -30,10 +30,10 @@ public class DatabaseUpgrader {
     }
 
     public void migrate () {
-        this.flyway.validate();
-
         //create or upgrade database schema
         this.flyway.migrate();
+
+        this.flyway.validate();
     }
 
     public String getInfo () {
