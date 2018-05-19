@@ -33,7 +33,7 @@ public class MySQLConfig {
         this.host = section.getOrDefault("host", "locahost");
         this.port = getInt(section, "port");
         this.database = section.get("database");
-        this.user = section.get("user");
+        this.user = section.getOrDefault("user", "");
         this.password = section.get("password");
     }
 
