@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.proxy.core.service.connection;
 
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -101,8 +102,18 @@ public class ClientConnectionTest {
             }
 
             @Override
+            public void setCloseHandler(Handler<Void> handler) {
+
+            }
+
+            @Override
             public boolean isOpened() {
                 return false;
+            }
+
+            @Override
+            public void close() {
+
             }
         };
 
@@ -130,8 +141,18 @@ public class ClientConnectionTest {
             }
 
             @Override
+            public void setCloseHandler(Handler<Void> handler) {
+
+            }
+
+            @Override
             public boolean isOpened() {
                 return true;
+            }
+
+            @Override
+            public void close() {
+
             }
         };
 

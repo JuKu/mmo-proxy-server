@@ -1,6 +1,7 @@
 package com.jukusoft.mmo.proxy.core.service.connection;
 
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
+import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 
 public interface GSConnection {
@@ -16,8 +17,18 @@ public interface GSConnection {
     public void setReceiver (MessageReceiver<Buffer> receiver);
 
     /**
+    * close handler
+    */
+    public void setCloseHandler (Handler<Void> handler);
+
+    /**
     * check, if connection is opened
     */
     public boolean isOpened ();
+
+    /**
+    * close connection
+    */
+    public void close ();
 
 }

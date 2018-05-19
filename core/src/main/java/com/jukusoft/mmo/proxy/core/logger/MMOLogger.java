@@ -56,6 +56,14 @@ public class MMOLogger {
         log(Level.WARNING, tag, msg);
     }
 
+    public static void warn (String tag, String msg, Throwable e) {
+        log(Level.WARNING, tag, msg + ", throwable: " + e.getLocalizedMessage());
+    }
+
+    public static void info (String tag, String msg) {
+        log(Level.INFO, tag, msg);
+    }
+
     /**
     * send logs from queue to server
     */

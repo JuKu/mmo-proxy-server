@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.proxy.backend;
 
+import com.jukusoft.mmo.proxy.backend.connection.GSConnectionImpl;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnection;
@@ -7,6 +8,9 @@ import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
+import io.vertx.core.net.NetClient;
+import io.vertx.core.net.NetClientOptions;
+import io.vertx.core.net.NetSocket;
 
 public class GSConnectionManagerImpl implements GSConnectionManager {
 
@@ -36,7 +40,47 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
                 return;
             }
 
-            //TODO: add code here
+            //get ip and port
+            String str = (String) res.result().body();
+            String[] array = str.split(":");
+            String ip = array[0];
+            int port = Integer.parseInt(array[1]);
+
+            MMOLogger.info("GSConnectionManagerImpl", "try to open game server connection, ip: " + ip + ", port: " + port);
+
+            //open connection
+            createConnection(ip, port, handler);
+        });
+    }
+
+    protected void createConnection (String ip, int port, Handler<GSConnection> handler) {
+        //set tcp client options
+        NetClientOptions options = new NetClientOptions();
+        options.setConnectTimeout(Config.TCP_CLIENT_CONNECTION_TIMEOUT);
+        options.setReconnectAttempts(Config.TCP_RECONNECT_ATTEMPTS);
+        options.setReconnectInterval(Config.TCP_RECONNECT_INTERVAL);
+
+        //create tcp client
+        final NetClient client = vertx.createNetClient(options);
+
+        //connect to game server
+        client.connect(port, ip, res -> {
+            if (res.succeeded()) {
+                MMOLogger.info("GSConnectionManagerImpl", "gs connection established, ip: " + ip + ", port: " + port + ".");
+
+                NetSocket socket = res.result();
+
+                //create new gs connection
+                GSConnectionImpl conn = new GSConnectionImpl(client, socket);
+
+                //initialize client
+                conn.init();
+
+                handler.handle(conn);
+            } else {
+                MMOLogger.info("GSConnectionManagerImpl", "Couldnt connect to game server, ip: " + ip + ", port: " + port + ", error: " + res.cause().getMessage() + ".");
+                handler.handle(null);
+            }
         });
     }
 

@@ -22,6 +22,9 @@ public class Config {
 
     //vertx eventbus delivery options
     public static final DeliveryOptions EVENTBUS_DELIVERY_OPTIONS = new DeliveryOptions();
+    public static final int TCP_CLIENT_CONNECTION_TIMEOUT = 1000;
+    public static final int TCP_RECONNECT_ATTEMPTS = 10;
+    public static final int TCP_RECONNECT_INTERVAL = 500;
 
     /**
     * network message type

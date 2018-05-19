@@ -107,7 +107,10 @@ public class ClientConnection {
     }
 
     public void close () {
-        //
+        //close game server connections
+        if (this.gsConn != null) {
+            this.gsConn.close();
+        }
     }
 
     /**
