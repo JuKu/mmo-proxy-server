@@ -24,7 +24,7 @@ public class DatabaseUpgrader {
 
         //http://www.liquibase.org/
 
-        this.flyway.setDataSource("jdbc:mysql://" + mySQLConfig.getHost() + ":" + mySQLConfig.getPort() + "/" + mySQLConfig.getDatabase() + "?autoreconnect=true", mySQLConfig.getUser(), mySQLConfig.getPassword());
+        this.flyway.setDataSource("jdbc:mysql://" + mySQLConfig.getHost() + ":" + mySQLConfig.getPort() + "/" + mySQLConfig.getDatabase() + "?autoreconnect=true&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull", mySQLConfig.getUser(), mySQLConfig.getPassword());
 
         //set encoding
         this.flyway.setEncoding("utf-8");
