@@ -1,7 +1,6 @@
 package com.jukusoft.mmo.proxy.database;
 
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
-import com.mysql.cj.jdbc.MysqlDataSource;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationInfo;
 import org.flywaydb.core.api.MigrationInfoService;
