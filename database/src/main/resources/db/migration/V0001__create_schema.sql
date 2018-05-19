@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS `${prefix}races` (
 --
 -- Indizes für die Tabelle `mmo_races`
 --
-ALTER TABLE `vraces`
+ALTER TABLE `${prefix}races`
  ADD PRIMARY KEY (`id`), ADD KEY `selectable` (`selectable`);
 
 --
