@@ -131,7 +131,7 @@ public class ClientConnection {
 
                 //send error message to client
                 Buffer content = MessageUtils.createErrorMsg(Config.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, this.cid);
-                this.gsConn.send(content);
+                this.receive(content);
 
                 return;
             }

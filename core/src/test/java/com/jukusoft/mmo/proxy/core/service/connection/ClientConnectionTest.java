@@ -331,4 +331,55 @@ public class ClientConnectionTest {
         conn.openGSConnection(1, 1, 1);
     }
 
+    @Test
+    public void testOpenGSConnection5 () {
+        ClientConnection conn = createConn();
+        conn.gsManager = new GSConnectionManager() {
+            @Override
+            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+                handler.handle(null);
+            }
+        };
+
+        conn.openGSConnection(1, 1, 1);
+    }
+
+    @Test
+    public void testOpenGSConnection6 () {
+        ClientConnection conn = createConn();
+        conn.gsManager = new GSConnectionManager() {
+            @Override
+            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+                handler.handle(new GSConnection() {
+                    @Override
+                    public void send(Buffer content) {
+
+                    }
+
+                    @Override
+                    public void setReceiver(MessageReceiver<Buffer> receiver) {
+
+                    }
+
+                    @Override
+                    public void setCloseHandler(Handler<Void> handler) {
+
+                    }
+
+                    @Override
+                    public boolean isOpened() {
+                        return false;
+                    }
+
+                    @Override
+                    public void close() {
+
+                    }
+                });
+            }
+        };
+
+        conn.openGSConnection(1, 1, 1);
+    }
+
 }
