@@ -33,12 +33,14 @@ public class Config {
 
     public static final boolean[] MSG_REDIRECT_TYPES = new boolean[256];
     public static final boolean[] MSG_SPECIAL_PROXY_TYPES = new boolean[256];//types which should be handled from proxy directly
+    public static final boolean[] MSG_INTERNAL_TYPES = new boolean[256];
 
     static {
         //initialize arrays
         for (int i = 0; i < 256; i++) {
             MSG_REDIRECT_TYPES[i] = false;
             MSG_SPECIAL_PROXY_TYPES[i] = false;
+            MSG_INTERNAL_TYPES[i] = false;
         }
 
         //message types which should be redirected directly to game server (if logged in)
@@ -50,6 +52,9 @@ public class Config {
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;
 
+        //set internal types
+        MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;//proxy - gs communication
+
         //set timeout of 500ms
         EVENTBUS_DELIVERY_OPTIONS.setSendTimeout(500);
     }
@@ -59,5 +64,24 @@ public class Config {
     */
     public static final int MSG_HEADER_LENGTH = 8;//header length in bytes
     public static final int MSG_HEADER_CID_POS = 4;
+    public static final short MSG_PROTOCOL_VERSION = 1;
+
+    /**
+    * protocol types
+    */
+
+    //message types
+    public static final byte MSG_TYPE_GS = 0x01;
+    public static final byte MSG_TYPE_AUTH = 0x02;
+
+    public static final byte MSG_TYPE_ERROR = 0x0B;
+
+    //type: 0x01 - reserved for proxy - game server communication (client is not allowed to send such messages)
+    public static final byte MSG_EXTENDED_TYPE_JOIN = 0x01;//player joins sector
+    public static final byte MSG_EXTENDED_TYPE_LEAVE = 0x02;//player leaves sector
+
+    //type 0x0B error messages & hints
+    public static final byte MSG_EXTENDED_TYPE_INCOMPATIBLE_CLIENT = 0x01;
+    public static final byte MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR = 0x02;
 
 }

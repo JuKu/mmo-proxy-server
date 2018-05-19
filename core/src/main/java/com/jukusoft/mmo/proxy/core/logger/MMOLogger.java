@@ -19,6 +19,8 @@ public class MMOLogger {
 
     protected static int serverID = 0;
 
+    protected static final Level LOG_LEVEL_FATAL = new CustomLevel("WARNING", 900);
+
     private MMOLogger () {
         //
     }
@@ -27,6 +29,11 @@ public class MMOLogger {
         if (logQueue.size() > Config.MAX_LOG_QUEUE_ENTRIES) {
             System.err.println("logger queue is full, drop log message");
             return;
+        }
+
+        if (level.intValue() >= 900) {
+            //log messages with levels warning or severe
+            System.err.println("[" + level.getName().toUpperCase() + "] " + tag + ": " + msg);
         }
 
         System.out.println("[" + level.getName() + "] " + msg);
@@ -58,6 +65,14 @@ public class MMOLogger {
 
     public static void warn (String tag, String msg, Throwable e) {
         log(Level.WARNING, tag, msg + ", throwable: " + e.getLocalizedMessage());
+    }
+
+    public static void fatal (String tag, String msg, Throwable e) {
+        log(Level.SEVERE, tag, msg + ", throwable: " + e.getLocalizedMessage());
+    }
+
+    public static void fatal (String tag, String msg) {
+        log(Level.SEVERE, tag, msg);
     }
 
     public static void info (String tag, String msg) {

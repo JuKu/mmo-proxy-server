@@ -29,7 +29,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
             throw new IllegalArgumentException("sectorID has to be greater than 0.");
         }
 
-        //TODO: find server for this sector
+        //find server for this sector
         this.eventBus.send("get-server-by-sector", sectorID, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
             if (!res.succeeded()) {
                 //couldnt find zonekeeper instance

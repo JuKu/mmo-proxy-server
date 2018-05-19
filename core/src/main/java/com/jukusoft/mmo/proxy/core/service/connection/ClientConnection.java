@@ -4,6 +4,7 @@ import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
+import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
 
 public class ClientConnection {
@@ -55,6 +56,14 @@ public class ClientConnection {
         //check, if message type is allowed from client
         byte type = content.getByte(0);
 
+        //check, if client is not allowed to send such message types
+        if (Config.MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
+            //drop message
+            MMOLogger.warn("ClientConnection", "Drop message, because client is not allowed to send such message type: 0x" + ByteUtils.byteToHex(type));
+
+            return;
+        }
+
         //check, if type should be sended into cluster
         if (Config.MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
             handleProxyMsg(content);
@@ -96,6 +105,63 @@ public class ClientConnection {
         content.setInt(Config.MSG_HEADER_CID_POS, this.cid);
 
         return content;
+    }
+
+    protected void openGSConnection (int sectorID, float x, float y) {
+        //first, close old connection, if neccessary
+        if (this.gsConn != null && this.gsConn.isOpened()) {
+            //send leave message
+            Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_LEAVE, this.cid);
+            this.gsConn.send(content);
+
+            //close connection
+            this.gsConn.close();
+            this.gsConn = null;
+        }
+
+        //open new connection
+        this.gsManager.createConnection(sectorID, connection -> {
+            if (connection == null) {
+                //log error
+                MMOLogger.fatal("error-500", "Couldnt open connection to game server with sectorID " + sectorID);
+
+                //send error message to client
+                Buffer content = MessageUtils.createErrorMsg(Config.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, this.cid);
+                this.gsConn.send(content);
+
+                return;
+            }
+
+            //set new game server connection
+            this.gsConn = connection;
+
+            //add message handler
+            this.gsConn.setReceiver(buffer -> {
+                //get message type
+                byte type = buffer.getByte(0);
+
+                //check, if message has to be handled internal
+                if (Config.MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
+                    handleProxyMsg(buffer);
+
+                    return;
+                }
+
+                //send message back to client
+                this.receive(buffer);
+            });
+
+            //send join message
+            Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_LEAVE, this.cid);
+            this.gsConn.send(content);
+        });
+
+        //set new sectorID
+        this.sectorID = sectorID;
+    }
+
+    protected void handleInternalMessage (byte type) {
+        throw new UnsupportedOperationException("method to handle internal messages from gs server is not implemented yet.");
     }
 
     public void setReceiver (MessageReceiver<Buffer> receiver) {

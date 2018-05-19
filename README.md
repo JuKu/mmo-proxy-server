@@ -41,7 +41,9 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 
 ### Reserved types
 
-  - 0x01 reserved for proxy - game server communication (client is not allowed to send such messages)
+  - 0x01 reserved for proxy - game server communication (client is not allowed to send or receive such messages)
+      * 0x01 join message
+      * 0x02 leave message
   - 0x02 authorization (registration, login, create character, character selection and so on)
   - 0x03 movement (if connection failes between proxy - game server, this messages will be dropped)
   - 0x04 update / version (version information, check client compatibility and so on)
@@ -52,6 +54,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x09 game world information (weather, lighing, download tiled map and so on)
   - 0x0A close client connection (region --> proxy)
   - 0x0B error messages & hints
+      * 0x01 incompatible client version
+      * 0x02 internal server error (no game server found for this sector)
 
 ## Modules
 
