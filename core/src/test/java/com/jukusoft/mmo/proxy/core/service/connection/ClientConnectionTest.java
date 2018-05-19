@@ -261,4 +261,74 @@ public class ClientConnectionTest {
         assertEquals(0, conn.countBackendConnections());
     }
 
+    @Test (expected = NullPointerException.class)
+    public void testHandleInternalNullMessage () {
+        ClientConnection conn = createConn();
+        conn.handleInternalMessage(null);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testHandleInternalEmptyMessage () {
+        ClientConnection conn = createConn();
+        conn.handleInternalMessage(Buffer.buffer());
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testOpenGSConnection () {
+        ClientConnection conn = createConn();
+        conn.openGSConnection(-1, 1, 1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void testOpenGSConnection1 () {
+        ClientConnection conn = createConn();
+        conn.openGSConnection(0, 1, 1);
+    }
+
+    @Test
+    public void testOpenGSConnection2 () {
+        ClientConnection conn = createConn();
+        conn.openGSConnection(1, 1, 1);
+    }
+
+    @Test
+    public void testOpenGSConnection3 () {
+        ClientConnection conn = createConn();
+        conn.gsConn = Mockito.mock(GSConnection.class);
+        conn.openGSConnection(1, 1, 1);
+    }
+
+    @Test
+    public void testOpenGSConnection4 () {
+        ClientConnection conn = createConn();
+        conn.gsConn = new GSConnection() {
+            @Override
+            public void send(Buffer content) {
+
+            }
+
+            @Override
+            public void setReceiver(MessageReceiver<Buffer> receiver) {
+
+            }
+
+            @Override
+            public void setCloseHandler(Handler<Void> handler) {
+
+            }
+
+            @Override
+            public boolean isOpened() {
+                return true;
+            }
+
+            @Override
+            public void close() {
+
+            }
+        };
+
+        conn.openGSConnection(1, 1, 1);
+    }
+
 }

@@ -108,6 +108,10 @@ public class ClientConnection {
     }
 
     protected void openGSConnection (int sectorID, float xPos, float yPos) {
+        if (sectorID <= 0) {
+            throw new IllegalArgumentException("sectorID has to be greater than 0.");
+        }
+
         //first, close old connection, if neccessary
         if (this.gsConn != null && this.gsConn.isOpened()) {
             //send leave message
@@ -142,7 +146,7 @@ public class ClientConnection {
 
                 //check, if message has to be handled internal
                 if (Config.MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
-                    handleProxyMsg(buffer);
+                    handleInternalMessage(buffer);
 
                     return;
                 }
@@ -162,7 +166,18 @@ public class ClientConnection {
         this.sectorID = sectorID;
     }
 
-    protected void handleInternalMessage (byte type) {
+    /**
+    * handle internal message from game server
+    */
+    protected void handleInternalMessage (Buffer buffer) {
+        if (buffer == null) {
+            throw new NullPointerException("buffer cannot be null.");
+        }
+
+        if (buffer.length() < Config.MSG_HEADER_LENGTH) {
+            throw new IllegalArgumentException("buffer doesnt contains full header");
+        }
+
         throw new UnsupportedOperationException("method to handle internal messages from gs server is not implemented yet.");
     }
 
