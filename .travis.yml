@@ -6,6 +6,12 @@ addons:
     - ldap-utils
     - slapd
 
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'CREATE DATABASE IF NOT EXISTS my_test_database;'
+
 # https://github.com/pear/Net_LDAP2/blob/master/.travis.yml
 #before_script:
 #  - cat tests/ldapconfig.ini.dist | sed s/389/3389/ > tests/ldapconfig.ini
