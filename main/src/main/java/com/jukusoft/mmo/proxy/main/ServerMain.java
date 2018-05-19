@@ -63,6 +63,7 @@ public class ServerMain {
         //create or upgrade database schema
         DatabaseUpgrader databaseUpgrader = new DatabaseUpgrader(mySQLConfig);
         databaseUpgrader.migrate();
+        System.out.println(databaseUpgrader.getInfo());
 
         Utils.printSection("Proxy Server");
         //create proxy server
