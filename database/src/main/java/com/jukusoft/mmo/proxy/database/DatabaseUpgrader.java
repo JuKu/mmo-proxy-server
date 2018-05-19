@@ -24,7 +24,7 @@ public class DatabaseUpgrader {
         //set encoding
         this.flyway.setEncoding("utf-8");
 
-        this.flyway.setLocations("filesystem:src/main/resources/sql/migrations");
+        //this.flyway.setLocations("filesystem:src/main/resources/sql/migrations");
 
         //this.flyway.setDataSource();
     }
