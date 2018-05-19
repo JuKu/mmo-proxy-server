@@ -107,7 +107,7 @@ public class ClientConnection {
         return content;
     }
 
-    protected void openGSConnection (int sectorID, float x, float y) {
+    protected void openGSConnection (int sectorID, float xPos, float yPos) {
         //first, close old connection, if neccessary
         if (this.gsConn != null && this.gsConn.isOpened()) {
             //send leave message
@@ -152,7 +152,9 @@ public class ClientConnection {
             });
 
             //send join message
-            Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_LEAVE, this.cid);
+            Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_JOIN, this.cid);
+            content.setFloat(Config.MSG_BODY_OFFSET, xPos);
+            content.setFloat(Config.MSG_BODY_OFFSET + 4, yPos);
             this.gsConn.send(content);
         });
 

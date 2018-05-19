@@ -64,6 +64,7 @@ public class Config {
     */
     public static final int MSG_HEADER_LENGTH = 8;//header length in bytes
     public static final int MSG_HEADER_CID_POS = 4;
+    public static final int MSG_BODY_OFFSET = 8;
     public static final short MSG_PROTOCOL_VERSION = 1;
 
     /**
