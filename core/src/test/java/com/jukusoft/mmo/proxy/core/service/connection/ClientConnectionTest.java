@@ -382,4 +382,42 @@ public class ClientConnectionTest {
         conn.openGSConnection(1, 1, 1);
     }
 
+    @Test
+    public void testOpenGSConnection7 () throws InterruptedException {
+        ClientConnection conn = createConn();
+        conn.gsManager = new GSConnectionManager() {
+            @Override
+            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+                handler.handle(new GSConnection() {
+                    @Override
+                    public void send(Buffer content) {
+
+                    }
+
+                    @Override
+                    public void setReceiver(MessageReceiver<Buffer> receiver) {
+
+                    }
+
+                    @Override
+                    public void setCloseHandler(Handler<Void> handler) {
+
+                    }
+
+                    @Override
+                    public boolean isOpened() {
+                        return true;
+                    }
+
+                    @Override
+                    public void close() {
+
+                    }
+                });
+            }
+        };
+
+        conn.openGSConnection(1, 1, 1);
+    }
+
 }
