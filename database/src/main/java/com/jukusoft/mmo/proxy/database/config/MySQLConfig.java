@@ -67,4 +67,8 @@ public class MySQLConfig {
         return this.prefix;
     }
 
+    public void setPrefix (String prefix) {
+        this.prefix = prefix;
+    }
+
 }

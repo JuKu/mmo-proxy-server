@@ -5,6 +5,9 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.MigrationInfo;
 import org.flywaydb.core.api.MigrationInfoService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class DatabaseUpgrader {
 
     protected Flyway flyway = null;
@@ -27,8 +30,15 @@ public class DatabaseUpgrader {
 
         this.flyway.setDataSource("jdbc:mysql://" + mySQLConfig.getHost() + ":" + mySQLConfig.getPort() + "/" + mySQLConfig.getDatabase() + "?autoreconnect=true&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull", mySQLConfig.getUser(), mySQLConfig.getPassword());
 
+        Map<String,String> placeholderMap = new HashMap<>();
+        placeholderMap.put("prefix", "");
+
         //set table prefix
-        this.flyway.setPlaceholderPrefix(mySQLConfig.getPrefix());
+        if (!mySQLConfig.getPrefix().isEmpty()) {
+            placeholderMap.put("prefix", mySQLConfig.getPrefix());
+        }
+
+        this.flyway.setPlaceholders(placeholderMap);
 
         //set encoding
         this.flyway.setEncoding("utf-8");

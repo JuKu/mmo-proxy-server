@@ -37,4 +37,14 @@ public class MySQLConfigTest {
         assertEquals("mmo_", mySQLConfig.getPrefix());
     }
 
+    @Test
+    public void testGetAndSetPrefix () {
+        MySQLConfig mySQLConfig = new MySQLConfig();
+
+        assertEquals("", mySQLConfig.getPrefix());
+
+        mySQLConfig.setPrefix("mmo_");
+        assertEquals("mmo_", mySQLConfig.getPrefix());
+    }
+
 }

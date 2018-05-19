@@ -18,6 +18,13 @@ public class DatabaseUpgraderTest {
     }
 
     @Test
+    public void testConstructor1 () {
+        MySQLConfig mySQLConfig = new MySQLConfig();
+        mySQLConfig.setPrefix("");
+        new DatabaseUpgrader(mySQLConfig);
+    }
+
+    @Test
     public void testConnect () throws IOException {
         //https://docs.travis-ci.com/user/database-setup/#MySQL
 
