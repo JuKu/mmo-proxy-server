@@ -214,6 +214,13 @@ public class ClientConnectionTest {
         conn.close();
     }
 
+    @Test
+    public void testClose1 () {
+        ClientConnection conn = createConn();
+        conn.gsConn = Mockito.mock(GSConnection.class);
+        conn.close();
+    }
+
     @Test (expected = NullPointerException.class)
     public void testHandleNullProxyMsg () {
         ClientConnection conn = createConn();
