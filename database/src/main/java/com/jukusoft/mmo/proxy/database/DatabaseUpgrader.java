@@ -23,7 +23,12 @@ public class DatabaseUpgrader {
 
         //http://www.liquibase.org/
 
+        //https://flywaydb.org/documentation/migrations
+
         this.flyway.setDataSource("jdbc:mysql://" + mySQLConfig.getHost() + ":" + mySQLConfig.getPort() + "/" + mySQLConfig.getDatabase() + "?autoreconnect=true&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull", mySQLConfig.getUser(), mySQLConfig.getPassword());
+
+        //set table prefix
+        this.flyway.setPlaceholderPrefix(mySQLConfig.getPrefix());
 
         //set encoding
         this.flyway.setEncoding("utf-8");

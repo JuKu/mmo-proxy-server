@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `sectors` (
+CREATE TABLE IF NOT EXISTS `${sectors}` (
 `sectorID` int(10) NOT NULL,
   `title` varchar(255) NOT NULL,
   `map_info_path` varchar(600) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `sectors` (
 --
 -- Indizes für die Tabelle `sectors`
 --
-ALTER TABLE `sectors`
+ALTER TABLE `${sectors}`
  ADD PRIMARY KEY (`sectorID`);
 
 --
@@ -22,5 +22,5 @@ ALTER TABLE `sectors`
 --
 -- AUTO_INCREMENT für Tabelle `sectors`
 --
-ALTER TABLE `sectors`
+ALTER TABLE `${sectors}`
 MODIFY `sectorID` int(10) NOT NULL AUTO_INCREMENT;

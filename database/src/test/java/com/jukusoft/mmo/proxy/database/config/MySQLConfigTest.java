@@ -34,6 +34,7 @@ public class MySQLConfigTest {
         assertEquals("db1", mySQLConfig.getDatabase());
         assertEquals("root", mySQLConfig.getUser());
         assertEquals("testpass", mySQLConfig.getPassword());
+        assertEquals("mmo_", mySQLConfig.getPrefix());
     }
 
 }

@@ -13,6 +13,7 @@ public class MySQLConfig {
     protected String database = "";
     protected String user = "";
     protected String password = "";
+    protected String prefix = "";
 
     public MySQLConfig () {
         //
@@ -35,6 +36,7 @@ public class MySQLConfig {
         this.database = section.get("database");
         this.user = section.getOrDefault("user", "");
         this.password = section.get("password");
+        this.prefix = section.getOrDefault("prefix", "");
     }
 
     protected int getInt (Profile.Section section, String key) {
@@ -59,6 +61,10 @@ public class MySQLConfig {
 
     public String getPassword () {
         return this.password;
+    }
+
+    public String getPrefix () {
+        return this.prefix;
     }
 
 }
