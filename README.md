@@ -42,7 +42,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 ### Reserved types
 
   - 0x01 reserved for proxy - game server communication (client is not allowed to send or receive such messages)
-      * 0x01 join message (data: int sectorID, int instanceID, float xPos, float yPos, float zPos)
+      * 0x01 join message (data: int regionID, int instanceID, float xPos, float yPos, float zPos)
       * 0x02 leave message
       * 0x03 network init message to set cid (character id, proxy --> client)
       * 0x04 joined successfully (gs --> proxy)
@@ -80,6 +80,16 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 ![Server Architecture](./images/server_architecture.png)
 
 Thanks to [noctarius](https://github.com/noctarius) for his many advices (not every advice is shown in this image)!
+
+## Regions vs. Sectors
+
+Currently server only knows regions.
+
+**Limitations**:
+
+  * Every region is calculated by **one cpu core**!
+  * this means every region can hold maximal 100 players!
+  * between every region (region change) there will be a loading screen
 
 ## Services / Components
 
