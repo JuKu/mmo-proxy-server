@@ -42,7 +42,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 ### Reserved types
 
   - 0x01 reserved for proxy - game server communication (client is not allowed to send or receive such messages)
-      * 0x01 join message (data: int sectorID, int instanceID)
+      * 0x01 join message (data: int sectorID, int instanceID, float xPos, float yPos, float zPos)
       * 0x02 leave message
       * 0x03 network init message to set cid (character id, proxy --> client)
       * 0x04 joined successfully (gs --> proxy)
