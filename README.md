@@ -47,6 +47,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
       * 0x03 network init message to set cid (character id, proxy --> client)
       * 0x04 joined successfully (gs --> proxy)
       * 0x05 join failed (gs --> proxy)
+      * 0x06 internal server error (gs --> proxy)
   - 0x02 authorization (registration, login, create character, character selection and so on)
   - 0x03 movement (if connection failes between proxy - game server, this messages will be dropped)
   - 0x04 update / version (version information, check client compatibility and so on)
