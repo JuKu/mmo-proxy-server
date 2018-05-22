@@ -11,6 +11,7 @@ A proxy server (tooling) for a mmo game. This is only a tool, not a complete gam
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=bugs)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.jukusoft%3Ammo-proxy-server&metric=security_rating)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server) 
+[![Coverage Status](https://coveralls.io/repos/github/JuKu/mmo-proxy-server/badge.svg?branch=master)](https://coveralls.io/github/JuKu/mmo-proxy-server?branch=master)
 
 [![Sonarcloud](https://sonarcloud.io/api/project_badges/quality_gate?project=com.jukusoft%3Ammo-proxy-server)](https://sonarcloud.io/dashboard/index/com.jukusoft%3Ammo-proxy-server)
 
