@@ -12,10 +12,12 @@ import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
+import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
 import com.jukusoft.mmo.proxy.core.utils.Utils;
 import com.jukusoft.mmo.proxy.database.DatabaseUpgrader;
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
 import com.jukusoft.mmo.proxy.database.firewall.DummyFirewall;
+import com.jukusoft.mmo.proxy.database.session.DummySessionManager;
 import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
 import com.jukusoft.mmo.proxy.management.ManagementFrontend;
@@ -76,6 +78,7 @@ public class ServerMain {
         server.addService(new ConnectionManagerImpl(vertx), IConnectionManager.class);
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
         server.addService(new DummyFirewall(), IFirewall.class);
+        server.addService(new DummySessionManager(), ISessionManager.class);
 
         Utils.printSection("Frontend");
 
