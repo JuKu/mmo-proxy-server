@@ -152,7 +152,7 @@ public class ClientConnection {
                 }
 
                 //send message back to client
-                this.receive(buffer);
+                this.sendToClient(buffer);
             });
 
             //send join message
@@ -228,7 +228,7 @@ public class ClientConnection {
 
             //send RTT response to client
             Buffer msg = MessageUtils.createRTTResponse();
-            this.receive(msg);
+            this.sendToClient(msg);
 
             return;
         }
@@ -254,6 +254,10 @@ public class ClientConnection {
 
     public int countBackendConnections () {
         return 0;
+    }
+
+    public void sendToClient (Buffer content) {
+        this.receiver.receive(content);
     }
 
 }

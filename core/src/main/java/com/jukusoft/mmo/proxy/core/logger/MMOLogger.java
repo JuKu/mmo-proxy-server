@@ -19,7 +19,7 @@ public class MMOLogger {
 
     protected static int serverID = 0;
 
-    protected static final Level LOG_LEVEL_FATAL = new CustomLevel("WARNING", 900);
+    protected static final Level LOG_LEVEL_FATAL = new CustomLevel("WARNING", 1000);
 
     private MMOLogger () {
         //
@@ -48,7 +48,13 @@ public class MMOLogger {
         json.put("params", params);
 
         String jsonStr = json.encode();
-        logQueue.add(jsonStr);
+
+        if (logQueue.size() >= 1000) {
+            //log queue is full, drop log message
+            System.err.println("log queue is full!");
+        } else {
+            logQueue.add(jsonStr);
+        }
     }
 
     public static void log (Level level, String tag, String msg) {
