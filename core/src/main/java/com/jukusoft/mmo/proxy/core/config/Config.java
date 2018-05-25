@@ -51,6 +51,7 @@ public class Config {
 
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;
+        MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x0C)] = true;//client - proxy messages
 
         //set internal types
         MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;//proxy - gs communication
@@ -84,5 +85,10 @@ public class Config {
     //type 0x0B error messages & hints
     public static final byte MSG_EXTENDED_TYPE_INCOMPATIBLE_CLIENT = 0x01;
     public static final byte MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR = 0x02;
+
+    //type 0x0C client - proxy messages
+    public static final byte MSG_TYPE_PROXY = 0x0C;
+
+    public static final byte MSG_EXTENDED_TYPE_RTT = 0x01;
 
 }

@@ -208,7 +208,7 @@ public class ClientConnection {
     }
 
     /**
-    * handle special messages which arent redirected to game server, e.q. login messages
+    * handle special messages from client which arent redirected to game server, e.q. login messages
     */
     protected void handleProxyMsg (Buffer content) {
         if (content == null) {
@@ -218,6 +218,22 @@ public class ClientConnection {
         if (content.length() < Config.MSG_HEADER_LENGTH) {
             throw new IllegalArgumentException("buffer doesnt contains full header.");
         }
+
+        byte type = content.getByte(0);
+        byte extendedByte = content.getByte(1);
+
+        //check, if message is RTT message
+        if (type == Config.MSG_TYPE_PROXY && extendedByte == Config.MSG_EXTENDED_TYPE_RTT) {
+            MMOLogger.info("ClientConnection", "RTT message received");
+
+            //send RTT response to client
+            Buffer msg = MessageUtils.createRTTResponse();
+            this.receive(msg);
+
+            return;
+        }
+
+        MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
     }
 
     public ConnectionState getState () {

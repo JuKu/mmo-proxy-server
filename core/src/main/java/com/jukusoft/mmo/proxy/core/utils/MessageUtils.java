@@ -20,6 +20,17 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createRTTResponse () {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Config.MSG_TYPE_PROXY);
+        content.setByte(1, Config.MSG_EXTENDED_TYPE_RTT);
+        content.setShort(2, Config.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 
