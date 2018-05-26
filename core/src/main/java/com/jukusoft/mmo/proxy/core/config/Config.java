@@ -49,8 +49,9 @@ public class Config {
         MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x08)] = true;//admin stuff (reserve)
         MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x09)] = true;//game world information (weather, lighing, download tiled map and so on)
 
+        //messages from client which should be handled from proxy server
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x01)] = true;
-        MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;
+        MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x02)] = true;//authorization
         MSG_SPECIAL_PROXY_TYPES[ByteUtils.byteToUnsignedInt((byte) 0x0C)] = true;//client - proxy messages
 
         //set internal types
