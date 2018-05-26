@@ -2,12 +2,16 @@ package com.jukusoft.mmo.proxy.core.service.connection;
 
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
+import com.jukusoft.mmo.proxy.core.login.LoginService;
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
+import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonObject;
 
 import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class ClientConnection {
@@ -250,6 +254,34 @@ public class ClientConnection {
             }
 
             MMOLogger.info("ClientConnection", "no handler for special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
+        } else if (type == Config.MSG_TYPE_AUTH) {
+            if (extendedByte == Config.MSG_EXTENDED_TYPE_LOGIN_REQUEST) {
+                MMOLogger.info("ClientConnection", "login request received.");
+
+                //get key pair
+                KeyPair keyPair = this.manager.getKeyPair();
+                PrivateKey privateKey = keyPair.getPrivate();
+
+                //decrypt data
+                int length = content.getInt(Config.MSG_BODY_OFFSET);
+                byte[] encrypted = content.getBytes(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+                try {
+                    String jsonStr = EncryptionUtils.decrypt(privateKey, encrypted);
+                    JsonObject json = new JsonObject(jsonStr);
+
+                    //get username and password
+                    String username = json.getString("username");
+                    String password = json.getString("password");
+
+                    //TODO: get login service and login
+                } catch (Exception e) {
+                    MMOLogger.warn("ClientConnection", "exception while decrypting data", e);
+                }
+
+                return;
+            }
+
+            MMOLogger.info("ClientConnection", "no handler for authorization proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
         }
 
         MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));

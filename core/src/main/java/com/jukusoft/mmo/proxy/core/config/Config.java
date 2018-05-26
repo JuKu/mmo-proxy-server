@@ -77,6 +77,10 @@ public class Config {
     public static final byte MSG_TYPE_GS = 0x01;
     public static final byte MSG_TYPE_AUTH = 0x02;
 
+    //type 0x02 authorization
+    public static final byte MSG_EXTENDED_TYPE_LOGIN_REQUEST = 0x01;
+    public static final byte MSG_EXTENDED_TYPE_LOGIN_RESPONSE = 0x02;
+
     public static final byte MSG_TYPE_ERROR = 0x0B;
 
     //type: 0x01 - reserved for proxy - game server communication (client is not allowed to send such messages)
