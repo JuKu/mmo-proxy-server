@@ -248,6 +248,8 @@ public class ClientConnection {
 
                 return;
             }
+
+            MMOLogger.info("ClientConnection", "no handler for special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
         }
 
         MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
