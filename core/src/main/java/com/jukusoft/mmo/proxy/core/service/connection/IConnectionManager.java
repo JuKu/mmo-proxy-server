@@ -2,6 +2,8 @@ package com.jukusoft.mmo.proxy.core.service.connection;
 
 import com.jukusoft.mmo.proxy.core.service.IService;
 
+import java.security.KeyPair;
+
 public interface IConnectionManager extends IService {
 
     public void addConnection (String ip, int port, ClientConnection conn, GSConnectionManager gsConnectionManager);
@@ -11,5 +13,7 @@ public interface IConnectionManager extends IService {
     public int countOpenFrontendConnections ();
 
     public int countOpenBackendConnections ();
+
+    public KeyPair getKeyPair ();
 
 }

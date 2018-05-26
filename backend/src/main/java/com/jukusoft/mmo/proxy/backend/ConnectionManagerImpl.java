@@ -8,6 +8,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 
+import java.security.KeyPair;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -24,15 +25,18 @@ public class ConnectionManagerImpl implements IConnectionManager {
     protected AtomicLong lastID = new AtomicLong(0);
 
     protected List<ClientConnection> allClientConnections = new ArrayList<>();
+    protected final KeyPair keyPair;
 
     /**
     * default constructor
      *
      * @param vertx instance of vertx
     */
-    public ConnectionManagerImpl (Vertx vertx) {
+    public ConnectionManagerImpl (Vertx vertx, KeyPair keyPair) {
         this.vertx = vertx;
         this.eventBus = vertx.eventBus();
+
+        this.keyPair = keyPair;
 
         this.deliveryOptions = new DeliveryOptions();
 
@@ -86,6 +90,11 @@ public class ConnectionManagerImpl implements IConnectionManager {
         }
 
         return count;
+    }
+
+    @Override
+    public KeyPair getKeyPair() {
+        return this.keyPair;
     }
 
 }

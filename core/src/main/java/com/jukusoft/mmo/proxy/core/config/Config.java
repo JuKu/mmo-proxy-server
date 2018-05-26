@@ -90,5 +90,7 @@ public class Config {
     public static final byte MSG_TYPE_PROXY = 0x0C;
 
     public static final byte MSG_EXTENDED_TYPE_RTT = 0x01;
+    public static final byte MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST = 0x02;
+    public static final byte MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE = 0x03;
 
 }

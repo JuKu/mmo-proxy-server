@@ -7,6 +7,9 @@ import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
 
+import java.security.KeyPair;
+import java.security.PublicKey;
+
 public class ClientConnection {
 
     protected final ConnectionState state = new ConnectionState();
@@ -223,14 +226,28 @@ public class ClientConnection {
         byte extendedByte = content.getByte(1);
 
         //check, if message is RTT message
-        if (type == Config.MSG_TYPE_PROXY && extendedByte == Config.MSG_EXTENDED_TYPE_RTT) {
-            MMOLogger.info("ClientConnection", "RTT message received");
+        if (type == Config.MSG_TYPE_PROXY) {
+            if (extendedByte == Config.MSG_EXTENDED_TYPE_RTT) {
+                MMOLogger.info("ClientConnection", "RTT message received");
 
-            //send RTT response to client
-            Buffer msg = MessageUtils.createRTTResponse();
-            this.sendToClient(msg);
+                //send RTT response to client
+                Buffer msg = MessageUtils.createRTTResponse();
+                this.sendToClient(msg);
 
-            return;
+                return;
+            } else if (extendedByte == Config.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST) {
+                MMOLogger.info("ClientConnection", "received RSA public key request.");
+
+                //get key pair
+                KeyPair keyPair = this.manager.getKeyPair();
+                PublicKey publicKey = keyPair.getPublic();
+
+                //send RTT response to client
+                Buffer msg = MessageUtils.createPublicKeyResponse(publicKey);
+                this.sendToClient(msg);
+
+                return;
+            }
         }
 
         MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));

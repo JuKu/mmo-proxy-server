@@ -4,6 +4,9 @@ import com.jukusoft.mmo.proxy.core.config.Config;
 import io.vertx.core.buffer.Buffer;
 import org.junit.Test;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MessageUtilsTest {
@@ -33,6 +36,28 @@ public class MessageUtilsTest {
         assertEquals(Config.MSG_EXTENDED_TYPE_RTT, content.getByte(1));
         assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
         assertEquals(0, content.getInt(4));
+    }
+
+    @Test
+    public void testCreatePublicKeyResponseMessage () throws Exception {
+        //generate public key
+        PublicKey publicKey = EncryptionUtils.generateKeyPair().getPublic();
+
+        Buffer content = MessageUtils.createPublicKeyResponse(publicKey);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_PROXY, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_PUBLIC_KEY_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int length = content.getInt(Config.MSG_BODY_OFFSET);
+        byte[] array = content.getBytes(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+
+        //convert array to public key
+        PublicKey publicKey1 = EncryptionUtils.getPubKeyFromArray(array);
+        assertEquals(publicKey, publicKey1);
     }
 
     @Test

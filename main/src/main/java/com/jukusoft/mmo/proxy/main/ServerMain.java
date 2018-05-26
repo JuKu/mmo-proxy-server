@@ -13,6 +13,7 @@ import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
+import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.Utils;
 import com.jukusoft.mmo.proxy.database.DatabaseUpgrader;
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
@@ -25,6 +26,8 @@ import io.vertx.core.Vertx;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 public class ServerMain {
@@ -69,13 +72,25 @@ public class ServerMain {
         databaseUpgrader.migrate();
         System.out.println(databaseUpgrader.getInfo());
 
+        Utils.printSection("RSA Encryption");
+        log("generate RSA key pair...");
+
+        KeyPair keyPair = null;
+
+        try {
+            keyPair = EncryptionUtils.generateKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         Utils.printSection("Proxy Server");
         //create proxy server
         log("Create proxy server instance...");
         ProxyServer server = new ProxyServer();
 
         //add services
-        server.addService(new ConnectionManagerImpl(vertx), IConnectionManager.class);
+        server.addService(new ConnectionManagerImpl(vertx, keyPair), IConnectionManager.class);
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
         server.addService(new DummyFirewall(), IFirewall.class);
         server.addService(new DummySessionManager(), ISessionManager.class);
