@@ -115,8 +115,11 @@ public class TCPFrontend implements IFrontend {
                 });
 
                 socket.handler(buffer -> {
-                    //message was received from client
-                    MMOLogger.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
+                    //avoid logging rtt messages to reduce spam in logs
+                    if (buffer.getByte(0) != Config.MSG_TYPE_PROXY && buffer.getByte(1) != Config.MSG_EXTENDED_TYPE_RTT) {
+                        //message was received from client
+                        MMOLogger.log(Level.SEVERE, "[" + ip + "] received some bytes: " + buffer.length());
+                    }
 
                     conn.receive(buffer);
                 });
