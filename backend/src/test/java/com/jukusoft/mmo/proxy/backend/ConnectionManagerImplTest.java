@@ -9,6 +9,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import java.security.KeyPair;
+
 import static org.junit.Assert.assertEquals;
 
 public class ConnectionManagerImplTest {
@@ -28,12 +30,12 @@ public class ConnectionManagerImplTest {
 
     @Test
     public void testConstructor () {
-        new ConnectionManagerImpl(vertx);
+        new ConnectionManagerImpl(vertx, null);
     }
 
     @Test
     public void testAddAndRemoveConnection () {
-        IConnectionManager manager = new ConnectionManagerImpl(vertx);
+        IConnectionManager manager = new ConnectionManagerImpl(vertx, null);
 
         assertEquals(0, manager.countOpenFrontendConnections());
         assertEquals(0, manager.countOpenBackendConnections());
