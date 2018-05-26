@@ -63,6 +63,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
       * 0x02 internal server error (no game server found for this sector)#
   - 0x0C reserved for client - proxy
       * 0x01 RTT - round trip time (message to determine client ping)
+      * 0x02 client requests public key
+      * 0x03 proxy sends public key to client
 
 ## Modules
 
