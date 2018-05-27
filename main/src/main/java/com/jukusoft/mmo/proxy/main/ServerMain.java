@@ -17,6 +17,7 @@ import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
 import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.Utils;
+import com.jukusoft.mmo.proxy.database.Database;
 import com.jukusoft.mmo.proxy.database.DatabaseUpgrader;
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
 import com.jukusoft.mmo.proxy.database.firewall.DummyFirewall;
@@ -78,6 +79,9 @@ public class ServerMain {
         DatabaseUpgrader databaseUpgrader = new DatabaseUpgrader(mySQLConfig);
         databaseUpgrader.migrate();
         System.out.println(databaseUpgrader.getInfo());
+
+        //initialize database
+        Database.init(mySQLConfig);
 
         Utils.printSection("RSA Encryption");
         log("generate RSA key pair...");

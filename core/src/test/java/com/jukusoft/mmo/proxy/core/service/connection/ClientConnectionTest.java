@@ -27,7 +27,7 @@ public class ClientConnectionTest {
         IConnectionManager manager = Mockito.mock(IConnectionManager.class);
 
         ClientConnection conn = new ClientConnection();
-        conn.init(manager, Mockito.mock(GSConnectionManager.class));
+        conn.init(manager, Mockito.mock(GSConnectionManager.class), "127.0.0.1");
 
         return conn;
     }

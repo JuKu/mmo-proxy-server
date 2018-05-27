@@ -12,6 +12,6 @@ public interface LoginService extends IService {
      *
      * @return userID or -1, if credentials are wrong
     */
-    public int login (String username, String password);
+    public int login (String username, String password, String ip);
 
 }

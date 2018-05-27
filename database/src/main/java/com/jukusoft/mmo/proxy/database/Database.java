@@ -10,6 +10,15 @@ import java.sql.SQLException;
 
 public class Database {
 
+    static {
+        //load mysql driver
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected static HikariDataSource dataSource = null;
 
     protected Database() {

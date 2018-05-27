@@ -1,16 +1,19 @@
 package com.jukusoft.mmo.proxy.database.login;
 
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.login.LoginService;
+import com.jukusoft.mmo.proxy.database.Database;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
 import javax.naming.Context;
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.*;
-import javax.naming.ldap.LdapContext;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Hashtable;
 
 public class LDAPLogin implements LoginService {
@@ -22,6 +25,8 @@ public class LDAPLogin implements LoginService {
     protected String host = "";
     protected int port = 389;
     protected boolean ssl = false;
+
+    protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `online` = '1', `last_online` = NOW();");
 
     public LDAPLogin () {
         //
@@ -45,7 +50,7 @@ public class LDAPLogin implements LoginService {
     }
 
     @Override
-    public int login(String username, String password) {
+    public int login(String username, String password, String ip) {
         // setup the environment
         Hashtable<String, String> env = new Hashtable<String,String>();
         env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
@@ -75,9 +80,22 @@ public class LDAPLogin implements LoginService {
             return 0;
         }
 
-        //get userID from mySQL database or create user
+        try (Connection conn = Database.getConnection()) {
+            MMOLogger.info("LDAPLogin", "execute sql query: " + INSERT_QUERY);
 
-        return 1;
+            //insert user, if absent
+            PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY);
+            stmt.setString(1, username);
+            stmt.setString(2, ip);
+            stmt.execute();
+
+            //get userID
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return 0;
     }
 
     /*private User getUserBasicAttributes(String username, LdapContext ctx) {

@@ -46,7 +46,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
                 MMOLogger.info("Login", "try to login user '" + username + "'...");
 
-                int userID = loginService.login(username, password);
+                int userID = loginService.login(username, password, conn.getIP());
 
                 if (userID != 0) {
                     //login successfully

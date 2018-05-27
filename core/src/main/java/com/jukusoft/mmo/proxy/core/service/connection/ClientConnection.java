@@ -35,13 +35,16 @@ public class ClientConnection {
     //game server connection
     protected GSConnection gsConn = null;
 
+    protected String ip = "";
+
     public ClientConnection() {
         //
     }
 
-    public void init (IConnectionManager manager, GSConnectionManager gsManager) {
+    public void init (IConnectionManager manager, GSConnectionManager gsManager, String ip) {
         this.manager = manager;
         this.gsManager = gsManager;
+        this.ip = ip;
     }
 
     /**
@@ -288,6 +291,10 @@ public class ClientConnection {
 
     public void sendToClient (Buffer content) {
         this.receiver.receive(content);
+    }
+
+    public String getIP () {
+        return this.ip;
     }
 
 }

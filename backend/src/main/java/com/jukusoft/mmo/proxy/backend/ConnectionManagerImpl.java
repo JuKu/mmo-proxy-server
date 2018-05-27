@@ -68,7 +68,7 @@ public class ConnectionManagerImpl implements IConnectionManager {
         MMOLogger.log(Level.INFO, "new-connection", "new connection: " + ip + ":" + port);
 
         //initialize connection
-        conn.init(this, gsConnectionManager);
+        conn.init(this, gsConnectionManager, ip);
 
         //add connectionID
         conn.setConnID(connID);
