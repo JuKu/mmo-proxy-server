@@ -38,6 +38,9 @@
 		<!-- ldap junit tests -->
 		<embedded-ldap-junit.version>0.6</embedded-ldap-junit.version>
 
+		<!-- ldap junit tests with Apache DS -->
+		<apacheds.version>2.0.0-M24</apacheds.version>
+
 		<!-- flyway for database upgrade / migration -->
 		<flyway.version>5.0.7</flyway.version>
 
