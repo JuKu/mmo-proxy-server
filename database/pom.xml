@@ -55,6 +55,14 @@
 			<version>${flyway.version}</version>
 		</dependency>
 
+		<!-- ldap junit tests -->
+		<dependency>
+			<groupId>org.zapodot</groupId>
+			<artifactId>embedded-ldap-junit</artifactId>
+			<version>${embedded-ldap-junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- High Performance Primitive Collections for Java, https://github.com/carrotsearch/hppc -->
 		<!-- <dependency>
 			<groupId>com.carrotsearch</groupId>
