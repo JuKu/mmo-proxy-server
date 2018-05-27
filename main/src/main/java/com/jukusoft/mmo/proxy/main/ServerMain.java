@@ -99,7 +99,7 @@ public class ServerMain {
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
         server.addService(new DummyFirewall(), IFirewall.class);
         server.addService(new DummySessionManager(), ISessionManager.class);
-        server.addService(new LDAPLogin(), LoginService.class);
+        server.addService(new LDAPLogin(new File("./config/ldap.cfg")), LoginService.class);
 
         Utils.printSection("Message Handler");
         log("register message handler...");
