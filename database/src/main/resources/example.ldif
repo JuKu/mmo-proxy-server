@@ -1,0 +1,4 @@
+dn: ou=Payroll,dc=powersrv, dc=de
+ou: Payroll
+objectClass: top
+objectClass: organizationalUnit
