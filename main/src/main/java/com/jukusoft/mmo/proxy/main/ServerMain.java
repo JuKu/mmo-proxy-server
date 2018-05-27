@@ -94,6 +94,8 @@ public class ServerMain {
 
         IConnectionManager connectionManager = new ConnectionManagerImpl(vertx, keyPair);
 
+        LDAPLogin ldapLogin = new LDAPLogin(new File("./config/ldap.cfg"));
+
         //add services
         server.addService(connectionManager, IConnectionManager.class);
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
