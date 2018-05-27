@@ -10,6 +10,8 @@
 !*travis.mysql.cfg
 !*travis.*.cfg
 
+*example2.ldif
+
 ### Eclipse ###
 
 .metadata
