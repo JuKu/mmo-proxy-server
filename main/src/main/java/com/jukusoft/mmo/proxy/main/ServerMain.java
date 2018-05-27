@@ -26,6 +26,7 @@ import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
 import com.jukusoft.mmo.proxy.management.ManagementFrontend;
 import io.vertx.core.Vertx;
+import org.apache.log4j.BasicConfigurator;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +40,9 @@ public class ServerMain {
 
     public static void main (String[] args) {
         log("========= Proxy Server ========");
+
+        //configure log4j
+        BasicConfigurator.configure();
 
         Utils.printSection("Hazelcast");
 

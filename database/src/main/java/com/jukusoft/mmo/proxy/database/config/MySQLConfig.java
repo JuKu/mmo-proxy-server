@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.proxy.database.config;
 
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import org.ini4j.Ini;
 import org.ini4j.Profile;
 
@@ -14,8 +15,12 @@ public class MySQLConfig {
     protected String user = "";
     protected String password = "";
     protected String prefix = "";
+    protected int maxPoolSize = 30;
 
-    public MySQLConfig () {
+    protected int prepStmtCacheSize = 250;
+    protected int prepStmtCacheSqlLimit = 2048;
+
+    public MySQLConfig() {
         //
     }
 
@@ -28,6 +33,8 @@ public class MySQLConfig {
             throw new IllegalStateException("mysql config file doesnt exists: " + file.getAbsolutePath());
         }
 
+        MMOLogger.info("MySQLConfig", "load mysql configuration " + file.getName());
+
         Ini ini = new Ini(file);
         Profile.Section section = ini.get("MySQL");
 
@@ -37,6 +44,10 @@ public class MySQLConfig {
         this.user = section.getOrDefault("user", "");
         this.password = section.get("password");
         this.prefix = section.getOrDefault("prefix", "");
+
+        this.maxPoolSize = Integer.parseInt(section.getOrDefault("max_pool_size", "30"));
+        this.prepStmtCacheSize = Integer.parseInt(section.getOrDefault("prepStmtCacheSize", "250"));
+        this.prepStmtCacheSqlLimit = Integer.parseInt(section.getOrDefault("prepStmtCacheSqlLimit", "2048"));
     }
 
     protected int getInt (Profile.Section section, String key) {
@@ -69,6 +80,22 @@ public class MySQLConfig {
 
     public void setPrefix (String prefix) {
         this.prefix = prefix;
+    }
+
+    public int getMaxPoolSize () {
+        return this.maxPoolSize;
+    }
+
+    public String getJDBCUrl () {
+        return "jdbc:mysql://" + this.getHost() + ":" + this.getPort() + "/" + this.getDatabase() + "?autoreconnect=true&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull";
+    }
+
+    public int getPrepStmtCacheSize() {
+        return prepStmtCacheSize;
+    }
+
+    public int getPrepStmtCacheSqlLimit() {
+        return prepStmtCacheSqlLimit;
     }
 
 }

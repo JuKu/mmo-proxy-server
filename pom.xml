@@ -50,6 +50,9 @@
 		<!-- mysql connector version -->
 		<mysql.connector.version>6.0.6</mysql.connector.version>
 
+		<!-- mysql connection pooling 1-->
+		<hikaricp.version>3.1.0</hikaricp.version>
+
 		<jacoco.reportPath>${project.basedir}/../target/jacoco.exec</jacoco.reportPath>
 
 		<!-- Sonar properties-->

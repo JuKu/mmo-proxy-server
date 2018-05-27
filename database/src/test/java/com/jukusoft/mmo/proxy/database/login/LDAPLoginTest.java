@@ -42,6 +42,8 @@ public class LDAPLoginTest extends AbstractLdapTestUnit {
 
     //https://theholyjava.wordpress.com/2010/05/05/mocking-out-ldapjndi-in-unit-tests/
 
+    //https://www.hascode.com/2016/07/ldap-testing-with-java-apacheds-vs-embedded-ldap-junit/
+
     public static final String DOMAIN_DSN = "dc=example,dc=com";
 
     /*@Rule
@@ -88,6 +90,8 @@ public class LDAPLoginTest extends AbstractLdapTestUnit {
 
     @Test
     public void shouldFindAllPersons() throws Exception {
+        //https://www.hascode.com/2016/07/ldap-testing-with-java-apacheds-vs-embedded-ldap-junit/
+
         LdapContext ctx = (LdapContext) ServerIntegrationUtils.getWiredContext(ldapServer, null)
                 .lookup("ou=Users,dc=example,dc=com");
 

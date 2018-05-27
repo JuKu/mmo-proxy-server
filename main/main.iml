@@ -19,9 +19,10 @@
     <orderEntry type="module" module-name="backend" />
     <orderEntry type="module" module-name="database" />
     <orderEntry type="library" name="Maven: org.ini4j:ini4j:0.5.4" level="project" />
+    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.1.0" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.flywaydb:flyway-core:5.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-all:2.0.0-M24" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-server-integ:2.0.0-M24" level="project" />
     <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core:2.0.0-M24" level="project" />
     <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-interceptors-admin:2.0.0-M24" level="project" />
