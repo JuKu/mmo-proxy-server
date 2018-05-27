@@ -26,6 +26,9 @@ public class LDAPLogin implements LoginService {
     protected int port = 389;
     protected boolean ssl = false;
 
+    protected String user_prefix = "";
+    protected String user_suffix = "";
+
     protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `online` = '1', `last_online` = NOW();");
 
     public LDAPLogin () {
@@ -39,6 +42,8 @@ public class LDAPLogin implements LoginService {
         this.host = section.get("host");
         this.port = getInt(section, "port");
         this.ssl = getBoolean(section, "ssl");
+        this.user_prefix = section.get("user_prefix");
+        this.user_suffix = section.get("user_suffix");
     }
 
     protected int getInt (Profile.Section section, String key) {
@@ -62,8 +67,9 @@ public class LDAPLogin implements LoginService {
             env.put(Context.SECURITY_PROTOCOL, "ssl");
         }
 
-        //TODO: generate userDN
-        String userDn = username;
+        //generate userDN
+        String userDn = this.user_prefix + username.replace(",", "") + this.user_suffix;
+        MMOLogger.info("LDAPLogin", "try to login ldap user: " + userDn);
 
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         env.put(Context.SECURITY_PRINCIPAL, userDn);//example: "cn=S. User, ou=NewHires, o=JNDITutorial"

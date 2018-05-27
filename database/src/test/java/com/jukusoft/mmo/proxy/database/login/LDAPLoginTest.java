@@ -25,11 +25,11 @@ import static org.junit.Assert.assertEquals;
 /**
  * Test using apacheds
  */
-@RunWith(FrameworkRunner.class)
+/*@RunWith(FrameworkRunner.class)
 @CreateLdapServer(transports = { @CreateTransport(protocol = "LDAP") })
 @CreateDS(allowAnonAccess = true, partitions = {
         @CreatePartition(name = "Example Partition", suffix = "dc=example,dc=com") })
-@ApplyLdifFiles("users-import.ldif")
+@ApplyLdifFiles("users-import.ldif")*/
 public class LDAPLoginTest extends AbstractLdapTestUnit {
 
     //https://github.com/zapodot/embedded-ldap-junit
@@ -66,6 +66,9 @@ public class LDAPLoginTest extends AbstractLdapTestUnit {
 
         assertEquals("127.0.0.1", ldapLogin.host);
         assertEquals(389, ldapLogin.port);
+        assertEquals(false, ldapLogin.ssl);
+        assertEquals("cn=", ldapLogin.user_prefix);
+        assertEquals(",dc=powersrv,dc=de", ldapLogin.user_suffix);
     }
 
     /*@Test
@@ -88,7 +91,7 @@ public class LDAPLoginTest extends AbstractLdapTestUnit {
         assertEquals("Santa Claus", searchResult.getSearchEntries().get(0).getAttribute("cn").getValue());
     }*/
 
-    @Test
+    /*@Test
     public void shouldFindAllPersons() throws Exception {
         //https://www.hascode.com/2016/07/ldap-testing-with-java-apacheds-vs-embedded-ldap-junit/
 
@@ -104,7 +107,6 @@ public class LDAPLoginTest extends AbstractLdapTestUnit {
         assertEquals("cn=John Steinbeck", res.next().getName());
         assertEquals("cn=Micha Kops", res.next().getName());
         assertEquals("cn=Santa Claus", res.next().getName());
-
-    }
+    }*/
 
 }
