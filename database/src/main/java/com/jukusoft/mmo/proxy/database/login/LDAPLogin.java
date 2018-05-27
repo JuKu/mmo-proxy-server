@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Hashtable;
 
@@ -30,6 +31,7 @@ public class LDAPLogin implements LoginService {
     protected String user_suffix = "";
 
     protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `online` = '1', `last_online` = NOW();");
+    protected static final String SELECT_QUERY = String.format("SELECT * FROM `mmo_users` WHERE `username` = ?; ");
 
     public LDAPLogin () {
         //
@@ -69,6 +71,7 @@ public class LDAPLogin implements LoginService {
 
         //generate userDN
         String userDn = this.user_prefix + username.replace(",", "") + this.user_suffix;
+        MMOLogger.info("LDAPLogin", "ldap server: " + host + ":" + port);
         MMOLogger.info("LDAPLogin", "try to login ldap user: " + userDn);
 
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
@@ -86,6 +89,8 @@ public class LDAPLogin implements LoginService {
             return 0;
         }
 
+        MMOLogger.info("LDAPLogin", "authorization successful for user '" + userDn + "'!");
+
         try (Connection conn = Database.getConnection()) {
             MMOLogger.info("LDAPLogin", "execute sql query: " + INSERT_QUERY);
 
@@ -96,6 +101,23 @@ public class LDAPLogin implements LoginService {
             stmt.execute();
 
             //get userID
+            stmt = conn.prepareStatement(SELECT_QUERY);
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                //get first element
+                int userID = rs.getInt("userID");
+                int activated = rs.getInt("activated");
+
+                //check, if user is activated
+                if (activated != 1) {
+                    MMOLogger.warn("LDAPLogin", "user '" + username + "' exists but is not activated.");
+                    return 0;
+                }
+
+                return userID;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;

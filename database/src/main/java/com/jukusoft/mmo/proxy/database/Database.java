@@ -10,6 +10,8 @@ import java.sql.SQLException;
 
 public class Database {
 
+    //http://www.baeldung.com/hikaricp
+
     static {
         //load mysql driver
         try {
