@@ -8,6 +8,7 @@ import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.ConnectionState;
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
+import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonObject;
 
@@ -58,12 +59,16 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
                     //TODO: set online state
 
-                    //TODO: send  message back to client
+                    //send  message back to client
+                    Buffer msg = MessageUtils.createLoginResponse(true, userID);
+                    conn.sendToClient(msg);
                 } else {
                     //wrong credentials
                     MMOLogger.warn("Login", "login failed for user '" + username + "'.");
 
-                    //TODO: send  message back to client
+                    //send  message back to client
+                    Buffer msg = MessageUtils.createLoginResponse(false, userID);
+                    conn.sendToClient(msg);
                 }
             } catch (Exception e) {
                 MMOLogger.warn("ClientConnection", "exception while decrypting data", e);
