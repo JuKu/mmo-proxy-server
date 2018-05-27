@@ -1,22 +1,36 @@
 package com.jukusoft.mmo.proxy.database.login;
 
-import com.unboundid.ldap.sdk.LDAPInterface;
-import com.unboundid.ldap.sdk.SearchResult;
-import com.unboundid.ldap.sdk.SearchResultEntry;
-import com.unboundid.ldap.sdk.SearchScope;
-import org.junit.Rule;
+import org.apache.directory.server.annotations.CreateLdapServer;
+import org.apache.directory.server.annotations.CreateTransport;
+import org.apache.directory.server.core.annotations.ApplyLdifFiles;
+import org.apache.directory.server.core.annotations.CreateDS;
+import org.apache.directory.server.core.annotations.CreatePartition;
+import org.apache.directory.server.core.integ.AbstractLdapTestUnit;
+import org.apache.directory.server.core.integ.FrameworkRunner;
+import org.apache.directory.server.integ.ServerIntegrationUtils;
 import org.junit.Test;
-import org.zapodot.junit.ldap.EmbeddedLdapRule;
-import org.zapodot.junit.ldap.EmbeddedLdapRuleBuilder;
+import org.junit.runner.RunWith;
 
+import javax.naming.NamingEnumeration;
+import javax.naming.directory.SearchControls;
+import javax.naming.directory.SearchResult;
+import javax.naming.ldap.Control;
+import javax.naming.ldap.LdapContext;
+import javax.naming.ldap.SortControl;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 
-public class LDAPLoginTest {
+/**
+ * Test using apacheds
+ */
+@RunWith(FrameworkRunner.class)
+@CreateLdapServer(transports = { @CreateTransport(protocol = "LDAP") })
+@CreateDS(allowAnonAccess = true, partitions = {
+        @CreatePartition(name = "Example Partition", suffix = "dc=example,dc=com") })
+@ApplyLdifFiles("users-import.ldif")
+public class LDAPLoginTest extends AbstractLdapTestUnit {
 
     //https://github.com/zapodot/embedded-ldap-junit
 
@@ -30,13 +44,13 @@ public class LDAPLoginTest {
 
     public static final String DOMAIN_DSN = "dc=example,dc=com";
 
-    @Rule
+    /*@Rule
     public EmbeddedLdapRule embeddedLdapRule = EmbeddedLdapRuleBuilder
             .newInstance()
             //.withSchema("schema/core.schema", "schema/cosine.schema", "schema/nis.schema", "schema/inetorgperson.schema")
             .usingDomainDsn("dc=example,dc=com")
             .importingLdifs("example.ldif")
-            .build();
+            .build();*/
 
     @Test
     public void testConstructor () {
@@ -52,7 +66,7 @@ public class LDAPLoginTest {
         assertEquals(389, ldapLogin.port);
     }
 
-    @Test
+    /*@Test
     public void shouldFindAllPersons() throws Exception {
         final LDAPInterface ldapConnection = embeddedLdapRule.ldapConnection();
         final SearchResult searchResult = ldapConnection.search(DOMAIN_DSN, SearchScope.SUB, "(objectClass=person)");
@@ -70,6 +84,23 @@ public class LDAPLoginTest {
                 SearchScope.SUB, "(objectClass=person)");
         assertEquals(1, searchResult.getEntryCount());
         assertEquals("Santa Claus", searchResult.getSearchEntries().get(0).getAttribute("cn").getValue());
+    }*/
+
+    @Test
+    public void shouldFindAllPersons() throws Exception {
+        LdapContext ctx = (LdapContext) ServerIntegrationUtils.getWiredContext(ldapServer, null)
+                .lookup("ou=Users,dc=example,dc=com");
+
+        // we want a sorted result, based on the canonical name
+        ctx.setRequestControls(new Control[] { new SortControl("cn", Control.CRITICAL) });
+
+        NamingEnumeration<SearchResult> res = ctx.search("", "(objectClass=person)", new SearchControls());
+        assertEquals(true, res.hasMore());
+
+        assertEquals("cn=John Steinbeck", res.next().getName());
+        assertEquals("cn=Micha Kops", res.next().getName());
+        assertEquals("cn=Santa Claus", res.next().getName());
+
     }
 
 }
