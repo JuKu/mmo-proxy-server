@@ -94,14 +94,20 @@ public class ServerMain {
 
         IConnectionManager connectionManager = new ConnectionManagerImpl(vertx, keyPair);
 
-        LDAPLogin ldapLogin = new LDAPLogin(new File("./config/ldap.cfg"));
+        LDAPLogin ldapLogin = new LDAPLogin();
+        try {
+            ldapLogin.loadConfig(new File("./config/ldap.cfg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         //add services
         server.addService(connectionManager, IConnectionManager.class);
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
         server.addService(new DummyFirewall(), IFirewall.class);
         server.addService(new DummySessionManager(), ISessionManager.class);
-        server.addService(new LDAPLogin(new File("./config/ldap.cfg")), LoginService.class);
+        server.addService(ldapLogin, LoginService.class);
 
         Utils.printSection("Message Handler");
         log("register message handler...");
