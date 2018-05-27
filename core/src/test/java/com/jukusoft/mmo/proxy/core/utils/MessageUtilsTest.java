@@ -61,6 +61,40 @@ public class MessageUtilsTest {
     }
 
     @Test
+    public void testCreateLoginResponseMessage () throws Exception {
+        Buffer content = MessageUtils.createLoginResponse(false, 1);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int userID = content.getInt(Config.MSG_BODY_OFFSET);
+
+        //userID has to be 0, because login failed
+        assertEquals(0, userID);
+    }
+
+    @Test
+    public void testCreateLoginResponseMessage1 () throws Exception {
+        Buffer content = MessageUtils.createLoginResponse(true, 10);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_LOGIN_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int userID = content.getInt(Config.MSG_BODY_OFFSET);
+
+        //userID has to be 0, because login failed
+        assertEquals(10, userID);
+    }
+
+    @Test
     public void testCreateErrorMsg () {
         Buffer content = MessageUtils.createErrorMsg(Config.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, 200);
 

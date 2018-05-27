@@ -18,9 +18,11 @@ public class ClientConnectionStateTest {
         //user and character ID wasnt set before
         assertEquals(-1, state.getUserID());
         assertEquals(-1, state.getCID());
+        assertEquals(false, state.isLoggedIn());
 
         state.setUserID(1);
         assertEquals(1, state.getUserID());
+        assertEquals(true, state.isLoggedIn());
 
         state.setCID(2);
         assertEquals(2, state.getCID());

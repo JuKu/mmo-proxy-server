@@ -78,7 +78,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
 
         //set logged in
-        conn.loggedIn = true;
+        conn.state.setUserID(1);
 
         //create a message with content
         Buffer content = Buffer.buffer().setByte(0, (byte) 0x03).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);
@@ -90,7 +90,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
 
         //set logged in
-        conn.loggedIn = true;
+        conn.state.setUserID(1);
 
         conn.gsConn = new GSConnection() {
             @Override
@@ -129,7 +129,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
 
         //set logged in
-        conn.loggedIn = true;
+        conn.state.setUserID(1);
 
         conn.gsConn = new GSConnection() {
             @Override
@@ -168,7 +168,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
 
         //set logged in
-        conn.loggedIn = true;
+        conn.state.setUserID(1);
 
         //create a message with content
         Buffer content = Buffer.buffer().setByte(0, (byte) 0xFF).setByte(1, (byte) 0x00).setShort(2, (short) 1).setInt(4, 10).setInt(8, 2);

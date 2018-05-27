@@ -45,7 +45,26 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
                 MMOLogger.info("Login", "try to login user '" + username + "'...");
 
-                //TODO: get login service and login
+                int userID = loginService.login(username, password);
+
+                if (userID != 0) {
+                    //login successfully
+                    MMOLogger.info("Login", "login successful for user '" + username + "'.");
+
+                    //update state
+                    state.setUserID(userID);
+
+                    //TODO: update ip in database
+
+                    //TODO: set online state
+
+                    //TODO: send  message back to client
+                } else {
+                    //wrong credentials
+                    MMOLogger.warn("Login", "login failed for user '" + username + "'.");
+
+                    //TODO: send  message back to client
+                }
             } catch (Exception e) {
                 MMOLogger.warn("ClientConnection", "exception while decrypting data", e);
             }

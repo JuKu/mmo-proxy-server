@@ -53,6 +53,20 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createLoginResponse (boolean success, int userID) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Config.MSG_TYPE_AUTH);
+        content.setByte(1, Config.MSG_EXTENDED_TYPE_LOGIN_RESPONSE);
+        content.setShort(2, Config.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        //set length of public key
+        content.setInt(Config.MSG_BODY_OFFSET, (success ? userID : 0));
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 

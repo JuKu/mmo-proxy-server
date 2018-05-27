@@ -23,9 +23,6 @@ public class ClientConnection {
 
     protected int abusedMsgCount = 0;
 
-    //flag, if user is logged in
-    protected volatile boolean loggedIn = false;
-
     //selected character id
     protected volatile int cid = -1;
 
@@ -83,7 +80,7 @@ public class ClientConnection {
         if (Config.MSG_REDIRECT_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
             //first check, if user is logged in
 
-            if (!this.loggedIn) {
+            if (!this.isLoggedIn()) {
                 //drop message
                 MMOLogger.warn(Config.LOG_TAG_CLIENT_CONNECTION, "Dropped message 0x" + ByteUtils.byteToHex(type) + " because client (" + this.connID + ") isnt logged in!");
 
@@ -282,7 +279,7 @@ public class ClientConnection {
     }
 
     public boolean isLoggedIn () {
-        return this.loggedIn;
+        return this.state.isLoggedIn();
     }
 
     public int countBackendConnections () {

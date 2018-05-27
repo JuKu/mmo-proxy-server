@@ -2,7 +2,7 @@ package com.jukusoft.mmo.proxy.core.service.connection;
 
 public class ConnectionState {
 
-    protected int userID = -1;
+    protected volatile int userID = -1;
 
     //character id
     protected int cid = -1;
@@ -25,6 +25,10 @@ public class ConnectionState {
 
     public void setCID (int cid) {
         this.cid = cid;
+    }
+
+    public boolean isLoggedIn () {
+        return this.userID > 0;
     }
 
 }
