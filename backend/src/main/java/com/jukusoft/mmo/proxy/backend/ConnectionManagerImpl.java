@@ -1,10 +1,15 @@
 package com.jukusoft.mmo.proxy.backend;
 
+import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.ClientConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
+import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
+import io.netty.util.collection.IntObjectHashMap;
+import io.netty.util.collection.IntObjectMap;
 import io.vertx.core.Vertx;
+import io.vertx.core.buffer.Buffer;
 import io.vertx.core.eventbus.DeliveryOptions;
 import io.vertx.core.eventbus.EventBus;
 
@@ -27,6 +32,8 @@ public class ConnectionManagerImpl implements IConnectionManager {
     protected List<ClientConnection> allClientConnections = new ArrayList<>();
     protected final KeyPair keyPair;
 
+    protected final MessageHandler<Buffer>[] handlerMap = new MessageHandler[256];
+
     /**
     * default constructor
      *
@@ -42,6 +49,11 @@ public class ConnectionManagerImpl implements IConnectionManager {
 
         //set timeout of one second
         this.deliveryOptions.setSendTimeout(1000);
+
+        //initialize array
+        for (int i = 0; i < handlerMap.length; i++) {
+            handlerMap[i] = null;
+        }
     }
 
     @Override
@@ -95,6 +107,22 @@ public class ConnectionManagerImpl implements IConnectionManager {
     @Override
     public KeyPair getKeyPair() {
         return this.keyPair;
+    }
+
+    @Override
+    public void addProxyMessageHandler(byte type, MessageHandler<Buffer> handler) {
+        int typeInt = ByteUtils.byteToUnsignedInt(type);
+
+        if (this.handlerMap[typeInt] != null) {
+            throw new IllegalStateException("handler is already registered for type 0x" + ByteUtils.byteToHex(type));
+        }
+
+        this.handlerMap[typeInt] = handler;
+    }
+
+    @Override
+    public MessageHandler<Buffer> getProxyHandler(byte type, byte extendedType, short version) {
+        return this.handlerMap[ByteUtils.byteToUnsignedInt(type)];
     }
 
 }

@@ -8,7 +8,9 @@ import com.jukusoft.mmo.proxy.backend.ConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.backend.GSConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.core.ProxyServer;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
+import com.jukusoft.mmo.proxy.core.handler.impl.AuthHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
+import com.jukusoft.mmo.proxy.core.login.LoginService;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
@@ -18,6 +20,7 @@ import com.jukusoft.mmo.proxy.core.utils.Utils;
 import com.jukusoft.mmo.proxy.database.DatabaseUpgrader;
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
 import com.jukusoft.mmo.proxy.database.firewall.DummyFirewall;
+import com.jukusoft.mmo.proxy.database.login.LDAPLogin;
 import com.jukusoft.mmo.proxy.database.session.DummySessionManager;
 import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
@@ -89,11 +92,18 @@ public class ServerMain {
         log("Create proxy server instance...");
         ProxyServer server = new ProxyServer();
 
+        IConnectionManager connectionManager = new ConnectionManagerImpl(vertx, keyPair);
+
         //add services
-        server.addService(new ConnectionManagerImpl(vertx, keyPair), IConnectionManager.class);
+        server.addService(connectionManager, IConnectionManager.class);
         server.addService(new GSConnectionManagerImpl(vertx), GSConnectionManager.class);
         server.addService(new DummyFirewall(), IFirewall.class);
         server.addService(new DummySessionManager(), ISessionManager.class);
+        server.addService(new LDAPLogin(), LoginService.class);
+
+        Utils.printSection("Message Handler");
+        log("register message handler...");
+        connectionManager.addProxyMessageHandler(com.jukusoft.mmo.proxy.core.config.Config.MSG_TYPE_AUTH, new AuthHandler(server.getService(LoginService.class), keyPair));
 
         Utils.printSection("Frontend");
 

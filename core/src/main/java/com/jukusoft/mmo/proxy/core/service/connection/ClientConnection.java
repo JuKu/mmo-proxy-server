@@ -1,8 +1,8 @@
 package com.jukusoft.mmo.proxy.core.service.connection;
 
 import com.jukusoft.mmo.proxy.core.config.Config;
+import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
-import com.jukusoft.mmo.proxy.core.login.LoginService;
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
@@ -227,11 +227,12 @@ public class ClientConnection {
         }
 
         byte type = content.getByte(0);
-        byte extendedByte = content.getByte(1);
+        byte extendedType = content.getByte(1);
+        short protocolVersion = content.getShort(2);
 
         //check, if message is RTT message
         if (type == Config.MSG_TYPE_PROXY) {
-            if (extendedByte == Config.MSG_EXTENDED_TYPE_RTT) {
+            if (extendedType == Config.MSG_EXTENDED_TYPE_RTT) {
                 //MMOLogger.info("ClientConnection", "RTT message received");
 
                 //send RTT response to client
@@ -239,7 +240,7 @@ public class ClientConnection {
                 this.sendToClient(msg);
 
                 return;
-            } else if (extendedByte == Config.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST) {
+            } else if (extendedType == Config.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST) {
                 MMOLogger.info("ClientConnection", "received RSA public key request.");
 
                 //get key pair
@@ -254,37 +255,18 @@ public class ClientConnection {
             }
 
             MMOLogger.info("ClientConnection", "no handler for special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
-        } else if (type == Config.MSG_TYPE_AUTH) {
-            if (extendedByte == Config.MSG_EXTENDED_TYPE_LOGIN_REQUEST) {
-                MMOLogger.info("ClientConnection", "login request received.");
+        }
 
-                //get key pair
-                KeyPair keyPair = this.manager.getKeyPair();
-                PrivateKey privateKey = keyPair.getPrivate();
+        //get handler
+        MessageHandler<Buffer> handler = this.manager.getProxyHandler(type, extendedType, protocolVersion);
 
-                //decrypt data
-                int length = content.getInt(Config.MSG_BODY_OFFSET);
-                byte[] encrypted = content.getBytes(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
-                try {
-                    String jsonStr = EncryptionUtils.decrypt(privateKey, encrypted);
-                    JsonObject json = new JsonObject(jsonStr);
-
-                    //get username and password
-                    String username = json.getString("username");
-                    String password = json.getString("password");
-
-                    //TODO: get login service and login
-                } catch (Exception e) {
-                    MMOLogger.warn("ClientConnection", "exception while decrypting data", e);
-                }
-
-                return;
-            }
-
-            MMOLogger.info("ClientConnection", "no handler for authorization proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
+        if (handler == null) {
+            MMOLogger.warn("ClientConnection", "no proxy handler specified for type 0x" + ByteUtils.byteToHex(content.getByte(0)));
+            return;
         }
 
         MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
+        handler.handle(content, type, extendedType, this, this.state);
     }
 
     public ConnectionState getState () {
