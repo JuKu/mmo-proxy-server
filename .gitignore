@@ -8,6 +8,7 @@
 *.cfg
 !*.example.cfg
 !*travis.mysql.cfg
+!*travis.*.cfg
 
 ### Eclipse ###
 
