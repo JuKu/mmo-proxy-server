@@ -21,6 +21,7 @@ public class Database {
         }
     }
 
+    protected static MySQLConfig mySQLConfig = null;
     protected static HikariDataSource dataSource = null;
 
     protected Database() {
@@ -28,6 +29,8 @@ public class Database {
     }
 
     public static void init (MySQLConfig mySQLConfig) {
+        Database.mySQLConfig = mySQLConfig;
+
         MMOLogger.info("Database", "connect to mysql database: " + mySQLConfig.getJDBCUrl());
 
         HikariConfig config = new HikariConfig();
@@ -63,6 +66,10 @@ public class Database {
 
     public static void close () {
         dataSource.close();
+    }
+
+    public static String replacePrefix (String query) {
+        return query.replace("{prefix}", mySQLConfig.getPrefix());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.jukusoft.mmo.proxy.core.handler.impl;
 
-import com.jukusoft.mmo.proxy.core.character.CharacterSlotsService;
+import com.jukusoft.mmo.proxy.core.character.ICharacterService;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
@@ -11,7 +11,6 @@ import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.security.KeyPair;
@@ -20,12 +19,12 @@ import java.security.PrivateKey;
 public class AuthHandler implements MessageHandler<Buffer> {
 
     protected final LoginService loginService;
-    protected final CharacterSlotsService characterSlotsService;
+    protected final ICharacterService characterService;
     protected final KeyPair keyPair;
 
-    public AuthHandler (LoginService loginService, CharacterSlotsService characterSlotsService, KeyPair keyPair) {
+    public AuthHandler (LoginService loginService, ICharacterService characterService, KeyPair keyPair) {
         this.loginService = loginService;
-        this.characterSlotsService = characterSlotsService;
+        this.characterService = characterService;
         this.keyPair = keyPair;
     }
 
@@ -87,7 +86,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
             MMOLogger.info("AuthHandler", "send character slots response to client.");
 
             //send response
-            Buffer msg = MessageUtils.createCharacterListResponse(this.characterSlotsService.listSlotsOfUser(state.getUserID()));
+            Buffer msg = MessageUtils.createCharacterListResponse(this.characterService.listSlotsOfUser(state.getUserID()));
             conn.sendToClient(msg);
 
         } else {

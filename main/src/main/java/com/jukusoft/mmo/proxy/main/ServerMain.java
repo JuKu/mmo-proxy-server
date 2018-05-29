@@ -7,6 +7,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.jukusoft.mmo.proxy.backend.ConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.backend.GSConnectionManagerImpl;
 import com.jukusoft.mmo.proxy.core.ProxyServer;
+import com.jukusoft.mmo.proxy.core.character.ICharacterService;
 import com.jukusoft.mmo.proxy.core.frontend.IFrontend;
 import com.jukusoft.mmo.proxy.core.handler.impl.AuthHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
@@ -19,6 +20,7 @@ import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.Utils;
 import com.jukusoft.mmo.proxy.database.Database;
 import com.jukusoft.mmo.proxy.database.DatabaseUpgrader;
+import com.jukusoft.mmo.proxy.database.character.CharacterService;
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
 import com.jukusoft.mmo.proxy.database.firewall.DummyFirewall;
 import com.jukusoft.mmo.proxy.database.login.LDAPLogin;
@@ -116,10 +118,11 @@ public class ServerMain {
         server.addService(new DummyFirewall(), IFirewall.class);
         server.addService(new DummySessionManager(), ISessionManager.class);
         server.addService(ldapLogin, LoginService.class);
+        server.addService(new CharacterService(), ICharacterService.class);
 
         Utils.printSection("Message Handler");
         log("register message handler...");
-        connectionManager.addProxyMessageHandler(com.jukusoft.mmo.proxy.core.config.Config.MSG_TYPE_AUTH, new AuthHandler(server.getService(LoginService.class), keyPair));
+        connectionManager.addProxyMessageHandler(com.jukusoft.mmo.proxy.core.config.Config.MSG_TYPE_AUTH, new AuthHandler(server.getService(LoginService.class), server.getService(ICharacterService.class), keyPair));
 
         Utils.printSection("Frontend");
 

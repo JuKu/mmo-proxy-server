@@ -99,4 +99,14 @@ public class CharacterSlot {
         return new CharacterSlot(10, "name", GENDER.FEMALE, "skinColor", "hairColor", "hairStyle", "beart");
     }
 
+    public static CharacterSlot createFromJson (int cid, String name, JsonObject json) {
+        GENDER gender = (json.getString("gender").equals("male") ? GENDER.MALE : GENDER.FEMALE);
+        String skinColor = json.getString("skinColor");
+        String hairColor = json.getString("hairColor");
+        String hairStyle = json.getString("hairStyle");
+        String beart = json.getString("beart");
+
+        return new CharacterSlot(cid, name, gender, skinColor, hairColor, hairStyle, beart);
+    }
+
 }
