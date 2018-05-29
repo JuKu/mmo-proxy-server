@@ -30,7 +30,7 @@ public class LDAPLogin implements LoginService {
     protected String user_prefix = "";
     protected String user_suffix = "";
 
-    protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `online` = '1', `last_online` = NOW();");
+    protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `ip` = ?, `online` = '1', `last_online` = NOW();");
     protected static final String SELECT_QUERY = String.format("SELECT * FROM `mmo_users` WHERE `username` = ?; ");
 
     public LDAPLogin () {
@@ -98,6 +98,7 @@ public class LDAPLogin implements LoginService {
             PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY);
             stmt.setString(1, username);
             stmt.setString(2, ip);
+            stmt.setString(3, ip);
             stmt.execute();
 
             //get userID
