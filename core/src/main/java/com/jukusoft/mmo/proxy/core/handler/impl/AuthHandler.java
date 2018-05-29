@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.proxy.core.handler.impl;
 
+import com.jukusoft.mmo.proxy.core.character.CharacterSlotsService;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
@@ -10,6 +11,7 @@ import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 import java.security.KeyPair;
@@ -18,17 +20,19 @@ import java.security.PrivateKey;
 public class AuthHandler implements MessageHandler<Buffer> {
 
     protected final LoginService loginService;
+    protected final CharacterSlotsService characterSlotsService;
     protected final KeyPair keyPair;
 
-    public AuthHandler (LoginService loginService, KeyPair keyPair) {
+    public AuthHandler (LoginService loginService, CharacterSlotsService characterSlotsService, KeyPair keyPair) {
         this.loginService = loginService;
+        this.characterSlotsService = characterSlotsService;
         this.keyPair = keyPair;
     }
 
     @Override
     public void handle(Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
         if (extendedType == Config.MSG_EXTENDED_TYPE_LOGIN_REQUEST) {
-            MMOLogger.info("ClientConnection", "login request received.");
+            MMOLogger.info("AuthHandler", "login request received.");
 
             //get private key for decryption
             PrivateKey privateKey = keyPair.getPrivate();
@@ -55,10 +59,6 @@ public class AuthHandler implements MessageHandler<Buffer> {
                     //update state
                     state.setUserID(userID);
 
-                    //TODO: update ip in database
-
-                    //TODO: set online state
-
                     //send  message back to client
                     Buffer msg = MessageUtils.createLoginResponse(true, userID);
                     conn.sendToClient(msg);
@@ -75,6 +75,21 @@ public class AuthHandler implements MessageHandler<Buffer> {
             }
 
             return;
+        } else if (extendedType == Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST) {
+            MMOLogger.info("AuthHandler", "character slots request received.");
+
+            //first, check if user is logged in
+            if (!state.isLoggedIn()) {
+                MMOLogger.warn("AuthHandler", "Cannot send character slots, because user isnt logged in.");
+                return;
+            }
+
+            MMOLogger.info("AuthHandler", "send character slots response to client.");
+
+            //send response
+            Buffer msg = MessageUtils.createCharacterListResponse(this.characterSlotsService.listSlotsOfUser(state.getUserID()));
+            conn.sendToClient(msg);
+
         } else {
             MMOLogger.warn("AuthHandler", "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
         }

@@ -1,9 +1,13 @@
 package com.jukusoft.mmo.proxy.core.utils;
 
+import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 
 import java.security.PublicKey;
+import java.util.List;
 
 public class MessageUtils {
 
@@ -63,6 +67,25 @@ public class MessageUtils {
 
         //set length of public key
         content.setInt(Config.MSG_BODY_OFFSET, (success ? userID : 0));
+
+        return content;
+    }
+
+    public static Buffer createCharacterListResponse (List<CharacterSlot> list) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Config.MSG_TYPE_AUTH);
+        content.setByte(1, Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE);
+        content.setShort(2, Config.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        JsonObject json = new JsonObject();
+        JsonArray array = new JsonArray();
+
+        json.put("slots", array);
+
+        //convert json object to string
+        String jsonStr = json.encode();
 
         return content;
     }
