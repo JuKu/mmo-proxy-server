@@ -1,11 +1,16 @@
 package com.jukusoft.mmo.proxy.core.utils;
 
+import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import io.vertx.core.buffer.Buffer;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import org.junit.Test;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -92,6 +97,73 @@ public class MessageUtilsTest {
 
         //userID has to be 0, because login failed
         assertEquals(10, userID);
+    }
+
+    @Test
+    public void testCreateCharacterListResponseMessage () throws Exception {
+        //empty slots
+        Buffer content = MessageUtils.createCharacterListResponse(new ArrayList<>());
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int length = content.getInt(Config.MSG_BODY_OFFSET);
+        String jsonStr = content.getString(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+
+        JsonObject json = new JsonObject(jsonStr);
+        JsonArray array = json.getJsonArray("slots");
+        assertEquals(0, array.size());
+    }
+
+    @Test
+    public void testCreateCharacterListResponseMessage1 () throws Exception {
+        List<CharacterSlot> slots = new ArrayList<>();
+        slots.add(CharacterSlot.createDummyMaleCharacterSlot());
+
+        //empty slots
+        Buffer content = MessageUtils.createCharacterListResponse(slots);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int length = content.getInt(Config.MSG_BODY_OFFSET);
+        String jsonStr = content.getString(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+
+        JsonObject json = new JsonObject(jsonStr);
+        JsonArray array = json.getJsonArray("slots");
+        assertEquals(1, array.size());
+    }
+
+    @Test
+    public void testCreateCharacterListResponseMessage2 () throws Exception {
+        List<CharacterSlot> slots = new ArrayList<>();
+        slots.add(CharacterSlot.createDummyMaleCharacterSlot());
+        slots.add(CharacterSlot.createDummyFemaleCharacterSlot());
+
+        //empty slots
+        Buffer content = MessageUtils.createCharacterListResponse(slots);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //check content
+        int length = content.getInt(Config.MSG_BODY_OFFSET);
+        String jsonStr = content.getString(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+
+        JsonObject json = new JsonObject(jsonStr);
+        JsonArray array = json.getJsonArray("slots");
+        assertEquals(2, array.size());
     }
 
     @Test

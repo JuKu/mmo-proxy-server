@@ -91,4 +91,12 @@ public class CharacterSlot {
         return json;
     }
 
+    public static CharacterSlot createDummyMaleCharacterSlot () {
+        return new CharacterSlot(10, "name", GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart");
+    }
+
+    public static CharacterSlot createDummyFemaleCharacterSlot () {
+        return new CharacterSlot(10, "name", GENDER.FEMALE, "skinColor", "hairColor", "hairStyle", "beart");
+    }
+
 }

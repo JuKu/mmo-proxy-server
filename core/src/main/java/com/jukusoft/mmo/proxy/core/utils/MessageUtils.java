@@ -82,10 +82,18 @@ public class MessageUtils {
         JsonObject json = new JsonObject();
         JsonArray array = new JsonArray();
 
+        for (CharacterSlot slot : list) {
+            JsonObject json1 = slot.toJson();
+            array.add(json1);
+        }
+
         json.put("slots", array);
 
         //convert json object to string
         String jsonStr = json.encode();
+
+        content.setInt(Config.MSG_BODY_OFFSET, jsonStr.length());
+        content.setString(Config.MSG_BODY_OFFSET + 4, jsonStr);
 
         return content;
     }
