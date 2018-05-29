@@ -126,6 +126,8 @@ public class LDAPLogin implements LoginService {
         return 0;
     }
 
+    //http://www.deepakgaikwad.net/index.php/2009/09/24/retrieve-basic-user-attributes-from-active-directory-using-ldap-in-java.html
+
     /*private User getUserBasicAttributes(String username, LdapContext ctx) {
         User user=null;
         try {
