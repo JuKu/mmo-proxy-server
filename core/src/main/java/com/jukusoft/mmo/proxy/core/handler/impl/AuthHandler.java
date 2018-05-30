@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.proxy.core.handler.impl;
 
+import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.character.ICharacterService;
 import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
@@ -89,9 +90,37 @@ public class AuthHandler implements MessageHandler<Buffer> {
             Buffer msg = MessageUtils.createCharacterListResponse(this.characterService.listSlotsOfUser(state.getUserID()));
             conn.sendToClient(msg);
 
+        } else if (extendedType == Config.MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST) {
+            //create character request
+            this.handleCreateCharacterRequest(content, type, extendedType, conn, state);
         } else {
             MMOLogger.warn("AuthHandler", "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
         }
+    }
+
+    protected void handleCreateCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
+        MMOLogger.info("AuthHandler", "received create character request");
+
+        //first, check if user is logged in
+        if (!state.isLoggedIn()) {
+            MMOLogger.warn("AuthHandler", "Cannot create character, because user isnt logged in.");
+            return;
+        }
+
+        int length = content.getInt(Config.MSG_BODY_OFFSET);
+        String jsonStr = content.getString(Config.MSG_BODY_OFFSET + 4, Config.MSG_BODY_OFFSET + 4 + length);
+        JsonObject json = new JsonObject(jsonStr);
+        String name = json.getString("name");
+
+        //convert json object to character
+        CharacterSlot slot = CharacterSlot.createFromJson(Integer.MAX_VALUE, name, json);
+
+        //try to create character
+        this.characterService.createCharacter(slot, state.getUserID(), resultCode -> {
+            //send response back to client
+            Buffer msg = MessageUtils.createCharacterResponse(resultCode);
+            conn.sendToClient(msg);
+        });
     }
 
 }

@@ -167,6 +167,20 @@ public class MessageUtilsTest {
     }
 
     @Test
+    public void testCreateCharacterResponseMessage () {
+        Buffer content = MessageUtils.createCharacterResponse(20);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //result code
+        assertEquals(20, content.getInt(Config.MSG_BODY_OFFSET));
+    }
+
+    @Test
     public void testCreateErrorMsg () {
         Buffer content = MessageUtils.createErrorMsg(Config.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, 200);
 

@@ -98,6 +98,19 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createCharacterResponse (int resultCode) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Config.MSG_TYPE_AUTH);
+        content.setByte(1, Config.MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE);
+        content.setShort(2, Config.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        content.setInt(Config.MSG_BODY_OFFSET, resultCode);
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 
