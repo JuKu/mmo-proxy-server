@@ -54,6 +54,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
       * 0x02 login response from proxy to client
       * 0x03 request list of my characters (only if logged in, client --> proxy)
       * 0x04 list with characters response (only, if logged in, proxy --> client)
+      * 0x05 create character request (only, if logged in, client --> proxy)
+      * 0x06 create character response (only, if logged in, proxy --> client)
   - 0x03 movement (if connection failes between proxy - game server, this messages will be dropped)
   - 0x04 update / version (version information, check client compatibility and so on)
   - 0x05 chat
