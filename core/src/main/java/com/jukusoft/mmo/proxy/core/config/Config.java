@@ -82,6 +82,8 @@ public class Config {
     public static final byte MSG_EXTENDED_TYPE_LOGIN_RESPONSE = 0x02;
     public static final byte MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST = 0x03;
     public static final byte MSG_EXTENDED_TYPE_LIST_CHARACTERS_RESPONSE = 0x04;
+    public static final byte MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST = 0x05;
+    public static final byte MSG_EXTENDED_TYPE_CREATE_CHARACTER_RESPONSE = 0x06;
 
     public static final byte MSG_TYPE_ERROR = 0x0B;
 
