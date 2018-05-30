@@ -12,15 +12,6 @@ public class Database {
 
     //http://www.baeldung.com/hikaricp
 
-    static {
-        //load mysql driver
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     protected static MySQLConfig mySQLConfig = null;
     protected static HikariDataSource dataSource = null;
 
