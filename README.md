@@ -89,6 +89,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 ## Server Architecture
 
 ![Server Architecture](./images/server_architecture.png)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FJuKu%2Fmmo-proxy-server?ref=badge_shield)
 
 Thanks to [noctarius](https://github.com/noctarius) for his many advices (not every advice is shown in this image)!
 
