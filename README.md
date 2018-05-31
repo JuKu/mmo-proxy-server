@@ -32,6 +32,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
 
 ## Network Protocol
 
+  - 1 integer package size (**will be removed from payload data**)
   - 1 byte type
   - 1 byte extendedType (will not be parsed by proxy server
   - 1 short (2 byte) version (protocol version)
