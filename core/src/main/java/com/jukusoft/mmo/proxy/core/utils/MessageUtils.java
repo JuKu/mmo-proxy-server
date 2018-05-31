@@ -2,6 +2,7 @@ package com.jukusoft.mmo.proxy.core.utils;
 
 import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.config.Config;
+import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
@@ -92,8 +93,12 @@ public class MessageUtils {
         //convert json object to string
         String jsonStr = json.encode();
 
+        MMOLogger.info("MessageUtils", "createCharacterListResponse: " + jsonStr);
+
         content.setInt(Config.MSG_BODY_OFFSET, jsonStr.length());
         content.setString(Config.MSG_BODY_OFFSET + 4, jsonStr);
+
+        MMOLogger.info("MessageUtils", "createCharacterListResponse length: " + content.length());
 
         return content;
     }
