@@ -134,6 +134,9 @@ public class TCPFrontend implements IFrontend {
                 });
 
                 bufferStream.endHandler(v -> closeConnection(socket, conn, sessionManager, session, connectionManager));
+
+                //resume reading data
+                bufferStream.resume();
             });
 
             //start server
