@@ -10,6 +10,7 @@ import com.jukusoft.mmo.proxy.core.service.connection.IConnectionManager;
 import com.jukusoft.mmo.proxy.core.service.session.ISessionManager;
 import com.jukusoft.mmo.proxy.core.service.firewall.IFirewall;
 import com.jukusoft.mmo.proxy.core.service.session.Session;
+import com.jukusoft.mmo.proxy.core.stream.BufferStream;
 import io.vertx.core.Vertx;
 import io.vertx.core.net.NetServer;
 import io.vertx.core.net.NetServerOptions;
@@ -71,6 +72,12 @@ public class TCPFrontend implements IFrontend {
             NetServer server = this.vertx.createNetServer(options);
 
             server.connectHandler(socket -> {
+                //create buffer stream
+                BufferStream bufferStream = new BufferStream(socket, socket);
+
+                //pause reading data
+                bufferStream.pause();
+
                 //get firewall service
                 IFirewall firewall = proxyServer.getService(IFirewall.class);
 
@@ -88,6 +95,7 @@ public class TCPFrontend implements IFrontend {
                     MMOLogger.log(Level.WARNING, "ip '" + ip + "' has tried to connect to server, but is blacklisted by firewall, so connection was refused.");
 
                     //close socket
+                    bufferStream.end();
                     socket.close();
 
                     return;
@@ -102,6 +110,7 @@ public class TCPFrontend implements IFrontend {
                 //add connection to connection manager
                 connectionManager.addConnection(ip, clientPort, conn, proxyServer.getService(GSConnectionManager.class));
 
+                //set receiver which sends message to client
                 conn.setReceiver(buffer -> {
                     if (buffer.getByte(0) == Config.MSG_CLOSE_CONN) {
                         //close socket
@@ -111,10 +120,10 @@ public class TCPFrontend implements IFrontend {
                     }
 
                     //send message to client
-                    socket.write(buffer);
+                    bufferStream.write(buffer);
                 });
 
-                socket.handler(buffer -> {
+                bufferStream.handler(buffer -> {
                     //avoid logging rtt messages to reduce spam in logs
                     if (buffer.getByte(0) != Config.MSG_TYPE_PROXY && buffer.getByte(1) != Config.MSG_EXTENDED_TYPE_RTT) {
                         //message was received from client
@@ -124,7 +133,7 @@ public class TCPFrontend implements IFrontend {
                     conn.receive(buffer);
                 });
 
-                socket.closeHandler(v -> closeConnection(socket, conn, sessionManager, session, connectionManager));
+                bufferStream.endHandler(v -> closeConnection(socket, conn, sessionManager, session, connectionManager));
             });
 
             //start server
