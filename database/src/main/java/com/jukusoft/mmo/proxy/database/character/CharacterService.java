@@ -20,9 +20,9 @@ public class CharacterService implements ICharacterService {
     protected static final String SELECT_MY_CHARACTERS = "SELECT * FROM `{prefix}characters` WHERE `userID` = ?; ";
     protected static final String SELECT_CHARACTER_NAMES = "SELECT * FROM `{prefix}characters` WHERE `name` = ?; ";
     protected static final String INSERT_CHARACTER = "INSERT INTO `{prefix}characters` (" +
-            "   `cid`, `name`, `type`, `userID`, `data`, `current_regionID`, `first_game`, `pos_x`, `pos_y`, `pos_z`, `auto_join`, `visible`" +
+            "   `cid`, `name`, `type`, `userID`, `data`, `current_regionID`, `instanceID`, `first_game`, `pos_x`, `pos_y`, `pos_z`, `auto_join`, `visible`, `activated`" +
             ") VALUES (" +
-            "   NULL, ?, 'PLAYER', ?, ?, ?, '1', '-1', '-1', '-1', '0', '1'" +
+            "   NULL, ?, 'PLAYER', ?, ?, ?, ?, '1', '-1', '-1', '-1', '0', '1', '1'" +
             "); ";
 
     public enum CREATE_CHARACTER_RESULT_CODES {
@@ -40,7 +40,9 @@ public class CharacterService implements ICharacterService {
         /**
         * character name is invalide
         */
-        INVALIDE_NAME(3);
+        INVALIDE_NAME(3),
+
+        INTERNAL_SERVER_ERROR(4);
 
         private final int resultCode;
 
@@ -114,7 +116,14 @@ public class CharacterService implements ICharacterService {
         }
 
         //create character
-        this.create(character, userID);
+        try {
+            this.create(character, userID);
+        } catch (SQLException e) {
+            MMOLogger.warn("CharacterService", "SQLException while trying to create character.", e);
+            handler.handle(CREATE_CHARACTER_RESULT_CODES.INTERNAL_SERVER_ERROR.getValue());
+
+            return;
+        }
 
         handler.handle(CREATE_CHARACTER_RESULT_CODES.SUCCESS.getValue());
     }
@@ -134,10 +143,20 @@ public class CharacterService implements ICharacterService {
         }
     }
 
-    protected void create (CharacterSlot character, int userID) {
-        //TODO: search for start region for this race
+    protected void create (CharacterSlot character, int userID) throws SQLException {
+        //create character in database
+        try (Connection conn = Database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(INSERT_CHARACTER));
+            stmt.setString(1, character.getName());
+            stmt.setInt(2, userID);
+            stmt.setString(3, character.toJson().encode());
 
-        //TODO: create character here
+            //region & instance id, -1 so it will be set from proxy server automatically
+            stmt.setInt(4, -1);
+            stmt.setInt(5, -1);
+
+            stmt.executeUpdate();
+        }
     }
 
 }
