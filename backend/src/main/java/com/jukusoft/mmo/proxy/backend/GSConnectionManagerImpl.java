@@ -5,6 +5,7 @@ import com.jukusoft.mmo.proxy.core.config.Config;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
+import com.jukusoft.mmo.proxy.core.stream.BufferStream;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -72,11 +73,20 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
 
                 NetSocket socket = res.result();
 
+                //create new buffer stream
+                BufferStream bufferStream = new BufferStream(socket, socket);
+
+                //pause reading data while registering handlers
+                bufferStream.pause();
+
                 //create new gs connection
-                GSConnectionImpl conn = new GSConnectionImpl(client, socket);
+                GSConnectionImpl conn = new GSConnectionImpl(client, bufferStream, socket);
 
                 //initialize client
                 conn.init();
+
+                //resume reading data
+                bufferStream.resume();
 
                 handler.handle(conn);
             } else {
