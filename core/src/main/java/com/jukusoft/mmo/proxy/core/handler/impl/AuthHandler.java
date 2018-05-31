@@ -117,6 +117,8 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
         //try to create character
         this.characterService.createCharacter(slot, state.getUserID(), resultCode -> {
+            MMOLogger.info("AuthHandler", "send create character result code: " + resultCode);
+
             //send response back to client
             Buffer msg = MessageUtils.createCharacterResponse(resultCode);
             conn.sendToClient(msg);
