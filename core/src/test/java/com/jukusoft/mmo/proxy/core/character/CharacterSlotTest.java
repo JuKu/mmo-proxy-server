@@ -63,4 +63,23 @@ public class CharacterSlotTest {
         assertEquals("beart", json.getString("beart"));
     }
 
+    @Test
+    public void testCreateFromJson () {
+        JsonObject json = new JsonObject();
+        json.put("gender", "female");
+        json.put("skinColor", "skinColor");
+        json.put("hairColor", "hairColor");
+        json.put("hairStyle", "hairStyle");
+        json.put("beart", "beart");
+
+        CharacterSlot slot = CharacterSlot.createFromJson(10, "name", json);
+        assertEquals(10, slot.getCID());
+        assertEquals("name", slot.getName());
+        assertEquals(CharacterSlot.GENDER.FEMALE, slot.getGender());
+        assertEquals("skinColor", slot.getSkinColor());
+        assertEquals("hairColor", slot.getHairColor());
+        assertEquals("hairStyle", slot.getHairStyle());
+        assertEquals("beart", slot.getBeart());
+    }
+
 }
