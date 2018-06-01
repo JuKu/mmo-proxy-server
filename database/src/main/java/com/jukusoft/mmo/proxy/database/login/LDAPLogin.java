@@ -91,48 +91,40 @@ public class LDAPLogin implements LoginService {
 
         MMOLogger.info("LDAPLogin", "authorization successful for user '" + userDn + "'!");
 
-        PreparedStatement stmt = null;
-
         try (Connection conn = Database.getConnection()) {
             MMOLogger.info("LDAPLogin", "execute sql query: " + INSERT_QUERY);
 
-            //insert user, if absent
-            stmt = conn.prepareStatement(INSERT_QUERY);
-            stmt.setString(1, username);
-            stmt.setString(2, ip);
-            stmt.setString(3, ip);
-            stmt.execute();
-            stmt.close();
-
-            //get userID
-            stmt = conn.prepareStatement(SELECT_QUERY);
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                //get first element
-                int userID = rs.getInt("userID");
-                int activated = rs.getInt("activated");
-
-                //check, if user is activated
-                if (activated != 1) {
-                    MMOLogger.warn("LDAPLogin", "user '" + username + "' exists but is not activated.");
-                    return 0;
-                }
-
-                return userID;
+            try (PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY)) {
+                //insert user, if absent
+                stmt.setString(1, username);
+                stmt.setString(2, ip);
+                stmt.setString(3, ip);
+                stmt.execute();
             }
 
-            rs.close();
+            try (PreparedStatement stmt = conn.prepareStatement(SELECT_QUERY)) {
+                //get userID
+                stmt.setString(1, username);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    while (rs.next()) {
+                        //get first element
+                        int userID = rs.getInt("userID");
+                        int activated = rs.getInt("activated");
+
+                        //check, if user is activated
+                        if (activated != 1) {
+                            MMOLogger.warn("LDAPLogin", "user '" + username + "' exists but is not activated.");
+                            return 0;
+                        }
+
+                        return userID;
+                    }
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
-        } finally {
-            try {
-                stmt.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return 0;
