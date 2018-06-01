@@ -66,29 +66,31 @@ public class CharacterService implements ICharacterService {
     @Override
     public List<CharacterSlot> listSlotsOfUser(int userID) {
         try (Connection conn = Database.getConnection()) {
-            //select characters
-            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_MY_CHARACTERS));
-            stmt.setInt(1, userID);
-            ResultSet rs = stmt.executeQuery();
+            try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_MY_CHARACTERS))) {
+                //select characters
+                stmt.setInt(1, userID);
 
-            //create new empty list
-            List<CharacterSlot> slots = new ArrayList<>();
+                try (ResultSet rs = stmt.executeQuery()) {
+                    //create new empty list
+                    List<CharacterSlot> slots = new ArrayList<>();
 
-            while (rs.next()) {
-                int cid = rs.getInt("cid");
-                String name = rs.getString("name");
-                String type = rs.getString("type");
-                String data = rs.getString("data");//json data
-                int current_regionID = rs.getInt("current_regionID");
+                    while (rs.next()) {
+                        int cid = rs.getInt("cid");
+                        String name = rs.getString("name");
+                        String type = rs.getString("type");
+                        String data = rs.getString("data");//json data
+                        int current_regionID = rs.getInt("current_regionID");
 
-                //create character slot from json
-                CharacterSlot slot = CharacterSlot.createFromJson(cid, name, new JsonObject(data));
+                        //create character slot from json
+                        CharacterSlot slot = CharacterSlot.createFromJson(cid, name, new JsonObject(data));
 
-                //add slot to list
-                slots.add(slot);
+                        //add slot to list
+                        slots.add(slot);
+                    }
+
+                    return slots;
+                }
             }
-
-            return slots;
         } catch (SQLException e) {
             MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
             return new ArrayList<>();
@@ -132,14 +134,15 @@ public class CharacterService implements ICharacterService {
     @Override
     public boolean checkCIDBelongsToPlayer(int cid, int userID) {
         try (Connection conn = Database.getConnection()) {
-            //select characters
-            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(CHECK_CID_BELONGS_TO_USER));
-            stmt.setInt(1, userID);
-            stmt.setInt(2, cid);
-            ResultSet rs = stmt.executeQuery();
+            try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(CHECK_CID_BELONGS_TO_USER))) {
+                //select characters
+                stmt.setInt(1, userID);
+                stmt.setInt(2, cid);
+                ResultSet rs = stmt.executeQuery();
 
-            //return, if row exists
-            return rs.next();
+                //return, if row exists
+                return rs.next();
+            }
         } catch (SQLException e) {
             MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
             return false;
@@ -148,13 +151,14 @@ public class CharacterService implements ICharacterService {
 
     protected boolean existsCharacterName (String name) {
         try (Connection conn = Database.getConnection()) {
-            //select
-            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_CHARACTER_NAMES));
-            stmt.setString(1, name);
-            ResultSet rs = stmt.executeQuery();
+            try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_CHARACTER_NAMES))) {
+                //select
+                stmt.setString(1, name);
+                ResultSet rs = stmt.executeQuery();
 
-            //return if select statement has one or more results (rows)
-            return rs.next();
+                //return if select statement has one or more results (rows)
+                return rs.next();
+            }
         } catch (SQLException e) {
             MMOLogger.warn("CharacterService", "SQLException while trying to check if character name already exists.", e);
             return true;
