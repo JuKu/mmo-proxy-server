@@ -24,6 +24,8 @@ public class AuthHandler implements MessageHandler<Buffer> {
     protected final ICharacterService characterService;
     protected final KeyPair keyPair;
 
+    public static final String LOG_TAG = "AuthHandler";
+
     public AuthHandler (LoginService loginService, ICharacterService characterService, KeyPair keyPair) {
         this.loginService = loginService;
         this.characterService = characterService;
@@ -33,7 +35,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
     @Override
     public void handle(Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
         if (extendedType == Config.MSG_EXTENDED_TYPE_LOGIN_REQUEST) {
-            MMOLogger.info("AuthHandler", "login request received.");
+            MMOLogger.info(LOG_TAG, "login request received.");
 
             //get private key for decryption
             PrivateKey privateKey = keyPair.getPrivate();
@@ -77,15 +79,15 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
             return;
         } else if (extendedType == Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST) {
-            MMOLogger.info("AuthHandler", "character slots request received.");
+            MMOLogger.info(LOG_TAG, "character slots request received.");
 
             //first, check if user is logged in
             if (!state.isLoggedIn()) {
-                MMOLogger.warn("AuthHandler", "Cannot send character slots, because user isnt logged in.");
+                MMOLogger.warn(LOG_TAG, "Cannot send character slots, because user isnt logged in.");
                 return;
             }
 
-            MMOLogger.info("AuthHandler", "send character slots response to client.");
+            MMOLogger.info(LOG_TAG, "send character slots response to client.");
 
             //send response
             Buffer msg = MessageUtils.createCharacterListResponse(this.characterService.listSlotsOfUser(state.getUserID()));
@@ -98,16 +100,16 @@ public class AuthHandler implements MessageHandler<Buffer> {
             //select character request
             this.handleSelectCharacterRequest(content, type, extendedType, conn, state);
         } else {
-            MMOLogger.warn("AuthHandler", "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
+            MMOLogger.warn(LOG_TAG, "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
         }
     }
 
     protected void handleCreateCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
-        MMOLogger.info("AuthHandler", "received create character request");
+        MMOLogger.info(LOG_TAG, "received create character request");
 
         //first, check if user is logged in
         if (!state.isLoggedIn()) {
-            MMOLogger.warn("AuthHandler", "Cannot create character, because user isnt logged in.");
+            MMOLogger.warn(LOG_TAG, "Cannot create character, because user isnt logged in.");
             return;
         }
 
@@ -121,7 +123,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
         //try to create character
         this.characterService.createCharacter(slot, state.getUserID(), resultCode -> {
-            MMOLogger.info("AuthHandler", "send create character result code: " + resultCode);
+            MMOLogger.info(LOG_TAG, "send create character result code: " + resultCode);
 
             //send response back to client
             Buffer msg = MessageUtils.createCharacterResponse(resultCode);
@@ -130,11 +132,11 @@ public class AuthHandler implements MessageHandler<Buffer> {
     }
 
     protected void handleSelectCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
-        MMOLogger.info("AuthHandler", "received select character request");
+        MMOLogger.info(LOG_TAG, "received select character request");
 
         //first, check if user is logged in
         if (!state.isLoggedIn()) {
-            MMOLogger.warn("AuthHandler", "Cannot select character, because user isnt logged in.");
+            MMOLogger.warn(LOG_TAG, "Cannot select character, because user isnt logged in.");
             return;
         }
 
@@ -151,7 +153,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
             Buffer msg = MessageUtils.createSelectCharacterResponse(false);
             conn.sendToClient(msg);
 
-            MMOLogger.warn("AuthHandler", "cid " + cid + " doesnt belongs to userID " + state.getUserID());
+            MMOLogger.warn(LOG_TAG, "cid " + cid + " doesnt belongs to userID " + state.getUserID());
 
             return;
         }
@@ -161,7 +163,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
         //TODO: send join message so client goes to region loading screen
 
-        MMOLogger.info("AuthHandler", "character " + cid + " selected successfully for userID " + state.getUserID());
+        MMOLogger.info(LOG_TAG, "character " + cid + " selected successfully for userID " + state.getUserID());
 
         //send success message
         Buffer msg = MessageUtils.createSelectCharacterResponse(true);

@@ -28,6 +28,11 @@ public class CharacterSlot {
     //beart (bart)
     protected final String beart;
 
+    public static final String TEXT_SKINCOLOR = "skinColor";
+    public static final String TEXT_HAIRCOLOR = "hairColor";
+    public static final String TEXT_HAIRSTYLE = "hairStyle";
+    public static final String TEXT_BEART = "beart";
+
     public CharacterSlot(final int cid, final String name, final GENDER gender, String skinColor, String hairColor, String hairStyle, String beart) {
         if (cid <= 0) {
             throw new IllegalArgumentException("cid has to be greater than 0.");
@@ -83,28 +88,28 @@ public class CharacterSlot {
         json.put("cid", this.cid);
         json.put("name", this.name);
         json.put("gender", this.gender.toString().toLowerCase());
-        json.put("skinColor", this.skinColor);
-        json.put("hairColor", this.hairColor);
-        json.put("hairStyle", this.hairStyle);
-        json.put("beart", this.beart);
+        json.put(TEXT_SKINCOLOR, this.skinColor);
+        json.put(TEXT_HAIRCOLOR, this.hairColor);
+        json.put(TEXT_HAIRSTYLE, this.hairStyle);
+        json.put(TEXT_BEART, this.beart);
 
         return json;
     }
 
     public static CharacterSlot createDummyMaleCharacterSlot () {
-        return new CharacterSlot(10, "name", GENDER.MALE, "skinColor", "hairColor", "hairStyle", "beart");
+        return new CharacterSlot(10, "name", GENDER.MALE, TEXT_SKINCOLOR, TEXT_HAIRCOLOR, TEXT_HAIRSTYLE, TEXT_BEART);
     }
 
     public static CharacterSlot createDummyFemaleCharacterSlot () {
-        return new CharacterSlot(10, "name", GENDER.FEMALE, "skinColor", "hairColor", "hairStyle", "beart");
+        return new CharacterSlot(10, "name", GENDER.FEMALE, TEXT_SKINCOLOR, TEXT_HAIRCOLOR, TEXT_HAIRSTYLE, TEXT_BEART);
     }
 
     public static CharacterSlot createFromJson (int cid, String name, JsonObject json) {
         GENDER gender = (json.getString("gender").equals("male") ? GENDER.MALE : GENDER.FEMALE);
-        String skinColor = json.getString("skinColor");
-        String hairColor = json.getString("hairColor");
-        String hairStyle = json.getString("hairStyle");
-        String beart = json.getString("beart");
+        String skinColor = json.getString(TEXT_SKINCOLOR);
+        String hairColor = json.getString(TEXT_HAIRCOLOR);
+        String hairStyle = json.getString(TEXT_HAIRSTYLE);
+        String beart = json.getString(TEXT_BEART);
 
         return new CharacterSlot(cid, name, gender, skinColor, hairColor, hairStyle, beart);
     }
