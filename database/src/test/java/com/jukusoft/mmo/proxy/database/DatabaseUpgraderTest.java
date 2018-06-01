@@ -1,10 +1,14 @@
 package com.jukusoft.mmo.proxy.database;
 
 import com.jukusoft.mmo.proxy.database.config.MySQLConfig;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.*;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -51,6 +55,94 @@ public class DatabaseUpgraderTest {
     public void testGetInfo () throws IOException {
         MySQLConfig mySQLConfig = createConfig();
         DatabaseUpgrader databaseUpgrader = new DatabaseUpgrader(mySQLConfig);
+
+        assertNotNull(databaseUpgrader.getInfo());
+    }
+
+    @Test
+    public void testGetInfo1 () throws IOException {
+        MySQLConfig mySQLConfig = createConfig();
+        DatabaseUpgrader databaseUpgrader = new DatabaseUpgrader(mySQLConfig);
+
+        databaseUpgrader.flyway = Mockito.mock(Flyway.class);
+        Mockito.when(databaseUpgrader.flyway.info()).thenReturn(new MigrationInfoService() {
+            @Override
+            public MigrationInfo[] all() {
+                return new MigrationInfo[] {
+                    new MigrationInfo() {
+                        @Override
+                        public int compareTo(MigrationInfo o) {
+                            return 0;
+                        }
+
+                        @Override
+                        public MigrationType getType() {
+                            return MigrationType.JDBC;
+                        }
+
+                        @Override
+                        public Integer getChecksum() {
+                            return 10;
+                        }
+
+                        @Override
+                        public MigrationVersion getVersion() {
+                            return MigrationVersion.CURRENT;
+                        }
+
+                        @Override
+                        public String getDescription() {
+                            return "description";
+                        }
+
+                        @Override
+                        public String getScript() {
+                            return "script";
+                        }
+
+                        @Override
+                        public MigrationState getState() {
+                            return MigrationState.SUCCESS;
+                        }
+
+                        @Override
+                        public Date getInstalledOn() {
+                            return new Date();
+                        }
+
+                        @Override
+                        public String getInstalledBy() {
+                            return "user";
+                        }
+
+                        @Override
+                        public Integer getInstalledRank() {
+                            return 10;
+                        }
+
+                        @Override
+                        public Integer getExecutionTime() {
+                            return 10;
+                        }
+                    }
+                };
+            }
+
+            @Override
+            public MigrationInfo current() {
+                return null;
+            }
+
+            @Override
+            public MigrationInfo[] pending() {
+                return new MigrationInfo[0];
+            }
+
+            @Override
+            public MigrationInfo[] applied() {
+                return new MigrationInfo[0];
+            }
+        });
 
         assertNotNull(databaseUpgrader.getInfo());
     }
