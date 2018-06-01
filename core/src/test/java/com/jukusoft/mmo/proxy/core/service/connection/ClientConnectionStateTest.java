@@ -51,4 +51,13 @@ public class ClientConnectionStateTest {
         assertEquals(true, state.hasRole(Roles.DEVELOPER));
     }
 
+    @Test
+    public void testIsCharacterSelected () {
+        ConnectionState state = new ConnectionState();
+        assertEquals(false, state.isCharacterSelected());
+
+        state.setCID(10);
+        assertEquals(true, state.isCharacterSelected());
+    }
+
 }
