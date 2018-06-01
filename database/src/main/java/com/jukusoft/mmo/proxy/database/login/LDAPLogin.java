@@ -33,6 +33,8 @@ public class LDAPLogin implements LoginService {
     protected static final String INSERT_QUERY = String.format("INSERT INTO `mmo_users` (   `userID`, `username`, `ip`, `online`, `last_online`, `activated`) VALUES (   NULL, ?, ?, '1', CURRENT_TIMESTAMP, '1') ON DUPLICATE KEY UPDATE `ip` = ?, `online` = '1', `last_online` = NOW();");
     protected static final String SELECT_QUERY = String.format("SELECT * FROM `mmo_users` WHERE `username` = ?; ");
 
+    public static final String LOG_TAG = "LDAPLogin";
+
     public LDAPLogin () {
         //
     }
@@ -59,7 +61,7 @@ public class LDAPLogin implements LoginService {
     @Override
     public int login(String username, String password, String ip) {
         // setup the environment
-        Hashtable<String, String> env = new Hashtable<String,String>();
+        Hashtable<String, String> env = new Hashtable<>();
         env.put(Context.INITIAL_CONTEXT_FACTORY,"com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, String.format("ldap://%s:%s", this.host, this.port));
         env.put("com.sun.jndi.ldap.connect.pool", "true");
@@ -71,8 +73,8 @@ public class LDAPLogin implements LoginService {
 
         //generate userDN
         String userDn = this.user_prefix + username.replace(",", "") + this.user_suffix;
-        MMOLogger.info("LDAPLogin", "ldap server: " + host + ":" + port);
-        MMOLogger.info("LDAPLogin", "try to login ldap user: " + userDn);
+        MMOLogger.info(LOG_TAG, "ldap server: " + host + ":" + port);
+        MMOLogger.info(LOG_TAG, "try to login ldap user: " + userDn);
 
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
         env.put(Context.SECURITY_PRINCIPAL, userDn);//example: "cn=S. User, ou=NewHires, o=JNDITutorial"
@@ -89,10 +91,10 @@ public class LDAPLogin implements LoginService {
             return 0;
         }
 
-        MMOLogger.info("LDAPLogin", "authorization successful for user '" + userDn + "'!");
+        MMOLogger.info(LOG_TAG, "authorization successful for user '" + userDn + "'!");
 
         try (Connection conn = Database.getConnection()) {
-            MMOLogger.info("LDAPLogin", "execute sql query: " + INSERT_QUERY);
+            MMOLogger.info(LOG_TAG, "execute sql query: " + INSERT_QUERY);
 
             try (PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY)) {
                 //insert user, if absent
@@ -114,7 +116,7 @@ public class LDAPLogin implements LoginService {
 
                         //check, if user is activated
                         if (activated != 1) {
-                            MMOLogger.warn("LDAPLogin", "user '" + username + "' exists but is not activated.");
+                            MMOLogger.warn(LOG_TAG, "user '" + username + "' exists but is not activated.");
                             return 0;
                         }
 
@@ -123,7 +125,7 @@ public class LDAPLogin implements LoginService {
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn("LDAPLogin", "SQLException while login: ", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while login: ", e);
             return 0;
         }
 
