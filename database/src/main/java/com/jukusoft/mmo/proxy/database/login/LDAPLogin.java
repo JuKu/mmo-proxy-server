@@ -123,7 +123,7 @@ public class LDAPLogin implements LoginService {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            MMOLogger.warn("LDAPLogin", "SQLException while login: ", e);
             return 0;
         }
 
