@@ -1,14 +1,22 @@
 package com.jukusoft.mmo.proxy.core.service.connection;
 
+import com.jukusoft.mmo.proxy.core.auth.Roles;
+
+import java.util.BitSet;
+
 public class ConnectionState {
 
     protected volatile int userID = -1;
+    protected BitSet roles = new BitSet(Roles.countRoles());
 
     //character id
     protected int cid = -1;
 
     public ConnectionState () {
-        //
+        //reset bitset
+        for (int i = 0; i < roles.length(); i++) {
+            roles.set(i, false);
+        }
     }
 
     public int getUserID () {
@@ -29,6 +37,10 @@ public class ConnectionState {
 
     public boolean isLoggedIn () {
         return this.userID > 0;
+    }
+
+    public boolean isRole (Roles role) {
+        return this.roles.get(role.getValue());
     }
 
 }

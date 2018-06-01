@@ -11,4 +11,6 @@ public interface ICharacterService extends IService {
 
     public void createCharacter (CharacterSlot character, int userID, Handler<Integer> handler);
 
+    public boolean checkCIDBelongsToPlayer (int cid, int userID);
+
 }

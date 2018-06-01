@@ -26,6 +26,13 @@
 			<version>${vertx.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- library for high performance Real-Time and Embedded Systems -->
+		<!-- <dependency>
+			<groupId>org.javolution</groupId>
+			<artifactId>javolution</artifactId>
+			<version>${javolution.version}</version>
+		</dependency> -->
 	</dependencies>
 
 	<build>

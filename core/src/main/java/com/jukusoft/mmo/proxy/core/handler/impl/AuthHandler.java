@@ -1,5 +1,6 @@
 package com.jukusoft.mmo.proxy.core.handler.impl;
 
+import com.jukusoft.mmo.proxy.core.auth.Roles;
 import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.character.ICharacterService;
 import com.jukusoft.mmo.proxy.core.config.Config;
@@ -93,6 +94,9 @@ public class AuthHandler implements MessageHandler<Buffer> {
         } else if (extendedType == Config.MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST) {
             //create character request
             this.handleCreateCharacterRequest(content, type, extendedType, conn, state);
+        } else if (extendedType == Config.MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST) {
+            //select character request
+            this.handleSelectCharacterRequest(content, type, extendedType, conn, state);
         } else {
             MMOLogger.warn("AuthHandler", "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
         }
@@ -123,6 +127,45 @@ public class AuthHandler implements MessageHandler<Buffer> {
             Buffer msg = MessageUtils.createCharacterResponse(resultCode);
             conn.sendToClient(msg);
         });
+    }
+
+    protected void handleSelectCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
+        MMOLogger.info("AuthHandler", "received select character request");
+
+        //first, check if user is logged in
+        if (!state.isLoggedIn()) {
+            MMOLogger.warn("AuthHandler", "Cannot select character, because user isnt logged in.");
+            return;
+        }
+
+        int cid = content.getInt(Config.MSG_BODY_OFFSET);
+
+        //flag, if it should be checked, if cid belongs to user - game masters and support staff doesnt requires this check, because they are allowed to control every character
+        boolean check = !(state.isRole(Roles.GAMEMASTER) || state.isRole(Roles.SUPPORT));
+
+        //check, if cid belongs to user or user is admin
+        if (check && !this.characterService.checkCIDBelongsToPlayer(cid, state.getUserID())) {
+            //character doesnt belongs to player
+
+            //send error message
+            Buffer msg = MessageUtils.createSelectCharacterResponse(false);
+            conn.sendToClient(msg);
+
+            MMOLogger.warn("AuthHandler", "cid " + cid + " doesnt belongs to userID " + state.getUserID());
+
+            return;
+        }
+
+        //select cid
+        state.setCID(cid);
+
+        //TODO: send join message
+
+        MMOLogger.info("AuthHandler", "character " + cid + " selected successfully for userID " + state.getUserID());
+
+        //send success message
+        Buffer msg = MessageUtils.createSelectCharacterResponse(false);
+        conn.sendToClient(msg);
     }
 
 }

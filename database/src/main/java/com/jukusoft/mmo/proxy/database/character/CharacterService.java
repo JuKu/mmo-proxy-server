@@ -24,6 +24,7 @@ public class CharacterService implements ICharacterService {
             ") VALUES (" +
             "   NULL, ?, 'PLAYER', ?, ?, ?, ?, '1', '-1', '-1', '-1', '0', '1', '1'" +
             "); ";
+    protected static final String CHECK_CID_BELONGS_TO_USER = "SELECT * FROM `{prefix}characters` WHERE `userID` = ? AND `cid` = ?; ";
 
     public enum CREATE_CHARACTER_RESULT_CODES {
 
@@ -126,6 +127,23 @@ public class CharacterService implements ICharacterService {
         }
 
         handler.handle(CREATE_CHARACTER_RESULT_CODES.SUCCESS.getValue());
+    }
+
+    @Override
+    public boolean checkCIDBelongsToPlayer(int cid, int userID) {
+        try (Connection conn = Database.getConnection()) {
+            //select characters
+            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(CHECK_CID_BELONGS_TO_USER));
+            stmt.setInt(1, cid);
+            stmt.setInt(2, userID);
+            ResultSet rs = stmt.executeQuery();
+
+            //return, if row exists
+            return rs.next();
+        } catch (SQLException e) {
+            MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
+            return false;
+        }
     }
 
     protected boolean existsCharacterName (String name) {
