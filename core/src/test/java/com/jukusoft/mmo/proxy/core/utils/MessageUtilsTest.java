@@ -182,6 +182,20 @@ public class MessageUtilsTest {
 
     @Test
     public void testSelectCharacterResponseMessage () {
+        Buffer content = MessageUtils.createSelectCharacterResponse(false);
+
+        //check header
+        assertEquals(Config.MSG_TYPE_AUTH, content.getByte(0));
+        assertEquals(Config.MSG_EXTENDED_TYPE_SELECT_CHARACTER_RESPONSE, content.getByte(1));
+        assertEquals(Config.MSG_PROTOCOL_VERSION, content.getShort(2));
+        assertEquals(0, content.getInt(4));
+
+        //result code
+        assertEquals(0, content.getInt(Config.MSG_BODY_OFFSET));
+    }
+
+    @Test
+    public void testSelectCharacterResponseMessage1 () {
         Buffer content = MessageUtils.createSelectCharacterResponse(true);
 
         //check header
