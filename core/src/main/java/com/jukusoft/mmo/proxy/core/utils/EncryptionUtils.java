@@ -84,8 +84,7 @@ public class EncryptionUtils {
     }
 
     public static byte[] convertPublicKeyToByteArray (PublicKey publicKey) {
-        byte[] publicKeyBytes = publicKey.getEncoded();
-        return publicKeyBytes;
+        return publicKey.getEncoded();
     }
 
     public static KeyPair generateKeyPair () throws NoSuchAlgorithmException {

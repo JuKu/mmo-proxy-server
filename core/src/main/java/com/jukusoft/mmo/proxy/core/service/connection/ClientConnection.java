@@ -232,8 +232,6 @@ public class ClientConnection {
         //check, if message is RTT message
         if (type == Config.MSG_TYPE_PROXY) {
             if (extendedType == Config.MSG_EXTENDED_TYPE_RTT) {
-                //MMOLogger.info(LOG_TAG, "RTT message received");
-
                 //send RTT response to client
                 Buffer msg = MessageUtils.createRTTResponse();
                 this.sendToClient(msg);
