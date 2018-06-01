@@ -91,15 +91,18 @@ public class LDAPLogin implements LoginService {
 
         MMOLogger.info("LDAPLogin", "authorization successful for user '" + userDn + "'!");
 
+        PreparedStatement stmt = null;
+
         try (Connection conn = Database.getConnection()) {
             MMOLogger.info("LDAPLogin", "execute sql query: " + INSERT_QUERY);
 
             //insert user, if absent
-            PreparedStatement stmt = conn.prepareStatement(INSERT_QUERY);
+            stmt = conn.prepareStatement(INSERT_QUERY);
             stmt.setString(1, username);
             stmt.setString(2, ip);
             stmt.setString(3, ip);
             stmt.execute();
+            stmt.close();
 
             //get userID
             stmt = conn.prepareStatement(SELECT_QUERY);
@@ -119,9 +122,17 @@ public class LDAPLogin implements LoginService {
 
                 return userID;
             }
+
+            rs.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
+        } finally {
+            try {
+                stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return 0;
