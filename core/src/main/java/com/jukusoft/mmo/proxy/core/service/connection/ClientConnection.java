@@ -5,13 +5,10 @@ import com.jukusoft.mmo.proxy.core.handler.MessageHandler;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.message.MessageReceiver;
 import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
-import com.jukusoft.mmo.proxy.core.utils.EncryptionUtils;
 import com.jukusoft.mmo.proxy.core.utils.MessageUtils;
 import io.vertx.core.buffer.Buffer;
-import io.vertx.core.json.JsonObject;
 
 import java.security.KeyPair;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class ClientConnection {
@@ -36,6 +33,8 @@ public class ClientConnection {
     protected GSConnection gsConn = null;
 
     protected String ip = "";
+
+    public static final String LOG_TAG = "ClientConnection";
 
     public ClientConnection() {
         //
@@ -66,7 +65,7 @@ public class ClientConnection {
         //check, if client is not allowed to send such message types
         if (Config.MSG_INTERNAL_TYPES[ByteUtils.byteToUnsignedInt(type)]) {
             //drop message
-            MMOLogger.warn("ClientConnection", "Drop message, because client is not allowed to send such message type: 0x" + ByteUtils.byteToHex(type));
+            MMOLogger.warn(LOG_TAG, "Drop message, because client is not allowed to send such message type: 0x" + ByteUtils.byteToHex(type));
 
             return;
         }
@@ -233,7 +232,7 @@ public class ClientConnection {
         //check, if message is RTT message
         if (type == Config.MSG_TYPE_PROXY) {
             if (extendedType == Config.MSG_EXTENDED_TYPE_RTT) {
-                //MMOLogger.info("ClientConnection", "RTT message received");
+                //MMOLogger.info(LOG_TAG, "RTT message received");
 
                 //send RTT response to client
                 Buffer msg = MessageUtils.createRTTResponse();
@@ -241,7 +240,7 @@ public class ClientConnection {
 
                 return;
             } else if (extendedType == Config.MSG_EXTENDED_TYPE_PUBLIC_KEY_REQUEST) {
-                MMOLogger.info("ClientConnection", "received RSA public key request.");
+                MMOLogger.info(LOG_TAG, "received RSA public key request.");
 
                 //get key pair
                 KeyPair keyPair = this.manager.getKeyPair();
@@ -254,18 +253,18 @@ public class ClientConnection {
                 return;
             }
 
-            MMOLogger.info("ClientConnection", "no handler for special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
+            MMOLogger.info(LOG_TAG, "no handler for special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
         }
 
         //get handler
         MessageHandler<Buffer> handler = this.manager.getProxyHandler(type, extendedType, protocolVersion);
 
         if (handler == null) {
-            MMOLogger.warn("ClientConnection", "no proxy handler specified for type 0x" + ByteUtils.byteToHex(content.getByte(0)));
+            MMOLogger.warn(LOG_TAG, "no proxy handler specified for type 0x" + ByteUtils.byteToHex(content.getByte(0)));
             return;
         }
 
-        MMOLogger.info("ClientConnection", "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
+        MMOLogger.info(LOG_TAG, "handle special proxy message: 0x" + ByteUtils.byteToHex(content.getByte(0)));
         handler.handle(content, type, extendedType, this, this.state);
     }
 
