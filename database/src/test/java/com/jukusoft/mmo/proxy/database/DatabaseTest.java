@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class DatabaseTest {
@@ -29,6 +30,18 @@ public class DatabaseTest {
 
         //close database connection
         Database.close();
+    }
+
+    @Test
+    public void testReplacePrefix () throws IOException {
+        //load test mysql configuration
+        MySQLConfig mySQLConfig = createConfig();
+
+        //initialize database
+        Database.init(mySQLConfig);
+
+        String query = Database.replacePrefix("SELECT * FROM `{prefix}users`; ");
+        assertEquals("SELECT * FROM `mmo_users`; ", query);
     }
 
     protected MySQLConfig createConfig () throws IOException {
