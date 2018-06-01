@@ -39,8 +39,16 @@ public class ConnectionState {
         return this.userID > 0;
     }
 
-    public boolean isRole (Roles role) {
+    public boolean hasRole(Roles role) {
         return this.roles.get(role.getValue());
+    }
+
+    public void setRole (Roles role) {
+        this.roles.set(role.getValue(), true);
+    }
+
+    public void unsetRole (Roles role) {
+        this.roles.set(role.getValue(), false);
     }
 
     public boolean isCharacterSelected () {

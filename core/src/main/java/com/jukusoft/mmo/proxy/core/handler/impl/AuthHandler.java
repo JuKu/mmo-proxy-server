@@ -142,7 +142,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
         int cid = content.getInt(Config.MSG_BODY_OFFSET);
 
         //flag, if it should be checked, if cid belongs to user - game masters and support staff doesnt requires this check, because they are allowed to control every character
-        boolean check = !(state.isRole(Roles.GAMEMASTER) || state.isRole(Roles.SUPPORT));
+        boolean check = !(state.hasRole(Roles.GAMEMASTER) || state.hasRole(Roles.SUPPORT));
 
         //check, if cid belongs to user or user is admin
         if (check && !this.characterService.checkCIDBelongsToPlayer(cid, state.getUserID())) {
