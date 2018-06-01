@@ -26,6 +26,8 @@ public class CharacterService implements ICharacterService {
             "); ";
     protected static final String CHECK_CID_BELONGS_TO_USER = "SELECT * FROM `{prefix}characters` WHERE `userID` = ? AND `cid` = ?; ";
 
+    public static final String LOG_TAG = "CharacterService";
+
     public enum CREATE_CHARACTER_RESULT_CODES {
 
         /**
@@ -92,7 +94,7 @@ public class CharacterService implements ICharacterService {
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
             return new ArrayList<>();
         }
     }
@@ -122,7 +124,7 @@ public class CharacterService implements ICharacterService {
         try {
             this.create(character, userID);
         } catch (SQLException e) {
-            MMOLogger.warn("CharacterService", "SQLException while trying to create character.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while trying to create character.", e);
             handler.handle(CREATE_CHARACTER_RESULT_CODES.INTERNAL_SERVER_ERROR.getValue());
 
             return;
@@ -145,7 +147,7 @@ public class CharacterService implements ICharacterService {
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
             return false;
         }
     }
@@ -162,7 +164,7 @@ public class CharacterService implements ICharacterService {
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn("CharacterService", "SQLException while trying to check if character name already exists.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while trying to check if character name already exists.", e);
             return true;
         }
     }
