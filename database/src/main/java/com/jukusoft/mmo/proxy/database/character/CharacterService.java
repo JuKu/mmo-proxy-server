@@ -138,10 +138,11 @@ public class CharacterService implements ICharacterService {
                 //select characters
                 stmt.setInt(1, userID);
                 stmt.setInt(2, cid);
-                ResultSet rs = stmt.executeQuery();
 
-                //return, if row exists
-                return rs.next();
+                try (ResultSet rs = stmt.executeQuery()) {
+                    //return, if row exists
+                    return rs.next();
+                }
             }
         } catch (SQLException e) {
             MMOLogger.warn("CharacterService", "SQLException while try to get character slots.", e);
@@ -154,10 +155,11 @@ public class CharacterService implements ICharacterService {
             try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_CHARACTER_NAMES))) {
                 //select
                 stmt.setString(1, name);
-                ResultSet rs = stmt.executeQuery();
 
-                //return if select statement has one or more results (rows)
-                return rs.next();
+                try (ResultSet rs = stmt.executeQuery()) {
+                    //return if select statement has one or more results (rows)
+                    return rs.next();
+                }
             }
         } catch (SQLException e) {
             MMOLogger.warn("CharacterService", "SQLException while trying to check if character name already exists.", e);
@@ -168,16 +170,17 @@ public class CharacterService implements ICharacterService {
     protected void create (CharacterSlot character, int userID) throws SQLException {
         //create character in database
         try (Connection conn = Database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(INSERT_CHARACTER));
-            stmt.setString(1, character.getName());
-            stmt.setInt(2, userID);
-            stmt.setString(3, character.toJson().encode());
+            try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(INSERT_CHARACTER))) {
+                stmt.setString(1, character.getName());
+                stmt.setInt(2, userID);
+                stmt.setString(3, character.toJson().encode());
 
-            //region & instance id, -1 so it will be set from proxy server automatically
-            stmt.setInt(4, -1);
-            stmt.setInt(5, -1);
+                //region & instance id, -1 so it will be set from proxy server automatically
+                stmt.setInt(4, -1);
+                stmt.setInt(5, -1);
 
-            stmt.executeUpdate();
+                stmt.executeUpdate();
+            }
         }
     }
 
