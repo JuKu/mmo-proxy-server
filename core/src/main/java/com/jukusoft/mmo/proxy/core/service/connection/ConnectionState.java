@@ -43,4 +43,8 @@ public class ConnectionState {
         return this.roles.get(role.getValue());
     }
 
+    public boolean isCharacterSelected () {
+        return this.cid > 0;
+    }
+
 }

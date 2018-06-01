@@ -134,8 +134,8 @@ public class CharacterService implements ICharacterService {
         try (Connection conn = Database.getConnection()) {
             //select characters
             PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(CHECK_CID_BELONGS_TO_USER));
-            stmt.setInt(1, cid);
-            stmt.setInt(2, userID);
+            stmt.setInt(1, userID);
+            stmt.setInt(2, cid);
             ResultSet rs = stmt.executeQuery();
 
             //return, if row exists
