@@ -159,12 +159,12 @@ public class AuthHandler implements MessageHandler<Buffer> {
         //select cid
         state.setCID(cid);
 
-        //TODO: send join message
+        //TODO: send join message so client goes to region loading screen
 
         MMOLogger.info("AuthHandler", "character " + cid + " selected successfully for userID " + state.getUserID());
 
         //send success message
-        Buffer msg = MessageUtils.createSelectCharacterResponse(false);
+        Buffer msg = MessageUtils.createSelectCharacterResponse(true);
         conn.sendToClient(msg);
     }
 
