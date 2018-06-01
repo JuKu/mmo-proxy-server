@@ -77,8 +77,6 @@ public class AuthHandler implements MessageHandler<Buffer> {
             } catch (Exception e) {
                 MMOLogger.warn("ClientConnection", "exception while decrypting data", e);
             }
-
-            return;
         } else if (extendedType == Config.MSG_EXTENDED_TYPE_LIST_CHARACTERS_REQUEST) {
             MMOLogger.info(LOG_TAG, "character slots request received.");
 
@@ -96,16 +94,16 @@ public class AuthHandler implements MessageHandler<Buffer> {
 
         } else if (extendedType == Config.MSG_EXTENDED_TYPE_CREATE_CHARACTER_REQUEST) {
             //create character request
-            this.handleCreateCharacterRequest(content, type, extendedType, conn, state);
+            this.handleCreateCharacterRequest(content, conn, state);
         } else if (extendedType == Config.MSG_EXTENDED_TYPE_SELECT_CHARACTER_REQUEST) {
             //select character request
-            this.handleSelectCharacterRequest(content, type, extendedType, conn, state);
+            this.handleSelectCharacterRequest(content, conn, state);
         } else {
             MMOLogger.warn(LOG_TAG, "Unknown extended type: " + ByteUtils.byteToHex(extendedType));
         }
     }
 
-    protected void handleCreateCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
+    protected void handleCreateCharacterRequest (Buffer content, ClientConnection conn, ConnectionState state) {
         MMOLogger.info(LOG_TAG, "received create character request");
 
         //first, check if user is logged in
@@ -132,7 +130,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
         });
     }
 
-    protected void handleSelectCharacterRequest (Buffer content, byte type, byte extendedType, ClientConnection conn, ConnectionState state) {
+    protected void handleSelectCharacterRequest (Buffer content, ClientConnection conn, ConnectionState state) {
         MMOLogger.info(LOG_TAG, "received select character request");
 
         //first, check if user is logged in
