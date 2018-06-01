@@ -14,7 +14,7 @@ public class ConnectionState {
 
     public ConnectionState () {
         //reset bitset
-        for (int i = 0; i < roles.length(); i++) {
+        for (int i = 0; i < Roles.countRoles(); i++) {
             roles.set(i, false);
         }
     }
