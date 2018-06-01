@@ -25,6 +25,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
     protected final KeyPair keyPair;
 
     public static final String LOG_TAG = "AuthHandler";
+    public static final String LOG_TAG_LOGIN = "Login";
 
     public AuthHandler (LoginService loginService, ICharacterService characterService, KeyPair keyPair) {
         this.loginService = loginService;
@@ -51,13 +52,13 @@ public class AuthHandler implements MessageHandler<Buffer> {
                 String username = json.getString("username");
                 String password = json.getString("password");
 
-                MMOLogger.info("Login", "try to login user '" + username + "'...");
+                MMOLogger.info(LOG_TAG_LOGIN, "try to login user '" + username + "'...");
 
                 int userID = loginService.login(username, password, conn.getIP());
 
                 if (userID != 0) {
                     //login successfully
-                    MMOLogger.info("Login", "login successful for user '" + username + "'.");
+                    MMOLogger.info(LOG_TAG_LOGIN, "login successful for user '" + username + "'.");
 
                     //update state
                     state.setUserID(userID);
@@ -67,7 +68,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
                     conn.sendToClient(msg);
                 } else {
                     //wrong credentials
-                    MMOLogger.warn("Login", "login failed for user '" + username + "'.");
+                    MMOLogger.warn(LOG_TAG_LOGIN, "login failed for user '" + username + "'.");
 
                     //send  message back to client
                     Buffer msg = MessageUtils.createLoginResponse(false, userID);
