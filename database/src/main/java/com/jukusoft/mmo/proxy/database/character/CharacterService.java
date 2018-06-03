@@ -3,6 +3,7 @@ package com.jukusoft.mmo.proxy.database.character;
 import com.jukusoft.mmo.proxy.core.character.CharacterSlot;
 import com.jukusoft.mmo.proxy.core.character.ICharacterService;
 import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
+import com.jukusoft.mmo.proxy.core.region.RegionMetaData;
 import com.jukusoft.mmo.proxy.database.Database;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -25,6 +26,7 @@ public class CharacterService implements ICharacterService {
             "   NULL, ?, 'PLAYER', ?, ?, ?, ?, '1', '-1', '-1', '-1', '0', '1', '1'" +
             "); ";
     protected static final String CHECK_CID_BELONGS_TO_USER = "SELECT * FROM `{prefix}characters` WHERE `userID` = ? AND `cid` = ?; ";
+    protected static final String SELECT_CURRENT_REGION = "SELECT * FROM `{prefix}characters` LEFT JOIN `{prefix}regions` ON `{prefix}characters`.`current_regionID` = `{prefix}regions`.`regionID` WHERE `cid` = ?; ";
 
     public static final String LOG_TAG = "CharacterService";
 
@@ -149,6 +151,30 @@ public class CharacterService implements ICharacterService {
         } catch (SQLException e) {
             MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
             return false;
+        }
+    }
+
+    @Override
+    public void getCurrentRegionOfCharacter(int cid, Handler<RegionMetaData> handler) {
+        try (Connection conn = Database.getConnection()) {
+            try (PreparedStatement stmt = conn.prepareStatement(Database.replacePrefix(SELECT_CURRENT_REGION))) {
+                //select character
+                stmt.setInt(1, cid);
+
+                try (ResultSet rs = stmt.executeQuery()) {
+                    //return, if row exists
+
+                    int regionID = rs.getInt("current_regionID");
+                    int instanceID = rs.getInt("instanceID");
+                    String regionTitle = rs.getString("title");
+
+                    RegionMetaData region = new RegionMetaData(regionID, instanceID, regionTitle);
+                    handler.handle(region);
+                }
+            }
+        } catch (SQLException e) {
+            MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
+            handler.handle(null);
         }
     }
 

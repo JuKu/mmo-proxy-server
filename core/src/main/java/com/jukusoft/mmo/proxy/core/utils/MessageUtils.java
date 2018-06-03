@@ -129,6 +129,25 @@ public class MessageUtils {
         return content;
     }
 
+    public static Buffer createLoadRegionMessage (int regionID, int instanceID, String regionTitle) {
+        Buffer content = Buffer.buffer();
+
+        content.setByte(0, Config.MSG_TYPE_GENERAL_CLIENT_STATE_INFORMATION);
+        content.setByte(1, Config.MSG_EXTENDED_TYPE_LOAD_REGION);
+        content.setShort(2, Config.MSG_PROTOCOL_VERSION);
+        content.setInt(4, 0);
+
+        //set regionID & instanceID
+        content.setInt(Config.MSG_BODY_OFFSET, regionID);
+        content.setInt(Config.MSG_BODY_OFFSET + 4, instanceID);
+
+        //set region title
+        content.setInt(Config.MSG_BODY_OFFSET + 8, regionTitle.getBytes().length);
+        content.setBytes(Config.MSG_BODY_OFFSET + 12, regionTitle.getBytes());
+
+        return content;
+    }
+
     public static Buffer createErrorMsg (byte extendedType, int cid) {
         Buffer content = Buffer.buffer();
 

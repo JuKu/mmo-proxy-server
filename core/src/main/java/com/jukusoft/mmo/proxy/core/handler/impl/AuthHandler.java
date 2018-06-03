@@ -130,7 +130,7 @@ public class AuthHandler implements MessageHandler<Buffer> {
         });
     }
 
-    protected void handleSelectCharacterRequest (Buffer content, ClientConnection conn, ConnectionState state) {
+    protected void handleSelectCharacterRequest (Buffer content, final ClientConnection conn, final ConnectionState state) {
         MMOLogger.info(LOG_TAG, "received select character request");
 
         //first, check if user is logged in
@@ -160,13 +160,28 @@ public class AuthHandler implements MessageHandler<Buffer> {
         //select cid
         state.setCID(cid);
 
-        //TODO: send join message so client goes to region loading screen
-
         MMOLogger.info(LOG_TAG, "character " + cid + " selected successfully for userID " + state.getUserID());
 
         //send success message
         Buffer msg = MessageUtils.createSelectCharacterResponse(true);
         conn.sendToClient(msg);
+
+        //get current regionID & instanceID of character
+        characterService.getCurrentRegionOfCharacter(cid, res -> {
+            if (res == null) {
+                //TODO: send error message to client
+
+                throw new IllegalStateException("cannot get current region of character (cid: " + cid + "), maybe character doesnt exists in database.");
+            }
+
+            //send load region message
+            Buffer msg1 = MessageUtils.createLoadRegionMessage(res.regionID, res.instanceID, res.title);
+            conn.sendToClient(msg1);
+
+            //TODO: send join message so client goes to region loading screen
+
+            //TODO: open gameserver connection
+        });
     }
 
 }
