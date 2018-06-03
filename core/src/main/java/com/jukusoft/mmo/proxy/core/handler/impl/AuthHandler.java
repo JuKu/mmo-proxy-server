@@ -174,6 +174,8 @@ public class AuthHandler implements MessageHandler<Buffer> {
                 throw new IllegalStateException("cannot get current region of character (cid: " + cid + "), maybe character doesnt exists in database.");
             }
 
+            MMOLogger.info("AuthHandler", "send load region message to client, regionID: " + res.regionID + ", instanceID: " + res.instanceID + " .");
+
             //send load region message
             Buffer msg1 = MessageUtils.createLoadRegionMessage(res.regionID, res.instanceID, res.title);
             conn.sendToClient(msg1);
