@@ -149,7 +149,7 @@ public class CharacterService implements ICharacterService {
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while check if character (cid: " + cid + ") belongs to player (userID: " + userID + ").", e);
             return false;
         }
     }
@@ -162,18 +162,21 @@ public class CharacterService implements ICharacterService {
                 stmt.setInt(1, cid);
 
                 try (ResultSet rs = stmt.executeQuery()) {
-                    //return, if row exists
+                    while (rs.next()) {
+                        int regionID = rs.getInt("current_regionID");
+                        int instanceID = rs.getInt("instanceID");
+                        String regionTitle = rs.getString("title");
 
-                    int regionID = rs.getInt("current_regionID");
-                    int instanceID = rs.getInt("instanceID");
-                    String regionTitle = rs.getString("title");
+                        RegionMetaData region = new RegionMetaData(regionID, instanceID, regionTitle);
+                        handler.handle(region);
 
-                    RegionMetaData region = new RegionMetaData(regionID, instanceID, regionTitle);
-                    handler.handle(region);
+                        return;
+                    }
                 }
             }
         } catch (SQLException e) {
-            MMOLogger.warn(LOG_TAG, "SQLException while try to get character slots.", e);
+            MMOLogger.warn(LOG_TAG, "SQLException while get current region of character.", e);
+            e.printStackTrace();
             handler.handle(null);
         }
     }
@@ -203,9 +206,11 @@ public class CharacterService implements ICharacterService {
                 stmt.setInt(2, userID);
                 stmt.setString(3, character.toJson().encode());
 
+                //TODO: load start regionID & instanceID from global settings
+
                 //region & instance id, -1 so it will be set from proxy server automatically
-                stmt.setInt(4, -1);
-                stmt.setInt(5, -1);
+                stmt.setInt(4, 1);
+                stmt.setInt(5, 1);
 
                 stmt.executeUpdate();
             }
