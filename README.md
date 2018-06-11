@@ -67,6 +67,8 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
   - 0x07 admin stuff (manage worlds, users, npc's and so on)
   - 0x08 admin stuff (reserve)
   - 0x09 game world information (weather, lighing, download tiled map and so on)
+      * 0x01 list sectors of map request (only, if logged in, client --> gs)
+      * 0x02 list sectors of map response (only, if logged in, gs --> client, json format)
   - 0x0A close client connection (region --> proxy)
   - 0x0B error messages & hints
       * 0x01 incompatible client version
