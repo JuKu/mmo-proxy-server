@@ -6,6 +6,7 @@ import com.jukusoft.mmo.proxy.core.logger.MMOLogger;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnection;
 import com.jukusoft.mmo.proxy.core.service.connection.GSConnectionManager;
 import com.jukusoft.mmo.proxy.core.stream.BufferStream;
+import com.jukusoft.mmo.proxy.core.utils.ByteUtils;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.EventBus;
@@ -27,16 +28,18 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
     }
 
     @Override
-    public void createConnection(int sectorID, Handler<GSConnection> handler) {
-        if (sectorID < 1) {
+    public void createConnection(int regionID, int instanceID, Handler<GSConnection> handler) {
+        if (regionID < 1) {
             throw new IllegalArgumentException("sectorID has to be greater than 0.");
         }
 
+        long id = ByteUtils.getLongFromIntegers(regionID, instanceID);
+
         //find server for this sector
-        this.eventBus.send("get-server-by-sector", sectorID, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
+        this.eventBus.send("get-server-by-sector", id, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
             if (!res.succeeded()) {
                 //couldnt find zonekeeper instance
-                MMOLogger.warn(LOG_TAG, "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + sectorID + "");
+                MMOLogger.warn(LOG_TAG, "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + regionID + "");
 
                 handler.handle(null);
 

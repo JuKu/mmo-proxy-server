@@ -98,6 +98,7 @@ public class Config {
     //type: 0x01 - reserved for proxy - game server communication (client is not allowed to send such messages)
     public static final byte MSG_EXTENDED_TYPE_JOIN = 0x01;//player joins sector
     public static final byte MSG_EXTENDED_TYPE_LEAVE = 0x02;//player leaves sector
+    public static final byte MSG_EXTENDED_TYPE_HELLO = 0x07;
 
     //type 0x0B error messages & hints
     public static final byte MSG_EXTENDED_TYPE_INCOMPATIBLE_CLIENT = 0x01;

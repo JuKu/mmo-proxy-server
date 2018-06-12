@@ -167,7 +167,11 @@ public class CharacterService implements ICharacterService {
                         int instanceID = rs.getInt("instanceID");
                         String regionTitle = rs.getString("title");
 
-                        RegionMetaData region = new RegionMetaData(regionID, instanceID, regionTitle);
+                        int posX = rs.getInt("pos_x");
+                        int posY = rs.getInt("pos_y");
+                        int posZ = rs.getInt("pos_z");
+
+                        RegionMetaData region = new RegionMetaData(regionID, instanceID, regionTitle, posX, posY, posZ);
                         handler.handle(region);
 
                         return;

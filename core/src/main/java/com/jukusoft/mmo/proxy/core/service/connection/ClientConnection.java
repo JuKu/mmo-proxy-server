@@ -113,8 +113,8 @@ public class ClientConnection {
         return content;
     }
 
-    protected void openGSConnection (int sectorID, float xPos, float yPos) {
-        if (sectorID <= 0) {
+    public void openGSConnection (int regionID, int instanceID, float xPos, float yPos) {
+        if (regionID <= 0) {
             throw new IllegalArgumentException("sectorID has to be greater than 0.");
         }
 
@@ -130,10 +130,10 @@ public class ClientConnection {
         }
 
         //open new connection
-        this.gsManager.createConnection(sectorID, connection -> {
+        this.gsManager.createConnection(regionID, instanceID, connection -> {
             if (connection == null) {
                 //log error
-                MMOLogger.fatal("error-500", "Couldnt open connection to game server with sectorID " + sectorID);
+                MMOLogger.fatal("error-500", "Couldnt open connection to game server with sectorID " + regionID);
 
                 //send error message to client
                 Buffer content = MessageUtils.createErrorMsg(Config.MSG_EXTENDED_TYPE_INTERNAL_SERVER_ERROR, this.cid);
@@ -161,6 +161,10 @@ public class ClientConnection {
                 this.sendToClient(buffer);
             });
 
+            //send HELLO message
+            Buffer msg = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_HELLO, this.cid);
+            this.gsConn.send(msg);
+
             //send join message
             Buffer content = MessageUtils.createMsg(Config.MSG_TYPE_GS, Config.MSG_EXTENDED_TYPE_JOIN, this.cid);
             content.setFloat(Config.MSG_BODY_OFFSET, xPos);
@@ -169,7 +173,7 @@ public class ClientConnection {
         });
 
         //set new sectorID
-        this.sectorID = sectorID;
+        this.sectorID = regionID;
     }
 
     /**

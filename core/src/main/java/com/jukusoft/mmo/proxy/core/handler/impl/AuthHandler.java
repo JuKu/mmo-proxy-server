@@ -180,9 +180,8 @@ public class AuthHandler implements MessageHandler<Buffer> {
             Buffer msg1 = MessageUtils.createLoadRegionMessage(res.regionID, res.instanceID, res.title);
             conn.sendToClient(msg1);
 
-            //TODO: send join message so client goes to region loading screen
-
             //TODO: open gameserver connection
+            conn.openGSConnection(res.regionID, res.instanceID, res.xPos, res.yPos);
         });
     }
 

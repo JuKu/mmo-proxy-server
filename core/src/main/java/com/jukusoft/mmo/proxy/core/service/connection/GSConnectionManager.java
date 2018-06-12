@@ -5,6 +5,6 @@ import io.vertx.core.Handler;
 
 public interface GSConnectionManager extends IService {
 
-    public void createConnection (final int sectorID, Handler<GSConnection> handler);
+    public void createConnection (final int regionID, int instanceID, Handler<GSConnection> handler);
 
 }

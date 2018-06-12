@@ -300,26 +300,26 @@ public class ClientConnectionTest {
     @Test (expected = IllegalArgumentException.class)
     public void testOpenGSConnection () {
         ClientConnection conn = createConn();
-        conn.openGSConnection(-1, 1, 1);
+        conn.openGSConnection(-1, 1, 1, 1);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void testOpenGSConnection1 () {
         ClientConnection conn = createConn();
-        conn.openGSConnection(0, 1, 1);
+        conn.openGSConnection(0, 1, 1, 1);
     }
 
     @Test
     public void testOpenGSConnection2 () {
         ClientConnection conn = createConn();
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
     @Test
     public void testOpenGSConnection3 () {
         ClientConnection conn = createConn();
         conn.gsConn = Mockito.mock(GSConnection.class);
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
     @Test
@@ -352,7 +352,7 @@ public class ClientConnectionTest {
             }
         };
 
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
     @Test
@@ -360,12 +360,12 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
         conn.gsManager = new GSConnectionManager() {
             @Override
-            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+            public void createConnection(int regionID, int instanceID, Handler<GSConnection> handler) {
                 handler.handle(null);
             }
         };
 
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
     @Test
@@ -373,7 +373,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
         conn.gsManager = new GSConnectionManager() {
             @Override
-            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+            public void createConnection(int regionID, int instanceID, Handler<GSConnection> handler) {
                 handler.handle(new GSConnection() {
                     @Override
                     public void send(Buffer content) {
@@ -403,7 +403,7 @@ public class ClientConnectionTest {
             }
         };
 
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
     @Test
@@ -411,7 +411,7 @@ public class ClientConnectionTest {
         ClientConnection conn = createConn();
         conn.gsManager = new GSConnectionManager() {
             @Override
-            public void createConnection(int sectorID, Handler<GSConnection> handler) {
+            public void createConnection(int regionID, int instanceID, Handler<GSConnection> handler) {
                 handler.handle(new GSConnection() {
                     @Override
                     public void send(Buffer content) {
@@ -441,7 +441,7 @@ public class ClientConnectionTest {
             }
         };
 
-        conn.openGSConnection(1, 1, 1);
+        conn.openGSConnection(1, 1, 1, 1);
     }
 
 }
