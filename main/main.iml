@@ -94,6 +94,7 @@
     <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-i18n:2.0.0-M24" level="project" />
     <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="module" module-name="management" />
+    <orderEntry type="module" module-name="zonekeeper" />
     <orderEntry type="library" name="Maven: io.vertx:vertx-core:3.5.1" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-common:4.1.19.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.19.Final" level="project" />

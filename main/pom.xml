@@ -47,6 +47,13 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<!-- proxy zonekeeper -->
+		<dependency>
+			<groupId>com.jukusoft</groupId>
+			<artifactId>proxy-zonekeeper</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
 		<dependency>
 			<groupId>io.vertx</groupId>

@@ -28,6 +28,7 @@ import com.jukusoft.mmo.proxy.database.session.DummySessionManager;
 import com.jukusoft.mmo.proxy.frontend.TCPFrontend;
 import com.jukusoft.mmo.proxy.main.vertx.VertxManager;
 import com.jukusoft.mmo.proxy.management.ManagementFrontend;
+import com.jukusoft.mmo.proxy.zonekeeper.ZoneKeeper;
 import io.vertx.core.Vertx;
 import org.apache.log4j.BasicConfigurator;
 
@@ -96,6 +97,13 @@ public class ServerMain {
             e.printStackTrace();
             System.exit(1);
         }
+
+        Utils.printSection("ZoneKeeper");
+        log("Start zonekeeper...");
+        ZoneKeeper zoneKeeper = new ZoneKeeper(vertx.eventBus(), hazelcastInstance);
+        zoneKeeper.start();
+
+        log("Zonekeeper started successfully!");
 
         Utils.printSection("Proxy Server");
         //create proxy server

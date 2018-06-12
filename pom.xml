@@ -13,8 +13,9 @@
 		<module>frontend</module>
 		<module>backend</module>
 		<module>management</module>
-		<module>main</module>
 		<module>database</module>
+		<module>zonekeeper</module>
+		<module>main</module>
 	</modules>
 
 	<properties>

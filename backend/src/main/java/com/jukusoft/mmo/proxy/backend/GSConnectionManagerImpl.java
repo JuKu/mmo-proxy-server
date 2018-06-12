@@ -36,7 +36,7 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
         long id = ByteUtils.getLongFromIntegers(regionID, instanceID);
 
         //find server for this sector
-        this.eventBus.send("get-server-by-sector", id, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
+        this.eventBus.send("get-server-by-region", id, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
             if (!res.succeeded()) {
                 //couldnt find zonekeeper instance
                 MMOLogger.warn(LOG_TAG, "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + regionID + "");
