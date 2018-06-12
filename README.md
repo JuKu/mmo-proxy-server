@@ -50,6 +50,7 @@ Proxy Server is auto configured by [Hazelcast](http://hazelcast.org) and [MySQL]
       * 0x04 joined successfully (gs --> proxy)
       * 0x05 join failed (gs --> proxy)
       * 0x06 internal server error (gs --> proxy)
+      * 0x07 HELLO (first greeting from proxy --> gs after opened a connection, includes cid)
   - 0x02 authorization (registration, login, create character, character selection and so on)
       * 0x01 login request from client to proxy
       * 0x02 login response from proxy to client
