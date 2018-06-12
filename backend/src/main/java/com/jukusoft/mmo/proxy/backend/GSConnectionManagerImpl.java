@@ -36,8 +36,8 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
         long id = ByteUtils.getLongFromIntegers(regionID, instanceID);
 
         //find server for this sector
-        this.eventBus.send("get-server-by-region", id, Config.EVENTBUS_DELIVERY_OPTIONS, res -> {
-            if (!res.succeeded()) {
+        this.eventBus.send("get-server-by-region", id, Config.EVENTBUS_DELIVERY_OPTIONS, message -> {
+            if (!message.succeeded()) {
                 //couldnt find zonekeeper instance
                 MMOLogger.warn(LOG_TAG, "Couldnt find sector zonekeeper, timeout reached (" + Config.EVENTBUS_DELIVERY_OPTIONS.getSendTimeout() + "ms). requested sector: " + regionID + "");
 
@@ -46,8 +46,19 @@ public class GSConnectionManagerImpl implements GSConnectionManager {
                 return;
             }
 
+            if (message.result().body() == null) {
+                MMOLogger.warn(LOG_TAG, "All gs servers are currently down!");
+
+                //all gs servers are down
+                eventBus.publish("global-warning-log", "All gs servers are currently down!");
+
+                handler.handle(null);
+
+                return;
+            }
+
             //get ip and port
-            String str = (String) res.result().body();
+            String str = (String) message.result().body();
             String[] array = str.split(":");
             String ip = array[0];
             int port = Integer.parseInt(array[1]);
