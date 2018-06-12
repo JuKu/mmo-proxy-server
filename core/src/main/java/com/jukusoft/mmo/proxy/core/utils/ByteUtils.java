@@ -39,4 +39,47 @@ public class ByteUtils {
         return type & 0xFF;
     }
 
+    /**
+     * combines 2 integers to 1 long for optimization of databases and so on.
+     *
+     * @param x integer1
+     * @param y integer2
+     *
+     * @return long
+     */
+    public static long getLongFromIntegers(int x, int y) {
+        /*
+         * You can save numbers from -2. 147. 483. 648 to 2. 147. 483. 648 in 1
+         * integer A long is combined with 2 integers
+         */
+
+        return (((long) x) << 32) | (y & 0xffffffffL);
+    }
+
+    /**
+     * If 2 integers are combined to 1 long, this method can return the first
+     * integer
+     *
+     * @param l
+     *            long
+     *
+     * @return long
+     */
+    public static int getFirstIntegerFromLong(long l)  {
+        return (int) (l >> 32);
+    }
+
+    /**
+     * If 2 integers are combined to 1 long, this method can return the second
+     * integer
+     *
+     * @param l
+     *            long
+     *
+     * @return integer
+     */
+    public static int getSecondIntegerFromLong(long l)  {
+        return (int) l;
+    }
+
 }
